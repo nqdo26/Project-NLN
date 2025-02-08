@@ -1,15 +1,14 @@
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.container {
-    width: var(--default-layout-width);
-    display: flex;
+.sidebar {
+    margin-top: var(--default-layout-header-height);
 }
 
 .content {
-    flex: 1;
-    padding: 36px 24px;
+    margin-left: var(--default-layout-sidebar-width);
+    margin-top: var(--default-layout-header-height);
+    width: 100%;
+}
+
+.footer {
+    width: 100%;
+    text-align: center;
 }
