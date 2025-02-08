@@ -1,15 +1,17 @@
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
-
-const cx = classNames.bind(styles);
+import { Layout } from 'antd';
 
 function Sidebar() {
+    const cx = classNames.bind(styles);
+    const { Sider } = Layout;
+
     return (
-        <aside className={cx('wrapper')}>
+        <Sider style={{ position: 'fixed' }} width="20%" className={cx('wrapper')}>
             <div className={cx('content')}>
                 <h2>Sidebar</h2>
             </div>
-        </aside>
+        </Sider>
     );
 }
 
