@@ -17,11 +17,6 @@ const menuItems = [
         label: 'Tìm kiếm',
         path: '/search',
     },
-    {
-        key: 'profile',
-        label: 'Trang cá nhân',
-        path: '/profile',
-    },
 ];
 
 function NavMenu() {
