@@ -1,31 +1,48 @@
 import classNames from 'classnames/bind';
-import styles from './Sidebar.module.scss';
 import { Button, Card, Layout, Menu, Avatar, Flex } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { AppstoreOutlined, SettingOutlined, LogoutOutlined, BookOutlined, PlusOutlined } from '@ant-design/icons';
+
+import styles from './Sidebar.module.scss';
 
 function Sidebar() {
     const cx = classNames.bind(styles);
+    const navigate = useNavigate();
     const { Sider } = Layout;
     const { Meta } = Card;
 
-    const items = [
+    const menuItems = [
         {
             key: 'library',
             label: 'Thư viện',
             icon: <BookOutlined />,
+            path: '/library',
         },
         {
-            key: 'posted',
+            key: 'uploaded',
             label: 'Các bài đăng',
             icon: <AppstoreOutlined />,
+            path: '/uploaded',
         },
 
         {
             key: 'profile',
             label: 'Trang cá nhân',
             icon: <SettingOutlined />,
+            path: '/profile',
         },
     ];
+
+    const handleOnclick = (e) => {
+        const item = menuItems.find((item) => item.key === e.key);
+        if (item) {
+            navigate(item.path);
+        }
+    };
+
+    const handleNewDoc = () => {
+        navigate('/new-doc');
+    };
 
     return (
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
@@ -37,7 +54,7 @@ function Sidebar() {
                             borderRadius: '0',
                         }}
                         actions={[
-                            <Button>
+                            <Button onClick={handleNewDoc}>
                                 <PlusOutlined /> Tạo tài liệu mới
                             </Button>,
                         ]}
@@ -48,7 +65,7 @@ function Sidebar() {
                             description="This is the description"
                         />
                     </Card>
-                    <Menu mode="inline" items={items} />
+                    <Menu mode="inline" items={menuItems} onClick={handleOnclick} />
                 </div>
 
                 <Menu

@@ -5,22 +5,22 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './NavMenu.module.scss';
 
-const cx = classNames.bind(styles);
-const menuItems = [
-    {
-        key: 'home',
-        label: 'Trang chủ',
-        path: '/',
-    },
-    {
-        key: 'search',
-        label: 'Tìm kiếm',
-        path: '/search',
-    },
-];
-
 function NavMenu() {
+    const cx = classNames.bind(styles);
     const navigate = useNavigate();
+
+    const menuItems = [
+        {
+            key: 'home',
+            label: 'Trang chủ',
+            path: '/',
+        },
+        {
+            key: 'search',
+            label: 'Tìm kiếm',
+            path: '/search',
+        },
+    ];
 
     const handleOnclick = (e) => {
         const item = menuItems.find((item) => item.key === e.key);
