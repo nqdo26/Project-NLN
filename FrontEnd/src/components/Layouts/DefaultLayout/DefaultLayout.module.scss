@@ -1,5 +1,6 @@
 .sidebar {
     margin-top: var(--default-layout-header-height);
+    background-color: transparent;
 }
 
 .content {
@@ -9,6 +10,6 @@
 }
 
 .footer {
-    width: 100%;
+    margin-left: var(--default-layout-sidebar-width);
     text-align: center;
 }
