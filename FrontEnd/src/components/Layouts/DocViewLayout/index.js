@@ -9,13 +9,12 @@ function DocViewLayout({ children }) {
 
     const cx = classNames.bind(styles);
     return (
-        <Layout>
+        <Layout style={{ minHeight: '100vh' }}>
             <Header className={cx('header')} />
             <Layout hasSider>
                 <Sidebar className={cx('sidebar')} />
                 <Content className={cx('content')}>{children}</Content>
             </Layout>
-            <Footer className={cx('footer')}>Footer</Footer>
         </Layout>
     );
 }
