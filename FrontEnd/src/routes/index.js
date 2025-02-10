@@ -1,5 +1,5 @@
 // Layouts
-import { DefaultLayout } from '~/components/Layouts';
+import { DefaultLayout, DocViewLayout } from '~/components/Layouts';
 
 // Pages
 import Home from '~/pages/Home';
@@ -17,7 +17,7 @@ const publicRoutes = [
     { path: '/profile', component: Profile },
     { path: '/uploaded', component: Uploaded, layout: DefaultLayout },
     { path: '/search', component: Search, layout: DefaultLayout },
-    { path: '/doc/:docId', component: Doc, layout: DefaultLayout },
+    { path: '/doc/:docId', component: Doc, layout: DocViewLayout },
     { path: '/library', component: Library, layout: DefaultLayout },
     { path: '/new-doc', component: NewDoc, layout: DefaultLayout },
     { path: '/login', component: Login, layout: null },
