@@ -5,7 +5,8 @@ function CustomDragger() {
     const { Dragger } = Upload;
     const props = {
         name: 'file',
-        multiple: true,
+        multiple: false,
+        accept: '.pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx',
         action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
         onChange(info) {
             const { status } = info.file;
@@ -29,7 +30,7 @@ function CustomDragger() {
             </p>
             <p className="ant-upload-text">Nhấp vào hoặc thả file vào đây để tải lên</p>
             <p className="ant-upload-hint">
-                Hỗ trợ tải lên một hoặc nhiều file cùng lúc. Các định dạng tài liệu được hỗ trợ: .pdf, .doc, .docx, .txt
+                Tải lên một file. Các định dạng tài liệu được hỗ trợ: .pdf, .doc, .docx, .txt, .ppt, .pptx, .xls, .xlsx
             </p>
         </Dragger>
     );
