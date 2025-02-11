@@ -6,6 +6,7 @@ import { EditOutlined, ReadOutlined } from '@ant-design/icons';
 import CustomSteps from '~/components/CustomSteps';
 
 import styles from './NewDoc.module.scss';
+import TagDrawer from '~/components/TagDrawer';
 
 function NewDoc() {
     const cx = classNames.bind(styles);
@@ -35,6 +36,7 @@ function NewDoc() {
                                 maxRows: 6,
                             }}
                         />
+                        <TagDrawer></TagDrawer>
                     </Flex>
                 </Flex>
             ),
