@@ -1,0 +1,19 @@
+.card:hover {
+    background-color: #f4fcff; /* Màu xanh nhạt */
+}
+
+.card {
+    padding: 5px;
+
+    .badge {
+        position: absolute;
+        bottom: 6px;
+        right: 2px;
+        font-size: 12px;
+        border-radius: 1000px;
+    }
+
+    &:hover {
+        background-color: #f4fcff; /* Màu xanh nhạt */
+    }
+}

@@ -6,7 +6,7 @@ import { Layout } from 'antd';
 import CustomFooter from '../components/Footer/CustomFooter';
 
 function DefaultLayout({ children }) {
-    const { Footer, Content } = Layout;
+    const { Content } = Layout;
 
     const cx = classNames.bind(styles);
     return (
