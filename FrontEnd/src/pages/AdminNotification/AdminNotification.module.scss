@@ -1,3 +1,9 @@
+.control-bar {
+    position: fixed;
+    top: var(--default-layout-header-height);
+    left: var(--default-layout-sidebar-width);
+}
+
 .wrapper {
     height: 100%;
     width: 100%;
