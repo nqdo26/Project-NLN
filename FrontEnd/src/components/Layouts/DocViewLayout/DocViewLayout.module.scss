@@ -7,9 +7,11 @@
     margin-left: var(--default-layout-sidebar-width);
     margin-top: var(--default-layout-header-height);
     width: 100%;
+    height: 100%;
 }
 
 .footer {
     margin-left: var(--default-layout-sidebar-width);
     text-align: center;
+    background-color: transparent;
 }

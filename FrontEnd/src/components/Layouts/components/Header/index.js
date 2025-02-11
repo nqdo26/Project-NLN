@@ -1,28 +1,36 @@
 import classNames from 'classnames/bind';
-import styles from './Header.module.scss';
 import NavMenu from '~/components/NavMenu';
+import { Layout, Flex } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
-const cx = classNames.bind(styles);
+import styles from './Header.module.scss';
 
 function Header() {
-  return (
-    <header className={cx('wrapper')}>
-      <div className={cx('inner')}>
+    const cx = classNames.bind(styles);
+    const { Header } = Layout;
+    const navigate = useNavigate();
 
-        <div className={cx('logo')}>
-          <img src="logo.png" alt="Studocu Logo" />
-        </div>
+    const handleNavigate = (path) => {
+        navigate('/' + path);
+    };
 
-        <div className={cx('menu')}>
-          <NavMenu />
-        </div>
+    return (
+        <Header className={cx('wrapper')}>
+            <Flex justify="space-between" className={cx('inner')}>
+                <div className={cx('logo')} onClick={() => handleNavigate('')}>
+                    <img src="logo.png" alt="Studocu Logo" />
+                </div>
 
-        <div className={cx('button')}>
-          <button>Sign in</button>
-        </div>
-      </div>
-    </header>
-  );
+                <div className={cx('menu')}>
+                    <NavMenu />
+                </div>
+
+                <div className={cx('button')}>
+                    <button onClick={() => handleNavigate('login')}>Sign in</button>
+                </div>
+            </Flex>
+        </Header>
+    );
 }
 
 export default Header;
