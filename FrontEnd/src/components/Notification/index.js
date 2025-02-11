@@ -11,9 +11,13 @@ function Notification({ item }) {
     const cx = classNames.bind(styles);
     const { Meta } = Card;
     const { Title } = Typography;
+    const navigate = useNavigate();
 
+    const handleOnClick = (path) => {
+        navigate('/doc/' + path);
+    };
     return (
-        <List.Item>
+        <List.Item onClick={() => handleOnClick(item.name)}>
             <Skeleton avatar title={false} loading={item.loading} active>
                 <Flex
                     vertical
