@@ -1,5 +1,5 @@
 // Layouts
-import { DefaultLayout, DocViewLayout } from '~/components/Layouts';
+import { DefaultLayout, DocViewLayout, AdminLayout } from '~/components/Layouts';
 
 // Pages
 import Home from '~/pages/Home';
@@ -10,6 +10,10 @@ import Doc from '~/pages/Doc';
 import Library from '~/pages/Library';
 import NewDoc from '~/pages/NewDoc';
 import Login from '~/pages/Login';
+import Admin from '~/pages/Admin';
+import AdminDocManage from '~/pages/AdminDocManage';
+import AdminNotification from '~/pages/AdminNotification';
+import AdminUserManage from '~/pages/AdminUserManage';
 
 // Public routes
 const publicRoutes = [
@@ -21,6 +25,10 @@ const publicRoutes = [
     { path: '/library', component: Library, layout: DefaultLayout },
     { path: '/new-doc', component: NewDoc, layout: DefaultLayout },
     { path: '/login', component: Login, layout: null },
+    { path: '/admin', component: Admin, layout: AdminLayout },
+    { path: '/admin/doc-manage', component: AdminDocManage, layout: AdminLayout },
+    { path: '/admin/notification', component: AdminNotification, layout: AdminLayout },
+    { path: '/admin/user-manage', component: AdminUserManage, layout: AdminLayout },
 ];
 
 const privateRoutes = [];

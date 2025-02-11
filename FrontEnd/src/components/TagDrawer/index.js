@@ -1,93 +1,61 @@
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Input, Tag, theme } from 'antd';
+import { Select, Space, Tooltip } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './TagDrawer.module.scss';
 
 function TagDrawer() {
     const cx = classNames.bind(styles);
-    const { token } = theme.useToken();
-    const [tags, setTags] = useState(['Tag 1', 'Tag 2', 'Tag 3']);
-    const [inputVisible, setInputVisible] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    const inputRef = useRef(null);
-    useEffect(() => {
-        if (inputVisible) {
-            inputRef.current?.focus();
-        }
-    }, [inputVisible]);
-    const handleClose = (removedTag) => {
-        const newTags = tags.filter((tag) => tag !== removedTag);
-        console.log(newTags);
-        setTags(newTags);
+    const options = [];
+    for (let i = 10; i < 36; i++) {
+        const value = i.toString(36) + i;
+        options.push({
+            label: `Chủ đề ${value}`,
+            value,
+        });
+    }
+    const sharedProps = {
+        mode: 'multiple',
+        style: {
+            width: '100%',
+        },
+        options,
+        placeholder: 'Chọn chủ đề',
+        maxTagCount: 'responsive',
     };
-    const showInput = () => {
-        setInputVisible(true);
-    };
-    const handleInputChange = (e) => {
-        setInputValue(e.target.value);
-    };
-    const handleInputConfirm = () => {
-        if (inputValue && tags.indexOf(inputValue) === -1) {
-            setTags([...tags, inputValue]);
-        }
-        setInputVisible(false);
-        setInputValue('');
-    };
-    const forMap = (tag) => (
-        <span
-            key={tag}
-            style={{
-                display: 'inline-block',
-            }}
-        >
-            <Tag
-                closable
-                onClose={(e) => {
-                    e.preventDefault();
-                    handleClose(tag);
-                }}
-            >
-                {tag}
-            </Tag>
-        </span>
-    );
-    const tagChild = tags.map(forMap);
-    const tagPlusStyle = {
-        background: token.colorBgContainer,
-        borderStyle: 'dashed',
+
+    const [value, setValue] = useState([]);
+    const selectProps = {
+        value,
+        onChange: setValue,
     };
 
     return (
-        <>
-            <div
-                style={{
-                    marginBottom: 16,
-                }}
-            >
-                {tagChild}
-            </div>
-            {inputVisible ? (
-                <Input
-                    ref={inputRef}
-                    type="text"
-                    size="small"
-                    style={{
-                        width: 78,
-                    }}
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onBlur={handleInputConfirm}
-                    onPressEnter={handleInputConfirm}
-                />
-            ) : (
-                <Tag onClick={showInput} style={tagPlusStyle}>
-                    <PlusOutlined /> New Tag
-                </Tag>
-            )}
-        </>
+        <Space
+            direction="vertical"
+            style={{
+                width: '100%',
+            }}
+        >
+            <Select
+                {...sharedProps}
+                {...selectProps}
+                maxTagPlaceholder={(omittedValues) => (
+                    <Tooltip
+                        styles={{
+                            root: {
+                                pointerEvents: 'none',
+                            },
+                        }}
+                        title={omittedValues.map(({ label }) => label).join(', ')}
+                    >
+                        <span>Nhiều hơn...</span>
+                    </Tooltip>
+                )}
+            />
+        </Space>
     );
 }
 
