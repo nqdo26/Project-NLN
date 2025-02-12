@@ -2,12 +2,13 @@ import classNames from 'classnames/bind';
 import { Carousel } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import CardDocument from '../CardDocument';
-import CustomArrow from '../CustomArrow'; // Import CustomArrow
-import styles from './DocumentCarousel.module.scss';
+import CustomArrow from '../CustomArrow'; // 
+import styles from './SuggestCarousel.module.scss';
+import CardSuggest from '../CardSuggest';
 
 const cx = classNames.bind(styles);
 
-function DocumentCarousel({ title }) {
+function SuggestCarousel({ title }) {
     const documents = Array.from({ length: 8 }, (_, index) => ({
         id: index + 1,
     }));
@@ -31,7 +32,7 @@ function DocumentCarousel({ title }) {
                 >
                     {documents.map((doc) => (
                         <div key={doc.id} className={cx('carouselItem')}>
-                            <CardDocument />
+                            <CardSuggest />
                         </div>
                     ))}
                 </Carousel>
@@ -40,4 +41,4 @@ function DocumentCarousel({ title }) {
     );
 }
 
-export default DocumentCarousel;
+export default SuggestCarousel;

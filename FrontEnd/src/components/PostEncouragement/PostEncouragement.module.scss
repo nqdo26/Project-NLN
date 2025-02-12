@@ -1,0 +1,51 @@
+.title {
+  margin-bottom: 20px ;
+}
+
+.encouragement-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #d8ffeff5;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-height: 150px;
+  }
+  
+  .content {
+    display: flex;
+    width: 270px;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .post-btn {
+    margin-top: 10px;
+    width: 200px;
+    border-radius: 20px;
+    padding: 20px 50px;
+    background-color: #ffffff;
+    color: rgb(121, 121, 121);
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+
+
+
+  }
+  
+  .post-btn:hover {
+    background-color: #40a9ff;
+  }
+  
+  .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image img {
+    height: 80px;
+  }
+  
