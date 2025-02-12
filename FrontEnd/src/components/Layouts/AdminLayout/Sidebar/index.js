@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Button, Card, Layout, Menu, Avatar, Flex } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     AppstoreOutlined,
     SettingOutlined,
@@ -9,6 +9,7 @@ import {
     PlusOutlined,
     UserOutlined,
     BellOutlined,
+    HomeOutlined,
 } from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
@@ -16,10 +17,17 @@ import styles from './Sidebar.module.scss';
 function Sidebar() {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
+    const location = useLocation();
     const { Sider } = Layout;
     const { Meta } = Card;
 
     const menuItems = [
+        {
+            key: 'home',
+            label: 'Trang chủ quản trị',
+            icon: <HomeOutlined />,
+            path: '/admin',
+        },
         {
             key: 'notification',
             label: 'Trung tâm thông báo',
@@ -47,9 +55,7 @@ function Sidebar() {
         }
     };
 
-    const handleNewDoc = () => {
-        navigate('/new-doc');
-    };
+    const selectedKey = menuItems.find((item) => item.path === location.pathname)?.key;
 
     return (
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
@@ -67,7 +73,7 @@ function Sidebar() {
                             description="This is the description"
                         />
                     </Card>
-                    <Menu mode="inline" items={menuItems} onClick={handleOnclick} />
+                    <Menu mode="inline" items={menuItems} onClick={handleOnclick} selectedKeys={[selectedKey]} />
                 </div>
 
                 <Menu

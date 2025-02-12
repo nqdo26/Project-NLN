@@ -76,6 +76,7 @@ function AdminDocManage() {
                 renderItem={(item) => (
                     <List.Item>
                         <Card
+                            hoverable
                             onClick={() => handleOnClick(item.path)}
                             title={item.title}
                             extra={

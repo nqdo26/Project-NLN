@@ -17,7 +17,7 @@ function Notification({ item }) {
         navigate('/doc/' + path);
     };
     return (
-        <List.Item onClick={() => handleOnClick(item.name)}>
+        <List.Item>
             <Skeleton avatar title={false} loading={item.loading} active>
                 <Flex
                     vertical
@@ -35,6 +35,7 @@ function Notification({ item }) {
                     />
 
                     <Flex gap={10} style={{ padding: '10px' }}>
+                        <Button onClick={() => handleOnClick(item.name)}>Truy cập tài liệu</Button>
                         <Button>Truy cập nguời báo cáo</Button>
 
                         <Button>Đánh dấu đã đọc</Button>
