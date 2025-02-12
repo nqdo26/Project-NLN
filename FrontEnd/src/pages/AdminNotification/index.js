@@ -63,9 +63,9 @@ function AdminNotification() {
             </div>
         ) : null;
     return (
-        <>
+        <div className={cx('wrapper')}>
             <div className={cx('control-bar')}>controls</div>
-            <div className={cx('wrapper')}>
+            <div className={cx('content-wrapper')}>
                 <List
                     className="demo-loadmore-list"
                     loading={initLoading}
@@ -75,7 +75,7 @@ function AdminNotification() {
                     renderItem={(item) => <Notification item={item} />}
                 />
             </div>
-        </>
+        </div>
     );
 }
 
