@@ -1,7 +1,16 @@
 import classNames from 'classnames/bind';
 import { Button, Card, Layout, Menu, Avatar, Flex } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppstoreOutlined, SettingOutlined, LogoutOutlined, BookOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    AppstoreOutlined,
+    SettingOutlined,
+    LogoutOutlined,
+    BookOutlined,
+    PlusOutlined,
+    UserOutlined,
+    BellOutlined,
+    HomeOutlined,
+} from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
 
@@ -14,23 +23,28 @@ function Sidebar() {
 
     const menuItems = [
         {
-            key: 'library',
-            label: 'Thư viện',
+            key: 'home',
+            label: 'Trang chủ quản trị',
+            icon: <HomeOutlined />,
+            path: '/admin',
+        },
+        {
+            key: 'notification',
+            label: 'Trung tâm thông báo',
+            icon: <BellOutlined />,
+            path: '/admin/notification',
+        },
+        {
+            key: 'docmanage',
+            label: 'Quản lý tài liệu hệ thống',
             icon: <BookOutlined />,
-            path: '/library',
+            path: '/admin/doc-manage',
         },
         {
-            key: 'uploaded',
-            label: 'Các bài đăng',
-            icon: <AppstoreOutlined />,
-            path: '/uploaded',
-        },
-
-        {
-            key: 'profile',
-            label: 'Trang cá nhân',
-            icon: <SettingOutlined />,
-            path: '/profile',
+            key: 'usermanage',
+            label: 'Quản lý người dùng',
+            icon: <UserOutlined />,
+            path: '/admin/user-manage',
         },
     ];
 
@@ -39,10 +53,6 @@ function Sidebar() {
         if (item) {
             navigate(item.path);
         }
-    };
-
-    const handleNewDoc = () => {
-        navigate('/new-doc');
     };
 
     const selectedKey = menuItems.find((item) => item.path === location.pathname)?.key;
@@ -56,15 +66,10 @@ function Sidebar() {
                             width: 300,
                             borderRadius: '0',
                         }}
-                        actions={[
-                            <Button onClick={handleNewDoc}>
-                                <PlusOutlined /> Tạo tài liệu mới
-                            </Button>,
-                        ]}
                     >
                         <Meta
                             avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                            title="KongTrua"
+                            title="Admin"
                             description="This is the description"
                         />
                     </Card>

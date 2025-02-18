@@ -1,0 +1,15 @@
+.sidebar {
+    margin-top: var(--default-layout-header-height);
+    background-color: transparent;
+}
+
+.content {
+    margin-left: var(--default-layout-sidebar-width);
+    margin-top: var(--default-layout-header-height);
+    width: 100%;
+}
+
+.footer {
+    margin-left: var(--default-layout-sidebar-width);
+    text-align: center;
+}

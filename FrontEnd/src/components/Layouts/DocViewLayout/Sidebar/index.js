@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Button, Card, Layout, Menu, Avatar, Flex, Divider, Typography } from 'antd';
+import { Button, Card, Layout, Menu, Avatar, Flex, Divider, message, Typography, Tooltip } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
     AppstoreOutlined,
@@ -10,6 +10,7 @@ import {
     DownloadOutlined,
     SaveOutlined,
     WarningOutlined,
+    ShareAltOutlined,
 } from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
@@ -81,6 +82,18 @@ function Sidebar() {
         navigate('/new-doc');
     };
 
+    const handleShare = () => {
+        const url = window.location.href;
+        navigator.clipboard
+            .writeText(url)
+            .then(() => {
+                message.success('Đã sao chép đường dẫn vào bộ nhớ tạm');
+            })
+            .catch(() => {
+                message.error('Không thể sao chép đường dẫn');
+            });
+    };
+
     return (
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
             <Flex vertical justify="space-between" style={{ height: '100%' }}>
@@ -97,15 +110,26 @@ function Sidebar() {
                             borderRadius: '0',
                         }}
                         actions={[
-                            <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleNewDoc}>
-                                <DownloadOutlined />
-                            </Button>,
-                            <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleNewDoc}>
-                                <SaveOutlined />
-                            </Button>,
-                            <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleNewDoc}>
-                                <WarningOutlined />
-                            </Button>,
+                            <Tooltip title={'Tải về'}>
+                                <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleNewDoc}>
+                                    <DownloadOutlined />
+                                </Button>
+                            </Tooltip>,
+                            <Tooltip title={'Lưu vào thư viện'}>
+                                <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleNewDoc}>
+                                    <SaveOutlined />
+                                </Button>
+                            </Tooltip>,
+                            <Tooltip title={'Báo cáo tài liệu'}>
+                                <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleNewDoc}>
+                                    <WarningOutlined />
+                                </Button>
+                            </Tooltip>,
+                            <Tooltip title={'Chia sẻ tài liệu'}>
+                                <Button style={{ backgroundColor: 'orange', color: 'white' }} onClick={handleShare}>
+                                    <ShareAltOutlined />
+                                </Button>
+                            </Tooltip>,
                         ]}
                     >
                         <Meta
