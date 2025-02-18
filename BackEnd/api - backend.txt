@@ -1,0 +1,185 @@
+1. API Xác thực người dùng (Authentication APIs)
+- POST `/register` - Tạo tài khoản người dùng mới.
+  - Controller: `createUser`.
+
+- POST `/login` - Đăng nhập người dùng.
+  - Controller: `handleLogin`.
+
+2. API Tài khoản (Account APIs)
+- GET `/account` - Lấy thông tin tài khoản.
+  - Controller: `getAccountInfo`.
+
+- PUT `/update` - Cập nhật thông tin tài khoản, hỗ trợ upload avatar.
+  - Middleware: `uploadAvatar.single('avatar')`.
+  - Controller: `updateUser`.
+
+- POST `/update-user-note` - Cập nhật ghi chú người dùng.
+  - Controller: `updateUserNote`.
+
+- GET `/get-user-statistics` - Lấy thông tin thống kê người dùng.
+  - Controller: `getUserStatistics`.
+
+- GET `/get-all-current` - Lấy dữ liệu hiện tại của người dùng.
+  - Controller: `getAllCurrent`.
+
+- GET `/get-incomplete-project` - Lấy danh sách các dự án chưa hoàn thành.
+  - Controller: `getIncompleteProject`.
+
+- GET `/get-user-avatar` - Lấy avatar của người dùng.
+  - Controller: `getUserAvatar`.
+
+3. API Tags
+- POST `/create-new-tag` - Tạo tag mới.
+  - Controller: `createTag`.
+
+- GET `/get-tags-info` - Lấy thông tin tất cả các tag.
+  - Controller: `getTagsInfo`.
+
+- POST `/get-tags-info-by-ids` - Lấy thông tin tag theo danh sách ID.
+  - Controller: `getTagsInfoByIds`.
+
+- POST `/delete-tag-by-id` - Xóa tag theo ID.
+  - Controller: `deleteTagById`.
+
+- GET `/get-tags-statistics` - Lấy thống kê các tag.
+  - Controller: `getCourseStatisticsByTag`.
+
+4. API Học kỳ (Term APIs)
+- POST `/create-new-term` - Tạo học kỳ mới, hỗ trợ upload ảnh cover.
+  - Middleware: `uploadCover.single('cover')`.
+  - Controller: `createTerm`.
+
+- GET `/get-terms-info` - Lấy thông tin tất cả các học kỳ.
+  - Controller: `getTermsInfo`.
+
+- POST `/get-term-info` - Lấy thông tin học kỳ theo ID.
+  - Controller: `getTermInfo`.
+
+- POST `/delete-term` - Xóa học kỳ theo ID.
+  - Controller: `deleteTerm`.
+
+- POST `/add-course-to-term-by-id` - Thêm khóa học vào học kỳ.
+  - Controller: `addCourseToTerm`.
+
+- POST `/remove-course-from-term-by-id` - Gỡ khóa học khỏi học kỳ.
+  - Controller: `removeCourseFromTerm`.
+
+- POST `/update-term-info` - Cập nhật thông tin học kỳ, hỗ trợ upload ảnh cover.
+  - Middleware: `uploadCover.single('cover')`.
+  - Controller: `updateTerm`.
+
+- POST `/update-term-note` - Cập nhật ghi chú học kỳ.
+  - Controller: `updateTermNote`.
+
+- GET `/get-all-term-grades` - Lấy thông tin điểm của tất cả các học kỳ.
+  - Controller: `getAllTermGrades`.
+
+5. API Khóa học (Course APIs)
+- POST `/create-new-course` - Tạo khóa học mới, hỗ trợ upload ảnh cover.
+  - Middleware: `uploadCover.single('cover')`.
+  - Controller: `createCourse`.
+
+- POST `/get-course-info` - Lấy thông tin chi tiết của một khóa học.
+  - Controller: `getCourseInfo`.
+
+- GET `/get-courses-info` - Lấy thông tin tất cả các khóa học.
+  - Controller: `getCoursesInfo`.
+
+- POST `/get-courses-info-by-ids` - Lấy thông tin khóa học theo danh sách ID.
+  - Controller: `getCoursesInfoByIds`.
+
+- POST `/delete-course` - Xóa khóa học theo ID.
+  - Controller: `deleteCourse`.
+
+- POST `/update-course-info` - Cập nhật thông tin khóa học, hỗ trợ upload ảnh cover.
+  - Middleware: `uploadCover.single('cover')`.
+  - Controller: `updateCourse`.
+
+- POST `/update-course-note` - Cập nhật ghi chú của khóa học.
+  - Controller: `updateCourseNote`.
+
+6. API Bài học (Lesson APIs)
+- POST `/create-new-lesson` - Tạo bài học mới, hỗ trợ upload nội dung.
+  - Middleware: `uploadContent.single('content')`.
+  - Controller: `createLesson`.
+
+- POST `/add-content-to-lesson` - Thêm nội dung vào bài học.
+  - Middleware: `uploadContent.single('content')`.
+  - Controller: `addContent`.
+
+- POST `/get-lesson-content` - Lấy nội dung của một bài học.
+  - Controller: `getContent`.
+
+- POST `/get-lesson-info` - Lấy thông tin chi tiết của một bài học.
+  - Controller: `getLessonInfo`.
+
+- POST `/get-lessons-info-by-ids` - Lấy thông tin bài học theo danh sách ID.
+  - Controller: `getLessonsInfoByIds`.
+
+- POST `/delete-lesson` - Xóa bài học theo ID.
+  - Controller: `deleteLesson`.
+
+- POST `/update-lesson-info` - Cập nhật thông tin bài học.
+  - Controller: `updateLessonInfo`.
+
+7. API Thống kê (Statistics APIs)
+- POST `/create-new-statistics` - Tạo thống kê mới.
+  - Controller: `createStatistics`.
+
+- POST `/delete-statistics` - Xóa thống kê theo ID.
+  - Controller: `deleteStatistics`.
+
+- POST `/get-statistics-info` - Lấy thông tin thống kê theo ID.
+  - Controller: `getStatisticsInfo`.
+
+8. API Dự án (Project APIs)
+- POST `/create-new-project` - Tạo dự án mới.
+  - Controller: `createProject`.
+
+- POST `/delete-project` - Xóa dự án theo ID.
+  - Controller: `deleteProject`.
+
+- POST `/get-project-info` - Lấy thông tin chi tiết của một dự án.
+  - Controller: `getProjectInfo`.
+
+- POST `/get-projects-info-by-ids` - Lấy thông tin dự án theo danh sách ID.
+  - Controller: `getProjectsInfoByIds`.
+
+9. API Bước dự án (Project Step APIs)
+- POST `/create-new-project-step` - Tạo bước mới trong dự án.
+  - Controller: `createProjectStep`.
+
+- POST `/delete-project-step` - Xóa bước trong dự án.
+  - Controller: `deleteProjectStep`.
+
+- POST `/get-project-step-info` - Lấy thông tin chi tiết của một bước dự án.
+  - Controller: `getProjectStepInfo`.
+
+- POST `/get-project-steps-info-by-ids` - Lấy thông tin bước dự án theo danh sách ID.
+  - Controller: `getProjectStepsInfoByIds`.
+
+- POST `/update-project-step` - Cập nhật thông tin bước trong dự án.
+  - Controller: `updateProjectStep`.
+
+10. API Bài kiểm tra (Test APIs)
+- POST `/create-new-test` - Tạo bài kiểm tra mới.
+  - Controller: `createTest`.
+
+- POST `/delete-test` - Xóa bài kiểm tra theo ID.
+  - Controller: `deleteTest`.
+
+- POST `/get-test-info` - Lấy thông tin chi tiết của một bài kiểm tra.
+  - Controller: `getTestInfo`.
+
+- POST `/get-tests-info-by-ids` - Lấy thông tin bài kiểm tra theo danh sách ID.
+  - Controller: `getTestsInfoByIds`.
+
+- POST `/update-test-score` - Cập nhật điểm số bài kiểm tra.
+  - Controller: `updateTestScore`.
+
+- POST `/update-test-info` - Cập nhật thông tin bài kiểm tra.
+  - Controller: `updateTestInfo`.
+
+- GET `/get-all-tests-info` - Lấy thông tin tất cả các bài kiểm tra.
+  - Controller: `getAllTestsInfo`.
+
