@@ -7,14 +7,14 @@ const path = require('path');
 
 const saltRounds = 10;
 
-const createUserService = async (name, email, password, description) => {
+const createUserService = async (email, password, fullName, avatar, isAdmin, statistics) => {
     try {
-        const user = await User.findOne({ name });
+        const user = await User.findOne({ email: email });
         if (user) {
-            console.log('Duplicate username');
+            console.log('Duplicate email');
             return {
                 EC: 0,
-                EM: 'Duplicate username',
+                EM: 'Duplicate email',
             };
         }
 
@@ -22,11 +22,12 @@ const createUserService = async (name, email, password, description) => {
         const hashPassword = await bcrypt.hash(password, saltRounds);
         // save user
         let result = await User.create({
-            name: name,
             email: email,
             password: hashPassword,
-            description: description,
-            note: '',
+            fullName: fullName,
+            avatar: avatar,
+            isAdmin: isAdmin,
+            statistics: statistics,
         });
         return { result };
     } catch (error) {
@@ -35,10 +36,10 @@ const createUserService = async (name, email, password, description) => {
     }
 };
 
-const loginService = async (name, password) => {
+const loginService = async (email, password) => {
     try {
         //fecth user by email
-        const user = await User.findOne({ name: name });
+        const user = await User.findOne({ email: email });
         if (user) {
             //compare password
             const isMatchPassword = await bcrypt.compare(password, user.password);
@@ -50,7 +51,7 @@ const loginService = async (name, password) => {
             } else {
                 const payload = {
                     email: user.email,
-                    name: user.name,
+                    email: user.email,
                 };
                 const access_token = jwt.sign(payload, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRE,
@@ -61,7 +62,7 @@ const loginService = async (name, password) => {
                     access_token,
                     user: {
                         email: user.email,
-                        name: user.name,
+                        email: user.email,
                     },
                 };
             }

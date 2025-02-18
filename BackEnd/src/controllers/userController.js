@@ -7,13 +7,13 @@ const path = require('path');
 const createUser = async (req, res) => {
     const { name, email, password, description } = req.body;
 
-    const data = await createUserService(name, email, password, description);
+    const data = await createUserService(email, password, fullName, avatar, isAdmin, statistics);
     return res.status(200).json(data);
 };
 
 const handleLogin = async (req, res) => {
-    const { name, password } = req.body;
-    const data = await loginService(name, password);
+    const { email, password } = req.body;
+    const data = await loginService(email, password);
 
     return res.status(200).json(data);
 };
