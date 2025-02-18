@@ -1,7 +1,7 @@
-import { Avatar, Button, Flex, List, Skeleton } from 'antd';
+import { Button, List} from 'antd';
 import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
-import { EditOutlined, ReadOutlined } from '@ant-design/icons';
+
 
 import styles from './AdminNotification.module.scss';
 import Notification from '~/components/Notification';

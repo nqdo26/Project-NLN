@@ -2,8 +2,8 @@ import { Divider, Flex, Typography, Input, Button, Select, Steps, message } from
 import CustomDragger from '~/components/CustomDragger';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-import { EditOutlined, ReadOutlined } from '@ant-design/icons';
-import CustomSteps from '~/components/CustomSteps';
+import { ReadOutlined } from '@ant-design/icons';
+
 
 import styles from './NewDoc.module.scss';
 import TagDrawer from '~/components/TagDrawer';

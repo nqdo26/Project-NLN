@@ -1,3 +1,5 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
@@ -8,14 +10,21 @@ const { Title, Text } = Typography;
 const cx = classNames.bind(styles);
 
 function CardDocument() {
+    const navigate = useNavigate();
+
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
+    };
+    
+    const handleCardClick = () => {
+        navigate('/doc/hehe');
     };
 
     return (
         <Card
             className={cx('card')}
             hoverable
+            onClick={handleCardClick}
             style={{
                 width: 180,
                 height: 290,

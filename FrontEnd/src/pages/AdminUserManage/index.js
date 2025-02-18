@@ -1,32 +1,12 @@
-import {
-    List,
-    Card,
-    Divider,
-    Flex,
-    Typography,
-    Input,
-    Button,
-    theme,
-    Steps,
-    message,
-    Tag,
-    Avatar,
-    Tooltip,
-    Popconfirm,
-    Badge,
-} from 'antd';
+import { List, Card, Divider, Flex, Button, Avatar, Tooltip, Popconfirm, Badge } from 'antd';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
-import { DeleteOutlined, EditOutlined, ReadOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { DeleteOutlined } from '@ant-design/icons';
 
 import styles from './AdminUserManage.module.scss';
 
 function AdminUserManage() {
     const cx = classNames.bind(styles);
-    const navigate = useNavigate();
     const { Meta } = Card;
-
     const data = [
         {
             title: 'Title 1 teen tai lieu hehe 123 ',
@@ -71,10 +51,6 @@ function AdminUserManage() {
             path: 'doc/hehe',
         },
     ];
-
-    const handleOnClick = (path) => {
-        navigate('/' + path);
-    };
 
     return (
         <div className={cx('wrapper')}>

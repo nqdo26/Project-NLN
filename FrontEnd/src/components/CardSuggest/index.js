@@ -2,12 +2,19 @@ import classNames from 'classnames/bind';
 import { Card, Typography, Badge } from 'antd';
 import { LikeOutlined } from '@ant-design/icons';
 import styles from './CardSuggest.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
 function CardSuggest() {
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate('/doc/hehe');
+    };
+
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
     };
@@ -23,6 +30,7 @@ function CardSuggest() {
     return (
         <Card
             className={cx('card')}
+            onClick={handleCardClick}
             hoverable
             style={{
                 width: 180,
