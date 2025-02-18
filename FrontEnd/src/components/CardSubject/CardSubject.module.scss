@@ -1,0 +1,61 @@
+.document-card {
+    display: flex;
+    width: 350px;
+    height: 80px;
+    align-items: center;
+    padding: 5px;
+    border-radius: 12px;
+    background: #eafbff;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        background-color: #c2f4ff;
+    }
+}
+
+.doc-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(124, 192, 255, 0.2);
+    margin-right: 12px;
+}
+
+.doc-content {
+    flex: 1;
+}
+
+.doc-title {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 250px;
+}
+
+.doc-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #666;
+}
+
+.doc-icon-small {
+    font-size: 14px;
+    color: #666;
+}
+
+.dot-divider {
+    color: #999;
+    font-size: 14px;
+}
