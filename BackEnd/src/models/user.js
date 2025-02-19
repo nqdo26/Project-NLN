@@ -5,7 +5,10 @@ const userSchema = new mongoose.Schema({
     password: String,
     fullName: String,
     avatar: String,
-    isAdmin: Boolean,
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
     statistics: {
         liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],
         disliked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],

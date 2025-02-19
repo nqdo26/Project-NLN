@@ -5,9 +5,10 @@ const User = require('../models/user');
 const path = require('path');
 
 const createUser = async (req, res) => {
-    const { name, email, password, description } = req.body;
+    const { fullName, email, password, avatar } = req.body;
 
-    const data = await createUserService(email, password, fullName, avatar, isAdmin, statistics);
+    const data = await createUserService(email, password, fullName, avatar);
+
     return res.status(200).json(data);
 };
 

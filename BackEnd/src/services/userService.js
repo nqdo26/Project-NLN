@@ -1,5 +1,7 @@
 require('dotenv').config();
+
 const User = require('../models/user');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -7,73 +9,82 @@ const path = require('path');
 
 const saltRounds = 10;
 
-const createUserService = async (email, password, fullName, avatar, isAdmin, statistics) => {
+const createUserService = async (email, password, fullName, avatar) => {
     try {
         const user = await User.findOne({ email: email });
         if (user) {
-            console.log('Duplicate email');
             return {
                 EC: 0,
-                EM: 'Duplicate email',
+                EM: `Email ${email} đã được sử dụng`,
             };
         }
+        const defaultAvatar = 'http://localhost:8080/public/images/default-avatar.png';
+        const userAvatar = avatar || defaultAvatar;
 
-        // hash user password
         const hashPassword = await bcrypt.hash(password, saltRounds);
-        // save user
+
         let result = await User.create({
             email: email,
             password: hashPassword,
             fullName: fullName,
-            avatar: avatar,
-            isAdmin: isAdmin,
-            statistics: statistics,
+            avatar: userAvatar,
+            isAdmin: false,
+            statistics: { liked: [], disliked: [] },
         });
-        return { result };
+
+        return {
+            EC: 0,
+            EM: 'Register success',
+            data: result,
+        };
     } catch (error) {
         console.log(error);
-        return null;
+        return {
+            EC: 2,
+            EM: 'An error occurred',
+        };
     }
 };
 
 const loginService = async (email, password) => {
     try {
-        //fecth user by email
         const user = await User.findOne({ email: email });
         if (user) {
-            //compare password
-            const isMatchPassword = await bcrypt.compare(password, user.password);
-            if (!isMatchPassword) {
+            const isMathPassword = await bcrypt.compare(password, user.password);
+            if (!isMathPassword) {
                 return {
                     EC: 2,
-                    EM: 'Email/Password invalid',
+                    EM: 'Email/Password khong hop le',
                 };
             } else {
                 const payload = {
+                    id: user._id,   
                     email: user.email,
-                    email: user.email,
+                    isAdmin: user.isAdmin,
                 };
+
                 const access_token = jwt.sign(payload, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRE,
                 });
-                //create an access token
                 return {
                     EC: 0,
                     access_token,
                     user: {
+                        id: user._id,
                         email: user.email,
-                        email: user.email,
+                        fullName: user.fullName,
+                        isAdmin: user.isAdmin,
+                        avatar: user.avatar,
+                        statistics: user.statistics,
                     },
                 };
             }
         } else {
             return {
-                EC: 1,
-                EM: 'Email/Password invalid',
+                EC: 1, //error code
+                EM: 'Email/Password khong hop le', //error message
             };
         }
-
-        return result;
     } catch (error) {
         console.log(error);
         return null;
