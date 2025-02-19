@@ -1,8 +1,7 @@
 import classNames from 'classnames/bind';
 import { Carousel } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import CardDocument from '../CardDocument';
-import CustomArrow from '../CustomArrow'; // 
+import CustomArrow from '../CustomArrow'; 
 import styles from './SuggestCarousel.module.scss';
 import CardSuggest from '../CardSuggest';
 
