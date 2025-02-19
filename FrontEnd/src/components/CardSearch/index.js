@@ -2,12 +2,19 @@ import { Card, Typography, Space } from 'antd';
 import { FileTextOutlined, CalendarOutlined, LikeOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './CardSearch.module.scss';
+import { useNavigate } from 'react-router-dom';
+
 
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
 function CardSearch() {
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate('/doc/hehe');
+    };
 
     const getBackgroundColor = (percentage) => {
         const greenIntensity = Math.floor((percentage / 100) * 200) + 55;
@@ -18,7 +25,7 @@ function CardSearch() {
 
     return (
         <Card
-            className={styles.card}
+            onClick={handleCardClick}
             bodyStyle={{
                 display: 'flex',
                 width: '100%',

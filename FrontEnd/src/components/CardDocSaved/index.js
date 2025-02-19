@@ -1,33 +1,43 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { Card, Button, Typography, Badge } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
-import styles from './CardDocument.module.scss';
+import { Card, Typography, Badge, Button } from 'antd';
+import { LikeOutlined, DeleteOutlined } from '@ant-design/icons';
+import styles from './CardDocSaved.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardDocument() {
+function CardDocSaved() {
     const navigate = useNavigate();
 
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
     };
-    
+
     const handleCardClick = () => {
         navigate('/doc/hehe');
+    };
+
+    const handleDeleteClick = () => {
+        console.log('Delete button clicked');
+    };
+
+    const likePercentage = 80;
+    const totalVotes = 15;
+
+    const getBackgroundColor = (percentage) => {
+        const greenIntensity = Math.floor((percentage / 100) * 200) + 55;
+        return `rgb(${255 - greenIntensity}, ${greenIntensity}, ${100})`;
     };
 
     return (
         <Card
             className={cx('card')}
-            hoverable
             onClick={handleCardClick}
+            hoverable
             style={{
                 width: 180,
-                height: 290,
                 borderRadius: 15,
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                 position: 'relative',
@@ -48,6 +58,11 @@ function CardDocument() {
                         }}
                     />
                     <Badge count={34} className={cx('badge')} style={{ backgroundColor: '#c2c2c2', color: 'white' }} />
+                    <Button
+                        icon={<DeleteOutlined />}
+                        onClick={handleDeleteClick}
+                        className={cx('delete-button')}
+                    />
                 </div>
             }
             bodyStyle={{
@@ -92,21 +107,24 @@ function CardDocument() {
                     Nhập môn về kỹ thuật
                 </Text>
             </div>
-
-            <Button
-                className={cx('button')}
-                icon={<SaveOutlined />}
-                block
+            <div
                 style={{
                     marginTop: 8,
                     borderRadius: 15,
                     fontSize: 14,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: getBackgroundColor(likePercentage),
+                    color: 'white',
+                    padding: '6px 12px',
                 }}
             >
-                Save
-            </Button>
+                <LikeOutlined style={{ marginRight: 5 }} />
+                {likePercentage}% ({totalVotes})
+            </div>
         </Card>
     );
 }
 
-export default CardDocument;
+export default CardDocSaved;

@@ -3,19 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
-import styles from './CardDocument.module.scss';
+import styles from './CardDocLibrary.module.scss';
 
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardDocument() {
+function CardDocLibrary() {
     const navigate = useNavigate();
 
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
     };
-    
+
     const handleCardClick = () => {
         navigate('/doc/hehe');
     };
@@ -109,4 +109,4 @@ function CardDocument() {
     );
 }
 
-export default CardDocument;
+export default CardDocLibrary;

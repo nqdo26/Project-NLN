@@ -1,9 +1,8 @@
 .wrapper {
-    padding: 36px 24px;
+    margin: 50px 150px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 50px;
+    gap: 30px;
 }
 
 .title {
@@ -11,4 +10,9 @@
     font-weight: 700;
     color: #333;
     margin-bottom: 18px;
+}
+
+.divider {
+    width: 100%;
+    height: 10px;
 }
