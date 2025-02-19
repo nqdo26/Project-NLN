@@ -8,6 +8,7 @@ const { getHomepage } = require('./controllers/homeController');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 8888;
+const path = require('path');
 
 //config CORS
 app.use(cors());
@@ -25,6 +26,7 @@ webAPI.get('/', getHomepage);
 //khai báo route
 app.use('/', webAPI);
 app.use('/v1/api/', apiRoutes);
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 (async () => {
     try {
