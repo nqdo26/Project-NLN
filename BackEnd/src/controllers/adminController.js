@@ -1,8 +1,11 @@
-const { createAdminService } = require('../services/adminService');
+const User = require('../models/user');
+
 const upload = require('../../middleware/multer');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
 const path = require('path');
+
+const { createAdminService } = require('../services/adminService');
+const { getUsersService } = require('../services/userService');
 
 const createAdmin = async (req, res) => {
     const { fullName, email, password, avatar } = req.body;
@@ -12,7 +15,13 @@ const createAdmin = async (req, res) => {
     return res.status(200).json(data);
 };
 
+const getUsers = async (req, res) => {
+    const data = await getUsersService();
+    return res.status(200).json(data)
+}
+
 
 module.exports = {
     createAdmin,
+    getUsers,
 };
