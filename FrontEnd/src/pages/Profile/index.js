@@ -2,7 +2,6 @@ import React from 'react';
 import { Col, Row, Card, Avatar, List } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
-import CardDocSaved from '~/components/CardDocSaved';
 import SuggestCarousel from '~/components/SuggestCarousel';
 import { useNavigate } from 'react-router-dom';
 
