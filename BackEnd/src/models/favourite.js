@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const librarySchema = new mongoose.Schema({
+const favouriteSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     documents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],
     total: Number,
 });
 
-const Library = mongoose.model('library', librarySchema);
+const Favourite = mongoose.model('favourite', favouriteSchema);
 
-module.exports = Library;
+module.exports = Favourite;
