@@ -27,18 +27,10 @@ function CardSubject() {
                 </Text>
                 <div className={cx('doc-info')}>
                     <FolderOpenOutlined className={cx('doc-icon-small')} />
-                    <Text type="secondary">
-                        {truncateText(
-                            'Thông tin gì đó',
-                            15,
-                        )}
-                    </Text>
+                    <Text type="secondary">{truncateText('Thông tin gì đó', 15)}</Text>
                     <span className={cx('dot-divider')}>•</span>
                     <FaStickyNote className={cx('doc-icon-small')} />
-                    <Text type="secondary">  {truncateText(
-                            'Thông tin gì đó',
-                            12,
-                        )}</Text>
+                    <Text type="secondary"> {truncateText('Thông tin gì đó', 12)}</Text>
                 </div>
             </div>
         </Card>
