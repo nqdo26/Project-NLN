@@ -20,7 +20,6 @@ function DefaultLayout({ children }) {
                 </Content>
                 
             </Layout>
-         
         </Layout>
     );
 }

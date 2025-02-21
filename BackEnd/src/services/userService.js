@@ -29,7 +29,7 @@ const createUserService = async (email, password, fullName, avatar) => {
             fullName: fullName,
             avatar: userAvatar,
             isAdmin: false,
-            statistics: { liked: [], disliked: [] },
+            statistics: { liked: [], disliked: [], uploaded: 0 },
         });
 
         return {
@@ -45,6 +45,28 @@ const createUserService = async (email, password, fullName, avatar) => {
         };
     }
 };
+
+const deleteUserService = async (id) => {
+    try {
+        let result = await User.findByIdAndDelete(id);
+        if (!result) {
+            return {
+                EC: 1,
+                EM: 'User not found',
+            };
+        }
+        return {
+            EC: 0,
+            EM: 'Delete success',
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'An error occurred',
+        };
+    }
+}
 
 const loginService = async (email, password) => {
     try {
@@ -107,4 +129,5 @@ module.exports = {
     createUserService,
     loginService,
     getUsersService,
+    deleteUserService,
 };

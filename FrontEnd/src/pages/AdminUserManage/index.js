@@ -1,14 +1,14 @@
-import { List, Card, Divider, Flex, Button, Avatar, Tooltip, Popconfirm, Badge, notification } from 'antd';
+import { Button, Popconfirm, notification, Table } from 'antd';
 import classNames from 'classnames/bind';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
 import styles from './AdminUserManage.module.scss';
 import { getUsersApi } from '~/utils/api';
+import { deleteUserApi } from '~/utils/api';
 
 function AdminUserManage() {
     const cx = classNames.bind(styles);
-    const { Meta } = Card;
 
     const [dataSource, setDataSources] = useState([]);
 
@@ -29,99 +29,72 @@ function AdminUserManage() {
         fetchUser();
     }, []);
 
+    const handleDeleteUser = async (userId) => {
+        const res = await deleteUserApi(userId);
+        if (res.message === 'User deleted successfully') {
+            notification.success({ message: 'Success', description: res.message });
+            setDataSources((prevData) => prevData.filter(item => item._id !== userId));
+        } else {
+            notification.error({ message: 'Error', description: res.message });
+        }
+    };
 
-    const data = [
+    const columns = [
         {
-            title: 'Title 1 teen tai lieu hehe 123 ',
-            type: 'pdf',
-            color: 'red',
-            path: 'doc/hehe',
+            title: 'Id',
+            dataIndex: '_id',
         },
         {
-            title: 'Title 2 teen tai lieu hehe 123 ',
-            type: 'docx',
-            color: 'blue',
-            path: 'doc/hehe',
+            title: 'Email',
+            dataIndex: 'email',
         },
         {
-            title: 'Title 3 teen tai lieu hehe 123 ',
-            type: 'doc',
-            color: 'blue',
-            path: 'doc/hehe',
+            title: 'Name',
+            dataIndex: 'fullName',
         },
         {
-            title: 'Title 4 teen tai lieu hehe 123 ',
-            type: 'xlsx',
-            color: 'green',
-            path: 'doc/hehe',
+            title: 'Admin',
+            dataIndex: 'isAdmin',
+            render: (value) => value ? 'Yes' : 'No',
         },
         {
-            title: 'Title 5 teen tai lieu hehe 123 ',
-            type: 'xls',
-            color: 'green',
-            path: 'doc/hehe',
+            title: 'Statistics',
+            dataIndex: 'statistics',
+            render: (value) => (
+                <div>
+                    <p>Total uploaded: {value.uploaded}</p>
+                    <p>Liked: {value.liked.length}</p>
+                    <p>Disliked: {value.disliked.length}</p>
+                </div>
+            ),
         },
         {
-            title: 'Title 6 teen tai lieu hehe 123 ',
-            type: 'pptx',
-            color: 'orange',
-            path: 'doc/hehe',
-        },
-        {
-            title: 'Title 7 teen tai lieu hehe 123 ',
-            type: 'ppt',
-            color: 'orange',
-            path: 'doc/hehe',
+            title: 'Action',
+            render: (record) => (
+                <div style={{ display: 'flex', gap: '10px' }}>
+                <Button 
+                    type="primary" 
+                    icon={<EyeOutlined />} 
+                >
+    
+                </Button>
+                <Popconfirm
+                    title="Are you sure to delete this user?"
+                    onConfirm={() => handleDeleteUser(record._id)}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <Button type="primary" danger icon={<DeleteOutlined />} />
+                </Popconfirm>
+            </div>
+            ),
         },
     ];
 
+
     return (
         <div className={cx('wrapper')}>
-            <List
-                grid={{
-                    gutter: 16,
-                    xs: 1,
-                    sm: 1,
-                    md: 2,
-                    lg: 3,
-                    xl: 3,
-                    xxl: 4,
-                }}
-                dataSource={data}
-                renderItem={(item) => (
-                    <List.Item>
-                        <Card
-                            hoverable
-                            actions={[
-                                <Tooltip title={'Xóa người dùng'}>
-                                    <Popconfirm
-                                        placement="bottom"
-                                        title="Xóa người dùng"
-                                        description="Bạn có chắc xóa tài khoản người dùng này không?"
-                                        okText="Xóa"
-                                        cancelText="Hủy"
-                                    >
-                                        <Button style={{ backgroundColor: 'red', color: 'white' }}>
-                                            <DeleteOutlined />
-                                        </Button>
-                                    </Popconfirm>
-                                </Tooltip>,
-                            ]}
-                        >
-                            <Meta
-                                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                                title="KongTrua"
-                                description="thung260803@gmail.com"
-                            />
-                            <Divider></Divider>
-                            <Flex gap={2} wrap justify="space-between" align="center">
-                                <p>Tài liệu đã đăng</p>
-                                <Badge count={11} showZero color="#faad14" />
-                            </Flex>
-                        </Card>
-                    </List.Item>
-                )}
-            />
+            <Table dataSource={dataSource} columns={columns} bordered rowKey={"_id"}></Table>
         </div>
     );
 }

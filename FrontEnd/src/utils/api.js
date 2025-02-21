@@ -5,4 +5,12 @@ const getUsersApi = () => {
     return axios.get(URL_API);
 };
 
-export { getUsersApi };
+const deleteUserApi = (id) => {
+    const URL_API = `/v1/api/users/${id}`;
+    return axios.delete(URL_API);
+}
+
+export { 
+    getUsersApi,
+    deleteUserApi,
+};
