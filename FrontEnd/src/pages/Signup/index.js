@@ -1,13 +1,11 @@
-import classNames from 'classnames/bind';
 import { Layout, Flex, Button, Form, Input, Checkbox } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import styles from './Login.module.scss';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
-import { BankTwoTone, UserOutlined } from '@ant-design/icons';
+import styles from './Signup.module.scss';
 import { Typography } from 'antd';
+import classNames from 'classnames/bind';
 const { Title } = Typography;
 
-function Login() {
+function Signup() {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
 
@@ -15,11 +13,8 @@ function Login() {
         navigate('/' + path);
     };
     return (
-        <Flex className={cx('wrapper')} justify="start" align="center" vertical>
-            <div className={cx('logo')} justify="center" align="center">
-                <UserOutlined />
-                <Title level={3}>Sign in to Documan</Title>
-            </div>
+        <Flex className={cx('wrapper')} justify="center" align="center" vertical>
+            <Title level={3}>Sign up to Documan</Title>
             <Form
                 className={cx('coverForm')}
                 name="basic"
@@ -37,16 +32,16 @@ function Login() {
                 }}
                 autoComplete="off"
             >
-                <Title level={5}>Username</Title>
+                <Title level={5}>Email</Title>
                 <Form.Item
                     style={{
                         width: '100%',
                     }}
-                    name="username"
+                    name="email"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your username!',
+                            message: 'Please input your email!',
                         },
                     ]}
                 >
@@ -54,6 +49,25 @@ function Login() {
                         style={{
                             width: 250,
                         }}
+                        placeholder="Input Email"
+                    />
+                </Form.Item>
+
+                <Title level={5}>Username</Title>
+                <Form.Item
+                    name="Username"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Username',
+                        },
+                    ]}
+                >
+                    <Input
+                        style={{
+                            width: 250,
+                        }}
+                        placeholder="Input Username"
                     />
                 </Form.Item>
                 <Title level={5}>Password</Title>
@@ -70,26 +84,35 @@ function Login() {
                         style={{
                             width: 250,
                         }}
+                        placeholder="Input Password"
                     />
                 </Form.Item>
-                <Form.Item name="remember" valuePropName="checked" label={null}>
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                <Form.Item align="center">
-                    <button className={cx('subbtn')}>Sign in</button>
+                <Title level={5}>Confirm Password</Title>
+
+                <Form.Item
+                    name="checkpassword"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please confirm your password!',
+                        },
+                    ]}
+                >
+                    <Input.Password
+                        style={{
+                            width: 250,
+                        }}
+                        placeholder="Confirm Password"
+                    />
                 </Form.Item>
 
-                <p
-                    style={{
-                        fontSize: 12,
-                        width: '100%',
-                    }}
-                >
-                    New to Documan ?<a onClick={() => handleNavigate('signup')}> Create an Account</a>
-                </p>
+                <Form.Item align="center">
+                    <Button type="primary" className={cx('subbtn')}>
+                        Create
+                    </Button>
+                </Form.Item>
             </Form>
         </Flex>
     );
 }
-
-export default Login;
+export default Signup;
