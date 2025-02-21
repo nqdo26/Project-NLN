@@ -11,6 +11,10 @@ import Library from '~/pages/Library';
 import NewDoc from '~/pages/NewDoc';
 import Login from '~/pages/Login';
 import Signup from '~/pages/Signup';
+import Admin from '~/pages/Admin';
+import AdminDocManage from '~/pages/AdminDocManage';
+import AdminNotification from '~/pages/AdminNotification';
+import AdminUserManage from '~/pages/AdminUserManage';
 
 // Public routes
 const publicRoutes = [
@@ -23,6 +27,10 @@ const publicRoutes = [
     { path: '/new-doc', component: NewDoc, layout: DefaultLayout },
     { path: '/login', component: Login, layout: null },
     { path: '/signup', component: Signup, layout: null },
+    { path: '/admin', component: Admin, layout: AdminLayout },
+    { path: '/admin/doc-manage', component: AdminDocManage, layout: AdminLayout },
+    { path: '/admin/notification', component: AdminNotification, layout: AdminLayout },
+    { path: '/admin/user-manage', component: AdminUserManage, layout: AdminLayout },
 ];
 
 const privateRoutes = [];
