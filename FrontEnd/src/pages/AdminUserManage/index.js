@@ -1,12 +1,35 @@
-import { List, Card, Divider, Flex, Button, Avatar, Tooltip, Popconfirm, Badge } from 'antd';
+import { List, Card, Divider, Flex, Button, Avatar, Tooltip, Popconfirm, Badge, notification } from 'antd';
 import classNames from 'classnames/bind';
 import { DeleteOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 
 import styles from './AdminUserManage.module.scss';
+import { getUsersApi } from '~/utils/api';
 
 function AdminUserManage() {
     const cx = classNames.bind(styles);
     const { Meta } = Card;
+
+    const [dataSource, setDataSources] = useState([]);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await getUsersApi();
+            console.log(res);
+            if (!res?.message) {
+                setDataSources(res);
+            } else {
+                notification.error({
+                    message: 'Unauthorized',
+                    description: res.message,
+                })
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+
     const data = [
         {
             title: 'Title 1 teen tai lieu hehe 123 ',
