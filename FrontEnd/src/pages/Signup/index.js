@@ -107,7 +107,9 @@ function Signup() {
                 </Form.Item>
 
                 <Form.Item align="center">
-                    <button className={cx('subbtn')}>Sign in</button>
+                    <Button type="primary" className={cx('subbtn')}>
+                        Create
+                    </Button>
                 </Form.Item>
             </Form>
         </Flex>

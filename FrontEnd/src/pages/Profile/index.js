@@ -1,33 +1,26 @@
 import React from 'react';
-import { Col, Row, Card, Avatar } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Meta } from 'antd/es/list/Item';
+import { Col, Row, Card, Avatar, List } from 'antd';
+import classNames from 'classnames/bind';
+import styles from './Profile.module.scss';
+import CardDocSaved from '~/components/CardDocSaved';
+import SuggestCarousel from '~/components/SuggestCarousel';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
+    const cx = classNames.bind(styles);
     return (
-        <Row>
-            <Col span={6}>
-                <Card
-                    style={{
-                        width: 300,
-                    }}
-                    cover={
-                        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-                    }
-                    actions={[
-                        <SettingOutlined key="setting" />,
-                        <EditOutlined key="edit" />,
-                        <EllipsisOutlined key="ellipsis" />,
-                    ]}
-                >
-                    <Meta
-                        avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                        title="Card title"
-                        description="This is the description"
-                    />
-                </Card>
-            </Col>
-        </Row>
+        <Col>
+            <Row>
+                <div className={cx('logo')}>
+                    <img src="logo.png" />
+                </div>
+                <div className={cx('info')}>
+                    <h1>Nguyễn Quang Độ</h1>
+                    <p>email</p>
+                </div>
+            </Row>
+            <SuggestCarousel title="Your Saved Subjects " />
+        </Col>
     );
 }
 
