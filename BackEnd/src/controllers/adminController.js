@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 
 const { createAdminService } = require('../services/adminService');
-const { getUsersService } = require('../services/userService');
+const { getUsersService, deleteUserService } = require('../services/userService');
 
 const createAdmin = async (req, res) => {
     const { fullName, email, password, avatar } = req.body;
@@ -20,8 +20,17 @@ const getUsers = async (req, res) => {
     return res.status(200).json(data)
 }
 
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    const data = await deleteUserService(id);
+
+    return res.status(200).json(data);
+}
+
 
 module.exports = {
     createAdmin,
     getUsers,
+    deleteUser,
 };
