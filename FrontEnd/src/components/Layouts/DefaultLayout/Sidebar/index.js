@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { Button, Card, Layout, Menu, Avatar, Flex } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppstoreOutlined, SettingOutlined, LogoutOutlined, BookOutlined, PlusOutlined } from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
@@ -8,6 +8,7 @@ import styles from './Sidebar.module.scss';
 function Sidebar() {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
+    const location = useLocation();
     const { Sider } = Layout;
     const { Meta } = Card;
 
@@ -44,6 +45,8 @@ function Sidebar() {
         navigate('/new-doc');
     };
 
+    const selectedKey = menuItems.find((item) => item.path === location.pathname)?.key;
+
     return (
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
             <Flex vertical justify="space-between" style={{ height: '100%' }}>
@@ -65,7 +68,7 @@ function Sidebar() {
                             description="This is the description"
                         />
                     </Card>
-                    <Menu mode="inline" items={menuItems} onClick={handleOnclick} />
+                    <Menu mode="inline" items={menuItems} onClick={handleOnclick} selectedKeys={[selectedKey]} />
                 </div>
 
                 <Menu

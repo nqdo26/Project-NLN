@@ -1,0 +1,29 @@
+.card:hover {
+    background-color: #f4fcff;
+}
+
+.card {
+    padding: 5px;
+
+    .badge {
+        position: absolute;
+        bottom: 6px;
+        right: 2px;
+        font-size: 12px;
+        border-radius: 1000px;
+    }
+
+    &:hover {
+        background-color: #dcf6ff;
+    }
+}
+
+.button {
+    background-color: #569cff !important;
+    color: white !important;
+
+    &:hover {
+        background-color: #ff5b5b !important;
+        color: white !important;
+    }
+}

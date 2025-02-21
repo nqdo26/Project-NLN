@@ -1,0 +1,19 @@
+.search-icon {
+    position: absolute;
+    border: 19px solid rgb(238, 238, 238);
+    background-color: rgb(238, 238, 238);
+    border-radius: 50%;
+    top: 50%;
+    left: 0rem;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.search-icon:active {
+    background-color: rgb(149, 215, 253);
+    border: 18px solid rgb(149, 215, 253);
+    transform: translateY(-50%) scale(0.95);
+}

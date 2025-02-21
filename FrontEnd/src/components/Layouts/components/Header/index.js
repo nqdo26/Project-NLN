@@ -18,7 +18,7 @@ function Header() {
         <Header className={cx('wrapper')}>
             <Flex justify="space-between" className={cx('inner')}>
                 <div className={cx('logo')} onClick={() => handleNavigate('')}>
-                    <img src="logo.png" alt="Studocu Logo" />
+                    <img src="/logo.png" alt="documan" />
                 </div>
 
                 <div className={cx('menu')}>
