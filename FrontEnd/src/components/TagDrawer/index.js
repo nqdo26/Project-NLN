@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './TagDrawer.module.scss';
 
-function TagDrawer() {
+function TagDrawer({ onChange }) {
     const cx = classNames.bind(styles);
     const options = [];
     for (let i = 10; i < 36; i++) {
@@ -40,6 +40,10 @@ function TagDrawer() {
             }}
         >
             <Select
+                onChange={(value) => {
+                    setValue(value); // Cập nhật state cục bộ
+                    onChange(value); // Gửi giá trị lên component cha
+                }}
                 {...sharedProps}
                 {...selectProps}
                 maxTagPlaceholder={(omittedValues) => (
