@@ -1,15 +1,14 @@
 import classNames from 'classnames/bind';
-import { Button, Card, Layout, Menu, Avatar, Flex } from 'antd';
+import { Card, Layout, Menu, Avatar, Flex } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     AppstoreOutlined,
-    SettingOutlined,
     LogoutOutlined,
     BookOutlined,
-    PlusOutlined,
     UserOutlined,
     BellOutlined,
     HomeOutlined,
+    ApartmentOutlined,
 } from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
@@ -45,6 +44,18 @@ function Sidebar() {
             label: 'Quản lý người dùng',
             icon: <UserOutlined />,
             path: '/admin/user-manage',
+        },
+        {
+            key: 'levelmanage',
+            label: 'Quản lý cấp bậc',
+            icon: <ApartmentOutlined />,
+            path: '/admin/level-manage',
+        },
+        {
+            key: 'categorymanage',
+            label: 'Quản lý danh mục',
+            icon: <AppstoreOutlined/>,
+            path: '/admin/category-manage',
         },
     ];
 
