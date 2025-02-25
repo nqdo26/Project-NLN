@@ -37,7 +37,6 @@ function CustomDragger({ onUploadSuccess, removeLink }) {
         setUploadedName('');
         setFileName('');
         removeLink();
-        console.log(result);
     };
 
     const props = {

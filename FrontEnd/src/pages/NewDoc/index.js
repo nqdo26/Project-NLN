@@ -1,4 +1,4 @@
-import { Divider, Flex, Typography, Input, Button, Select, Steps, message, Tooltip, Space } from 'antd';
+import { Divider, Flex, Typography, Input, Button, Select, Steps, message, Tooltip, Space, Badge } from 'antd';
 import CustomDragger from '~/components/CustomDragger';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
@@ -6,6 +6,7 @@ import { ReadOutlined } from '@ant-design/icons';
 
 import styles from './NewDoc.module.scss';
 import TagDrawer from '~/components/TagDrawer';
+import { getColorByFileType } from '~/utils/typeToColorCode';
 
 function NewDoc() {
     const cx = classNames.bind(styles);
@@ -49,7 +50,7 @@ function NewDoc() {
     };
 
     const removeLink = () => {
-        setSubmitDoc((prev) => ({ ...prev, link: '' }));
+        setSubmitDoc((prev) => ({ ...prev, link: '', type: '' }));
     };
 
     const options = [];
@@ -189,7 +190,13 @@ function NewDoc() {
     return (
         <Flex wrap vertical className={cx('wrapper')}>
             <Flex justify="space-between" align="center" className={cx('header-wrapper')}>
-                <Title level={2}>Tạo tài liệu mới</Title>
+                <Flex gap={10} align="start">
+                    <div>
+                        <Title level={2}>{submitDoc.title === '' ? 'Tạo tài liệu mới' : submitDoc.title}</Title>
+                    </div>
+
+                    <Badge color={getColorByFileType(submitDoc.type)} count={submitDoc.type} />
+                </Flex>
                 <div>
                     {current > 0 && (
                         <Button
