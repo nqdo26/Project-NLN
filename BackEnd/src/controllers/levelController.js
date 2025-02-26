@@ -1,7 +1,7 @@
 const upload = require('../../middleware/multer');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const { createLevelService, deleteLevelSerivice, updateLevelService } = require('../services/adminService');
+const { createLevelService, deleteLevelService, updateLevelService, getLevelsService } = require('../services/adminService');
 
 
 const createLevel = async (req, res) => {
@@ -23,8 +23,14 @@ const updateLevel = async (req, res) => {
 const deleteLevel = async (req, res) => {
     const { id } = req.params;
 
-    const data = await deleteLevelSerivice(id);
+    const data = await deleteLevelService(id);
 
+    return res.status(200).json(data);
+}
+
+
+const getLevels = async (req, res) => {
+    const data = await getLevelsService();
     return res.status(200).json(data);
 }
 
@@ -32,5 +38,5 @@ module.exports = {
   createLevel,
   updateLevel,
   deleteLevel,
-  
+  getLevels,
 };

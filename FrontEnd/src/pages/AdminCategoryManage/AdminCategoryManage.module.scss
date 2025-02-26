@@ -1,0 +1,20 @@
+.wrapper {
+    padding: 50px;
+}
+
+.control-bar {
+    position: fixed;
+    top: var(--default-layout-header-height);
+    left: var(--default-layout-sidebar-width);
+}
+
+.content-wrapper {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+}
+.header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}

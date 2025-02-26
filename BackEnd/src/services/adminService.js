@@ -36,26 +36,26 @@ const createAdminService = async (email, password, fullName, avatar) => {
 
         return {
             EC: 0,
-            EM: 'Register success',
+            EM: 'Đăng ký thành công',
             data: result,
         };
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi trong quá trình đăng ký',
         };
     }
 };
 
-//Level
+// Cấp bậc
 const createLevelService = async (title) => {
     try {
         const level = await Level.findOne({ title: title });
         if (level) {
             return {
                 EC: 0,
-                EM: `Level ${title} is already exist`,
+                EM: `Cấp bậc ${title} đã tồn tại`,
             };
         }
 
@@ -65,7 +65,7 @@ const createLevelService = async (title) => {
 
         return {
             EC: 1,
-            EM: 'Create level success',
+            EM: 'Tạo cấp bậc thành công',
             data: result,
         };
 
@@ -73,7 +73,7 @@ const createLevelService = async (title) => {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi khi tạo cấp bậc',
         };
 
     }
@@ -85,7 +85,7 @@ const updateLevelService = async (id, title) => {
         if (!level) {
             return {
                 EC: 0,
-                EM: `Level ${id} is not exist`,
+                EM: `Cấp bậc ${id} không tồn tại`,
             };
         }
 
@@ -93,7 +93,7 @@ const updateLevelService = async (id, title) => {
         if (newLevel) {
             return {
                 EC: 0,
-                EM: `Level ${title} is already exist`,
+                EM: `Cấp bậc ${title} đã tồn tại`,
             };
         }
 
@@ -101,7 +101,7 @@ const updateLevelService = async (id, title) => {
 
         return {
             EC: 1,
-            EM: 'Update level success',
+            EM: 'Cập nhật cấp bậc thành công',
             data: result,
         };
 
@@ -109,46 +109,62 @@ const updateLevelService = async (id, title) => {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi khi cập nhật cấp bậc',
         };
 
     }
 }
 
-const deleteLevelSerivice = async (id) => {
+const deleteLevelService = async (id) => {
     try {
         const level = await Level.findByIdAndDelete(id);
         if (!level) {
             return {
-                EC: 0,
-                EM: `Level ${id} is not exist`,
+                EC: 1,
+                EM: `Cấp bậc không tồn tại`,
             };
         }
 
         return {
-            EC: 1,
-            EM: 'Delete level success',
-            data: level,
+            EC: 0,
+            EM: 'Xóa cấp bậc thành công',
         };
 
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi khi xóa cấp bậc',
         };
 
     }
 }
 
-//Category
+const getLevelsService = async () => {
+    try {
+        let result = await Level.find();
+        return {
+            EC: 0,
+            EM: 'Lấy danh sách cấp bậc thành công',
+            data: result,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi khi lấy danh sách cấp bậc',
+        };
+    }
+}
+
+// Danh mục
 const createCategoryService = async (title) => {
     try {
         const category = await Category.findOne({ title: title });
         if (category) {
             return {
                 EC: 0,
-                EM: `Category ${title} is already exist`,
+                EM: `Danh mục ${title} đã tồn tại`,
             };
         }
         const result = await Category.create({
@@ -156,14 +172,14 @@ const createCategoryService = async (title) => {
         });
         return {
             EC: 1,
-            EM: 'Create category success',
+            EM: 'Tạo danh mục thành công',
             data: result,
         };
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi khi tạo danh mục',
         };
     }
 }
@@ -174,7 +190,7 @@ const updateCategoryService = async (id, title) => {
         if (!category) {
             return {
                 EC: 0,
-                EM: `Category ${id} is not exist`,
+                EM: `Danh mục ${id} không tồn tại`,
             };
         }
 
@@ -182,7 +198,7 @@ const updateCategoryService = async (id, title) => {
         if (newCategory) {
             return {
                 EC: 0,
-                EM: `Category ${title} is already exist`,
+                EM: `Danh mục ${title} đã tồn tại`,
             };
         }
 
@@ -190,7 +206,7 @@ const updateCategoryService = async (id, title) => {
 
         return {
             EC: 1,
-            EM: 'Update Category success',
+            EM: 'Cập nhật danh mục thành công',
             data: result,
         };
 
@@ -198,25 +214,25 @@ const updateCategoryService = async (id, title) => {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi khi cập nhật danh mục',
         };
 
     }
 }
 
-const deleteCategorySerivice = async (id) => {
+const deleteCategoryService = async (id) => {
     try {
         const category = await Category.findByIdAndDelete(id);
         if (!category) {
             return {
                 EC: 0,
-                EM: `Category ${id} is not exist`,
+                EM: `Danh mục ${id} không tồn tại`,
             };
         }
 
         return {
             EC: 1,
-            EM: 'Delete Category success',
+            EM: 'Xóa danh mục thành công',
             data: category,
         };
 
@@ -224,22 +240,37 @@ const deleteCategorySerivice = async (id) => {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi khi xóa danh mục',
         };
 
     }
 }
 
+const getCategoriesService = async () => {
+    try {
+        let result = await Category.find();
+        return {
+            EC: 0,
+            EM: 'Lấy danh sách danh mục thành công',
+            data: result,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi khi lấy danh sách danh mục',
+        };
+    }
+}
+
 module.exports = {
     createAdminService,
-
     createLevelService,
-    deleteLevelSerivice,
+    deleteLevelService,
     updateLevelService,
-
     createCategoryService,
     updateCategoryService,
-    deleteCategorySerivice,
-
-    
+    deleteCategoryService,
+    getLevelsService,
+    getCategoriesService,
 };
