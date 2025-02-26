@@ -1,7 +1,7 @@
 const upload = require('../../middleware/multer');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const { createCategoryService, updateCategoryService, deleteCategorySerivice } = require('../services/adminService');
+const { createCategoryService, updateCategoryService, deleteCategoryService, getCategoriesService } = require('../services/adminService');
 
 
 
@@ -24,8 +24,13 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
     const { id } = req.params;
 
-    const data = await deleteCategorySerivice(id);
+    const data = await deleteCategoryService(id);
 
+    return res.status(200).json(data);
+}
+
+const getCategories = async (req, res) => {
+    const data = await getCategoriesService();
     return res.status(200).json(data);
 }
 
@@ -33,4 +38,5 @@ module.exports = {
     createCategory,
     updateCategory,
     deleteCategory,
+    getCategories,
 };

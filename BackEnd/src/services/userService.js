@@ -34,14 +34,14 @@ const createUserService = async (email, password, fullName, avatar) => {
 
         return {
             EC: 0,
-            EM: 'Register success',
+            EM: 'Đăng ký thành công',
             data: result,
         };
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi trong quá trình đăng ký',
         };
     }
 };
@@ -52,18 +52,18 @@ const deleteUserService = async (id) => {
         if (!result) {
             return {
                 EC: 1,
-                EM: 'User not found',
+                EM: 'Người dùng không tồn tại',
             };
         }
         return {
             EC: 0,
-            EM: 'Delete success',
+            EM: 'Xóa người dùng thành công',
         };
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
-            EM: 'An error occurred',
+            EM: 'Đã xảy ra lỗi trong quá trình xóa người dùng',
         };
     }
 }
@@ -76,7 +76,7 @@ const loginService = async (email, password) => {
             if (!isMathPassword) {
                 return {
                     EC: 2,
-                    EM: 'Email/Password khong hop le',
+                    EM: 'Email/Password không hợp lệ',
                 };
             } else {
                 const payload = {
@@ -103,8 +103,8 @@ const loginService = async (email, password) => {
             }
         } else {
             return {
-                EC: 1, //error code
-                EM: 'Email/Password khong hop le', //error message
+                EC: 1, 
+                EM: 'Email/Password không hợp lệ', 
             };
         }
     } catch (error) {
