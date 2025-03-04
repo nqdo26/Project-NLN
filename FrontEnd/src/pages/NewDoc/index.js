@@ -1,12 +1,15 @@
-import { Divider, Flex, Typography, Input, Button, Select, Steps, message } from 'antd';
+import { Divider, Flex, Typography, Input, Button, Select, Steps, message, Tooltip, Space, Badge } from 'antd';
 import CustomDragger from '~/components/CustomDragger';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReadOutlined } from '@ant-design/icons';
-
 
 import styles from './NewDoc.module.scss';
 import TagDrawer from '~/components/TagDrawer';
+import { getColorByFileType } from '~/utils/typeToColorCode';
+import { createDocumentApi, getCategoriesApi, getLevelsApi } from '~/utils/api';
+import { use } from 'react';
+import create from '@ant-design/icons/lib/components/IconFont';
 
 function NewDoc() {
     const cx = classNames.bind(styles);
@@ -14,8 +17,73 @@ function NewDoc() {
     const { TextArea } = Input;
 
     const [current, setCurrent] = useState(0);
+    const [submitDoc, setSubmitDoc] = useState({
+        author: '67bef530ce5e3a6afd98625e',
+        title: '',
+        description: '',
+        createAt: '',
+        link: '',
+        type: '',
+        categories: [],
+        level: '',
+        statistics: {
+            views: 0,
+            save: 0,
+            downloads: 0,
+            likes: 0,
+            dislikes: 0,
+        },
+    });
 
-    const handleLevelChange = () => {};
+    const [categories, setCategories] = useState([]);
+    const [levels, setLevels] = useState([]);
+
+    const handleUploadSuccess = (uniqueName, type) => {
+        setSubmitDoc((prev) => ({
+            ...prev,
+            type: type,
+            link: `${process.env.REACT_APP_SUPABASE_DOCUMENTS_BUCKET}${uniqueName}`,
+        }));
+    };
+
+    const handleSumbit = async () => {
+        const res = await createDocumentApi(submitDoc);
+
+        if (res.EC === 0) {
+            message.success('Đăng tải thành công!');
+        } else {
+            message.error('Đã xảy ra lỗi trong quá trình đăng tải!');
+        }
+
+        console.log(res);
+    };
+
+    const removeLink = () => {
+        setSubmitDoc((prev) => ({ ...prev, link: '', type: '' }));
+    };
+
+    useEffect(() => {
+        fetch();
+    }, []);
+
+    const fetch = async () => {
+        const categories = await getCategoriesApi();
+        const levels = await getLevelsApi();
+        setCategories(categories.data.map((category) => ({ label: category.title, value: category._id })));
+        setLevels(levels.data.map((level) => ({ label: level.title, value: level._id })));
+    };
+
+    const sharedProps = {
+        mode: 'multiple',
+        style: {
+            width: '100%',
+        },
+        options: categories,
+        placeholder: 'Chọn chủ đề',
+        maxTagCount: 'responsive',
+    };
+
+    console.log(submitDoc);
 
     const steps = [
         {
@@ -25,57 +93,62 @@ function NewDoc() {
                     <Flex vertical style={{ width: '100%', maxWidth: '700px' }} className={cx('input-inner')}>
                         <Title level={3}>Tên</Title>
                         <Input
+                            spellCheck="false"
+                            onChange={(e) => setSubmitDoc({ ...submitDoc, title: e.target.value })}
+                            value={submitDoc.title}
                             size="large"
                             placeholder="Tên tài liệu nên ngắn gọn dễ hiểu"
-                            prefix={<ReadOutlined />}
                             style={{ marginBottom: '20px' }}
                         />
                         <Title level={3}>Mô tả</Title>
                         <TextArea
+                            spellCheck="false"
                             placeholder="Mô tả chi tiết về tài liệu"
                             autoSize={{
                                 minRows: 2,
                                 maxRows: 6,
                             }}
                             style={{ marginBottom: '20px' }}
+                            value={submitDoc.description}
+                            onChange={(e) => setSubmitDoc({ ...submitDoc, description: e.target.value })}
                         />
                         <Title level={3}>Cấp bậc</Title>
                         <Select
-                            defaultValue="daihoc"
                             style={{
                                 width: '100%',
                                 marginBottom: '20px',
                             }}
-                            onChange={handleLevelChange}
-                            options={[
-                                {
-                                    value: 'saudaihoc',
-                                    label: 'Sau đại học',
-                                },
-                                {
-                                    value: 'daihoc',
-                                    label: 'Đại học',
-                                },
-                                {
-                                    value: 'thpt',
-                                    label: 'Trung học phổ thông',
-                                },
-                                {
-                                    value: 'thcs',
-                                    label: 'Trung học cơ sở',
-                                },
-                                {
-                                    value: 'tieuhoc',
-                                    label: 'Tiểu học',
-                                },
-                                {
-                                    value: 'khac',
-                                    label: 'Khác',
-                                },
-                            ]}
+                            onChange={(value) => setSubmitDoc({ ...submitDoc, level: value })}
+                            value={submitDoc.level}
+                            options={levels}
                         />
                         <Title level={3}>Chủ đề</Title>
-                        <TagDrawer></TagDrawer>
+                        <Space
+                            direction="vertical"
+                            style={{
+                                width: '100%',
+                            }}
+                        >
+                            <Select
+                                {...sharedProps}
+                                onChange={(value) => {
+                                    setSubmitDoc({ ...submitDoc, categories: value });
+                                }}
+                                value={submitDoc.categories}
+                                maxTagPlaceholder={(omittedValues) => (
+                                    <Tooltip
+                                        styles={{
+                                            root: {
+                                                pointerEvents: 'none',
+                                            },
+                                        }}
+                                        title={omittedValues.map(({ label }) => label).join(', ')}
+                                    >
+                                        <span>Nhiều hơn...</span>
+                                    </Tooltip>
+                                )}
+                            />
+                        </Space>
                     </Flex>
                 </Flex>
             ),
@@ -84,13 +157,9 @@ function NewDoc() {
             title: 'Đăng tải tài liệu',
             content: (
                 <Flex wrap className={cx('upload')} justify="center">
-                    <CustomDragger></CustomDragger>
+                    <CustomDragger onUploadSuccess={handleUploadSuccess} removeLink={removeLink}></CustomDragger>
                 </Flex>
             ),
-        },
-        {
-            title: 'Xem trước tài liệu',
-            content: 'Last-content',
         },
     ];
 
@@ -108,10 +177,17 @@ function NewDoc() {
     return (
         <Flex wrap vertical className={cx('wrapper')}>
             <Flex justify="space-between" align="center" className={cx('header-wrapper')}>
-                <Title level={2}>Tạo tài liệu mới</Title>
+                <Flex gap={10} align="start">
+                    <div>
+                        <Title level={2}>{submitDoc.title === '' ? 'Tạo tài liệu mới' : submitDoc.title}</Title>
+                    </div>
+
+                    <Badge color={getColorByFileType(submitDoc.type)} count={submitDoc.type} />
+                </Flex>
                 <div>
                     {current > 0 && (
                         <Button
+                            disabled={submitDoc.link !== ''}
                             style={{
                                 margin: '0 8px',
                             }}
@@ -121,12 +197,21 @@ function NewDoc() {
                         </Button>
                     )}
                     {current < steps.length - 1 && (
-                        <Button type="primary" onClick={() => next()}>
+                        <Button
+                            disabled={
+                                submitDoc.title === '' ||
+                                submitDoc.description === '' ||
+                                submitDoc.level === '' ||
+                                submitDoc.categories.length === 0
+                            }
+                            type="primary"
+                            onClick={() => next()}
+                        >
                             Tiếp tục
                         </Button>
                     )}
                     {current === steps.length - 1 && (
-                        <Button type="primary" onClick={() => message.success('Đăng tải thành công!')}>
+                        <Button disabled={submitDoc.link === ''} type="primary" onClick={handleSumbit}>
                             Hoàn thành
                         </Button>
                     )}

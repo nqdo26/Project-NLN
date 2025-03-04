@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
 import { Carousel } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import CustomArrow from '../CustomArrow'; 
+import CustomArrow from '../CustomArrow';
 import styles from './SuggestCarousel.module.scss';
-import CardSuggest from '../CardSuggest';
+import CardDocument from '../CardDocument';
 
 const cx = classNames.bind(styles);
 
@@ -21,8 +21,8 @@ function SuggestCarousel({ title }) {
                     slidesToShow={8}
                     slidesToScroll={4}
                     arrows
-                    prevArrow={<CustomArrow icon={<LeftOutlined style={{ marginLeft: '-4px' }} />} />} 
-                    nextArrow={<CustomArrow icon={<RightOutlined style={{ marginRight: '7px' }} />} />} 
+                    prevArrow={<CustomArrow icon={<LeftOutlined style={{ marginLeft: '-4px' }} />} />}
+                    nextArrow={<CustomArrow icon={<RightOutlined style={{ marginRight: '7px' }} />} />}
                     responsive={[
                         { breakpoint: 1024, settings: { slidesToShow: 3 } },
                         { breakpoint: 768, settings: { slidesToShow: 2 } },
@@ -31,7 +31,7 @@ function SuggestCarousel({ title }) {
                 >
                     {documents.map((doc) => (
                         <div key={doc.id} className={cx('carouselItem')}>
-                            <CardSuggest />
+                            <CardDocument action="Like" />
                         </div>
                     ))}
                 </Carousel>

@@ -3,27 +3,4 @@
 }
 
 .card {
-    padding: 5px;
-
-    .badge {
-        position: absolute;
-        bottom: 6px;
-        right: 2px;
-        font-size: 12px;
-        border-radius: 1000px;
-    }
-
-    &:hover {
-        background-color: #dcf6ff;
-    }
-}
-
-.button {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-
-    &:hover {
-        background-color: #559cff !important;
-        color: #ffffff !important;
-    }
 }

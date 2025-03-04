@@ -1,29 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
-import React, { useState } from 'react';
-import {
-    Layout,
-    Avatar,
-    Input,
-    Button,
-    Modal,
-    Upload,
-    message,
-    Row,
-    Col,
-    Typography,
-    Divider,
-    List,
-    Table,
-    Descriptions,
-    Image,
-    Form,
-} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import './Profile.module.scss';
-import { useForm } from 'antd/es/form/Form';
-
-const { Header, Content } = Layout;
+import CardDocSaved from '~/components/CardDocSaved';
+import SuggestCarousel from '~/components/SuggestCarousel';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
     const cx = classNames.bind(styles);

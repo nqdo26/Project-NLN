@@ -29,17 +29,29 @@ function AdminUserManage() {
         fetchUser();
     }, []);
 
-    const handleDeleteUser = async (userId) => {
-        const res = await deleteUserApi(userId);
-        if (res.message === 'User deleted successfully') {
-            notification.success({ message: 'Success', description: res.message });
-            setDataSources((prevData) => prevData.filter(item => item._id !== userId));
-        } else {
-            notification.error({ message: 'Error', description: res.message });
+    const handleDeleteUser = async (id) => {
+        try {
+            const res = await deleteUserApi(id);
+            notification.success({
+                message: 'Thành công',
+                description: res.EM,
+            });
+    
+            setDataSources((prevData) => prevData.filter(user => user._id !== id));
+        } catch (error) {
+            notification.error({
+                message: 'Thất bại',
+                description: error.response?.data?.EM || 'Có lỗi xảy ra khi xóa người dùng!',
+            });
         }
     };
-
+    
     const columns = [
+        {
+            title: 'STT',
+            key: 'index',
+            render: (_, __, index) => index + 1, 
+        },
         {
             title: 'Id',
             dataIndex: '_id',
@@ -49,16 +61,16 @@ function AdminUserManage() {
             dataIndex: 'email',
         },
         {
-            title: 'Name',
+            title: 'Họ tên',
             dataIndex: 'fullName',
         },
         {
-            title: 'Admin',
+            title: 'Tài khoản admin',
             dataIndex: 'isAdmin',
             render: (value) => value ? 'Yes' : 'No',
         },
         {
-            title: 'Statistics',
+            title: 'Thống kê',
             dataIndex: 'statistics',
             render: (value) => (
                 <div>
@@ -69,7 +81,7 @@ function AdminUserManage() {
             ),
         },
         {
-            title: 'Action',
+            title: 'Tùy chọn',
             render: (record) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
                 <Button 
