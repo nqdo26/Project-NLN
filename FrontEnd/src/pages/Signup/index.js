@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Signup.module.scss';
 import { Typography } from 'antd';
 import classNames from 'classnames/bind';
+import { UploadOutlined } from '@ant-design/icons';
 const { Title } = Typography;
 
 function Signup() {
@@ -17,7 +18,12 @@ function Signup() {
     };
     return (
         <Flex className={cx('wrapper')} justify="center" align="center" vertical>
-            <Title level={3}>Đăng Ký Tài Khoản Documan</Title>
+            <div justify="center" align="center">
+                <a onClick={() => handleNavigate('')}>
+                    <img style={{ width: 90, height: 90 }} src="logo.png" />
+                </a>
+                <Title level={3}>Đăng Ký Vào Documan</Title>
+            </div>
             <Form
                 className={cx('coverForm')}
                 name="basic"
@@ -38,6 +44,25 @@ function Signup() {
                     console.log(value);
                 }}
             >
+                <Title level={5}>Họ và Tên</Title>
+                <Form.Item
+                    style={{
+                        width: '100%',
+                    }}
+                    name="fullname"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập Họ và Tên!',
+                        },
+                    ]}
+                >
+                    <Input
+                        style={{
+                            width: '280px',
+                        }}
+                    />
+                </Form.Item>
                 <Title level={5}>Email</Title>
                 <Form.Item
                     style={{
@@ -52,25 +77,6 @@ function Signup() {
                         {
                             required: true,
                             message: 'Vui lòng nhập Email của bạn!',
-                        },
-                    ]}
-                >
-                    <Input
-                        style={{
-                            width: '280px',
-                        }}
-                    />
-                </Form.Item>
-                <Title level={5}>Tài Khoản</Title>
-                <Form.Item
-                    style={{
-                        width: '100%',
-                    }}
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Vui lòng nhập tài khoản!',
                         },
                     ]}
                 >
@@ -110,16 +116,6 @@ function Signup() {
                     }}
                 >
                     Đã Có Tài Khoản?<a onClick={() => handleNavigate('login')}> Đăng Nhập</a>
-                </p>
-                <p
-                    style={{
-                        fontSize: 12,
-                        width: '100%',
-                        margin: 8,
-                        textAlign: 'center',
-                    }}
-                >
-                    <a onClick={() => handleNavigate('login')}>Return Homepage</a>
                 </p>
             </Form>
         </Flex>

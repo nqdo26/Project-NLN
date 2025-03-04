@@ -15,9 +15,9 @@ function Login() {
     return (
         <Flex className={cx('wrapper')} justify="start" align="center" vertical>
             <div className={cx('logo')} justify="center" align="center">
-                <Link>
-                    <img style={{ width: 30, height: 30 }} src="logo.png" />
-                </Link>
+                <a onClick={() => handleNavigate('')}>
+                    <img style={{ width: 90, height: 90 }} src="logo.png" />{' '}
+                </a>
                 <Title level={3}>Đăng Nhập Vào Documan</Title>
             </div>
             <Form
@@ -40,16 +40,20 @@ function Login() {
                     console.log(value);
                 }}
             >
-                <Title level={5}>Tài Khoản</Title>
+                <Title level={5}>Email</Title>
                 <Form.Item
                     style={{
                         width: '100%',
                     }}
-                    name="username"
+                    name="email"
                     rules={[
                         {
+                            message: 'Không đúng định dang Email!',
+                            type: 'email',
+                        },
+                        {
                             required: true,
-                            message: 'Vui lòng nhập tài khoản!',
+                            message: 'Vui lòng nhập Email của bạn!',
                         },
                     ]}
                 >

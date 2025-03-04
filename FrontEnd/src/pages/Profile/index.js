@@ -33,7 +33,6 @@ function Profile() {
     const [avatar, setAvatar] = useState('logo.png');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalVisible1, setIsModalVisible1] = useState(false);
-
     const [newName, setNewName] = useState(name);
     const [form] = useForm();
 
@@ -47,7 +46,7 @@ function Profile() {
     const handleAvatarChange = (file) => {
         setAvatar(URL.createObjectURL(file));
         message.success('Ảnh Đại Diện Đã Được Thay Đổi!');
-        return false;
+        handleOk();
     };
 
     const showModal = () => {
@@ -80,19 +79,18 @@ function Profile() {
                     <Typography.Title level={3}>Trang Cá Nhân</Typography.Title>
                     <Divider />
                     <Col span={24}>
-                        <Avatar size={128}>
-                            <Image
-                                src={avatar}
-                                style={{
-                                    objectFit: 'cover',
-                                }}
-                            ></Image>
-                        </Avatar>
+                        <Avatar
+                            style={{
+                                objectFit: 'cover',
+                                cursor: 'pointer',
+                                backgroundColor: 'Highlight',
+                            }}
+                            size={128}
+                            src={avatar}
+                            onClick={showModal}
+                        ></Avatar>
                     </Col>
 
-                    <Button type="link" onClick={showModal}>
-                        <UploadOutlined /> Chọn Ảnh Đại Diện
-                    </Button>
                     <Row justify={'center'}>
                         <Col span={18}>
                             <Descriptions bordered column={1}>
@@ -102,9 +100,9 @@ function Profile() {
                         </Col>
                     </Row>
                     <Col style={{ margin: 16 }}>
-                        <Button onClick={showModal1}>Change Information</Button>
+                        <Button onClick={showModal1}>Thay Đổi Thông Tin</Button>
                     </Col>
-                    <Modal title="ChangeImage" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                    <Modal title="Chọn Ảnh" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                         <Upload
                             name="avatar"
                             listType="picture"
@@ -112,11 +110,11 @@ function Profile() {
                             showUploadList={false}
                             beforeUpload={handleAvatarChange}
                         >
-                            <Button icon={<UploadOutlined />}>Choose Image</Button>
+                            <Button icon={<UploadOutlined />}>Chọn Ảnh</Button>
                         </Upload>
                     </Modal>
                     <Modal
-                        title="ChangeInformation"
+                        title="Thay Đổi Thông Tin Người Dùng"
                         open={isModalVisible1}
                         onOk={handleOk1}
                         onCancel={handleCancel1}
@@ -132,7 +130,7 @@ function Profile() {
                             </Form.Item>
                             <Form.Item style={{ textAlign: 'end' }}>
                                 <Button htmlType="submit" onClick={handleNameChange}>
-                                    Update
+                                    Cập Nhật
                                 </Button>
                             </Form.Item>
                         </Form>
