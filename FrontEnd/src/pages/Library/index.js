@@ -4,9 +4,10 @@ import SearchBar from '~/components/SearchBar';
 import styles from './Library.module.scss';
 import { List, Carousel } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import CardDocLibrary from '~/components/CardDocLibrary';
+
 import CustomArrow from '~/components/CustomArrow';
-import CardSuggest from '~/components/CardSuggest';
+
+import CardDocument from '~/components/CardDocument';
 const cx = classNames.bind(styles);
 
 function Library() {
@@ -39,13 +40,13 @@ function Library() {
                     dataSource={Array.from({ length: 10 }, (_, index) => index)}
                     renderItem={() => (
                         <List.Item>
-                            <CardDocLibrary />
+                            <CardDocument isSaved={true} action="Save" />
                         </List.Item>
                     )}
                 />
             </div>
             <div className={cx('carousel')}>
-                <h2 className={cx('title')}>Có thẻ phù hợp với bạn</h2>
+                <h2 className={cx('title')}>Có thể phù hợp với bạn</h2>
                 <Carousel
                     slidesToShow={7}
                     slidesToScroll={4}
@@ -60,7 +61,7 @@ function Library() {
                 >
                     {documents.map((doc) => (
                         <div key={doc.id} className={cx('items')}>
-                            <CardSuggest key={doc.id} />
+                            <CardDocument action="Like" />
                         </div>
                     ))}
                 </Carousel>

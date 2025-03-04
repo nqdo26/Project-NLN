@@ -1,23 +1,31 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { Card, Button, Typography, Badge } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
+import { Card, Button, Typography, Badge, Flex } from 'antd';
+import { LikeOutlined, SaveOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
 
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardDocument() {
+function CardDocument({
+    document = { title: 'Null', createAt: 'Null', type: 'type', statistics: { likes: 0, dislikes: 0 } },
+    action = 'Save',
+    isSaved = false,
+}) {
     const navigate = useNavigate();
 
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
     };
-    
+
     const handleCardClick = () => {
         navigate('/doc/hehe');
+    };
+
+    const handleAction = () => {
+        navigate('/');
     };
 
     return (
@@ -25,18 +33,9 @@ function CardDocument() {
             className={cx('card')}
             hoverable
             onClick={handleCardClick}
-            style={{
-                width: 180,
-                height: 290,
-                borderRadius: 15,
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-            }}
+            style={{ maxWidth: '180px', borderRadius: '15px' }}
             cover={
-                <div style={{ position: 'relative', textAlign: 'center', padding: 8 }}>
+                <div style={{ padding: '12px 12px 0 12px' }}>
                     <img
                         alt="document"
                         src={require('../../assets/imgs/test-image.jpg')}
@@ -47,64 +46,49 @@ function CardDocument() {
                             objectFit: 'cover',
                         }}
                     />
-                    <Badge count={34} className={cx('badge')} style={{ backgroundColor: '#c2c2c2', color: 'white' }} />
                 </div>
             }
-            bodyStyle={{
-                padding: '0 8px 8px 8px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-            }}
         >
-            <div style={{ flex: 1, overflow: 'hidden' }}>
-                <Title
-                    level={5}
-                    style={{
-                        margin: 0,
-                        fontSize: 14,
-                        height: 65,
-                        color: '#1677ff',
-                        overflow: 'hidden',
-                        display: '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        textOverflow: 'ellipsis',
-                    }}
-                >
-                    {truncateText(
-                        'Kỹ thuật lập trình C Kỹ thuật lập trình C Kỹ thuật lập  trình C  Kỹ thuật lập trình CKỹ thuật lập trình C',
-                        72,
-                    )}
-                </Title>
-
-                <Text
-                    style={{
-                        fontSize: 12,
-                        color: '#888',
-                        display: '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 1,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                    }}
-                >
-                    Nhập môn về kỹ thuật
-                </Text>
+            <div style={{ margin: '-15px -5px 0px -5px', height: '80px' }}>
+                <Title level={5}>{truncateText(document.title, 50)}</Title>
             </div>
-
-            <Button
-                className={cx('button')}
-                icon={<SaveOutlined />}
-                block
-                style={{
-                    marginTop: 8,
-                    borderRadius: 15,
-                    fontSize: 14,
-                }}
-            >
-                Save
-            </Button>
+            <Flex justify="space-between" align="center" style={{ margin: '0 -5px 0 -5px' }}>
+                <Card.Meta description={document.createAt}></Card.Meta>
+                <Badge count={document.type} style={{}} />
+            </Flex>
+            <div style={{ margin: '15px -10px -12px -10px' }}>
+                <Button
+                    disabled={action === 'Save' ? false : true}
+                    style={{
+                        borderRadius: '15px',
+                        backgroundColor:
+                            action === 'Save' && !isSaved
+                                ? '#fff'
+                                : action === 'Save' && isSaved
+                                ? '#569CFF'
+                                : '#28D764',
+                        color: action === 'Save' && !isSaved ? 'black' : action === 'Save' && isSaved ? '#fff' : '#fff',
+                        cursor: 'pointer',
+                    }}
+                    className={cx('button')}
+                    icon={action === 'Save' ? <SaveOutlined /> : <LikeOutlined />}
+                    block
+                    onClick={handleAction}
+                >
+                    {action === 'Save'
+                        ? 'Save'
+                        : Math.round(
+                              (document.statistics.likes /
+                                  (document.statistics.likes + document.statistics.dislikes !== 0
+                                      ? document.statistics.likes + document.statistics.dislikes
+                                      : 1)) *
+                                  100,
+                          ) +
+                          '% (' +
+                          document.statistics.likes +
+                          ')'}
+                </Button>
+            </div>
         </Card>
     );
 }

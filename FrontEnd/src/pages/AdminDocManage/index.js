@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './AdminDocManage.module.scss';
+import CardDocumentLarge from '~/components/CardDocumentLarge';
 
 function AdminDocManage() {
     const cx = classNames.bind(styles);
@@ -73,30 +74,7 @@ function AdminDocManage() {
                 dataSource={data}
                 renderItem={(item) => (
                     <List.Item>
-                        <Card
-                            hoverable
-                            onClick={() => handleOnClick(item.path)}
-                            title={item.title}
-                            extra={
-                                <Tag style={{ marginRight: '-5px' }} color={item.color}>
-                                    {item.type}
-                                </Tag>
-                            }
-                            cover={
-                                <img
-                                    alt="example"
-                                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                />
-                            }
-                        >
-                            <Meta description="This is the description" />
-                            <Divider></Divider>
-                            <Meta
-                                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                                title="KongTrua"
-                                description="Đăng vào ngày 1/1/2021"
-                            />
-                        </Card>
+                        <CardDocumentLarge />
                     </List.Item>
                 )}
             />

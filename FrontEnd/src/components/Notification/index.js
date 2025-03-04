@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
 import styles from './Notification.module.scss';
+import CardDocument from '../CardDocument';
 
 function Notification({ item }) {
     const cx = classNames.bind(styles);
@@ -43,7 +44,7 @@ function Notification({ item }) {
                     </Flex>
                 </Flex>
                 <Badge.Ribbon text={'Đã đọc'}>
-                    <Card
+                    {/* <Card
                         style={{
                             width: 300,
                         }}
@@ -55,7 +56,8 @@ function Notification({ item }) {
                         }
                     >
                         <Meta title="Card title" />
-                    </Card>
+                    </Card> */}
+                    <CardDocument action="Like" />
                 </Badge.Ribbon>
             </Skeleton>
         </List.Item>
