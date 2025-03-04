@@ -1,12 +1,15 @@
 import { Divider, Flex, Typography, Input, Button, Select, Steps, message, Tooltip, Space, Badge } from 'antd';
 import CustomDragger from '~/components/CustomDragger';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReadOutlined } from '@ant-design/icons';
 
 import styles from './NewDoc.module.scss';
 import TagDrawer from '~/components/TagDrawer';
 import { getColorByFileType } from '~/utils/typeToColorCode';
+import { createDocumentApi, getCategoriesApi, getLevelsApi } from '~/utils/api';
+import { use } from 'react';
+import create from '@ant-design/icons/lib/components/IconFont';
 
 function NewDoc() {
     const cx = classNames.bind(styles);
@@ -15,7 +18,7 @@ function NewDoc() {
 
     const [current, setCurrent] = useState(0);
     const [submitDoc, setSubmitDoc] = useState({
-        author: '',
+        author: '67bef530ce5e3a6afd98625e',
         title: '',
         description: '',
         createAt: '',
@@ -32,44 +35,55 @@ function NewDoc() {
         },
     });
 
+    const [categories, setCategories] = useState([]);
+    const [levels, setLevels] = useState([]);
+
     const handleUploadSuccess = (uniqueName, type) => {
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
         setSubmitDoc((prev) => ({
             ...prev,
-            createAt: `${dd}/${mm}/${yyyy}`,
             type: type,
-            link: process.env.REACT_APP_SUPABASE_DOCUMENTS_BUCKET + uniqueName,
+            link: `${process.env.REACT_APP_SUPABASE_DOCUMENTS_BUCKET}${uniqueName}`,
         }));
     };
 
-    const handleSumbit = () => {
-        message.success('Đăng tải thành công!');
+    const handleSumbit = async () => {
+        const res = await createDocumentApi(submitDoc);
+
+        if (res.EC === 0) {
+            message.success('Đăng tải thành công!');
+        } else {
+            message.error('Đã xảy ra lỗi trong quá trình đăng tải!');
+        }
+
+        console.log(res);
     };
 
     const removeLink = () => {
         setSubmitDoc((prev) => ({ ...prev, link: '', type: '' }));
     };
 
-    const options = [];
-    for (let i = 10; i < 36; i++) {
-        const value = i.toString(36) + i;
-        options.push({
-            label: `Chủ đề ${value}`,
-            value,
-        });
-    }
+    useEffect(() => {
+        fetch();
+    }, []);
+
+    const fetch = async () => {
+        const categories = await getCategoriesApi();
+        const levels = await getLevelsApi();
+        setCategories(categories.data.map((category) => ({ label: category.title, value: category._id })));
+        setLevels(levels.data.map((level) => ({ label: level.title, value: level._id })));
+    };
+
     const sharedProps = {
         mode: 'multiple',
         style: {
             width: '100%',
         },
-        options,
+        options: categories,
         placeholder: 'Chọn chủ đề',
         maxTagCount: 'responsive',
     };
+
+    console.log(submitDoc);
 
     const steps = [
         {
@@ -106,32 +120,7 @@ function NewDoc() {
                             }}
                             onChange={(value) => setSubmitDoc({ ...submitDoc, level: value })}
                             value={submitDoc.level}
-                            options={[
-                                {
-                                    value: 'saudaihoc',
-                                    label: 'Sau đại học',
-                                },
-                                {
-                                    value: 'daihoc',
-                                    label: 'Đại học',
-                                },
-                                {
-                                    value: 'thpt',
-                                    label: 'Trung học phổ thông',
-                                },
-                                {
-                                    value: 'thcs',
-                                    label: 'Trung học cơ sở',
-                                },
-                                {
-                                    value: 'tieuhoc',
-                                    label: 'Tiểu học',
-                                },
-                                {
-                                    value: 'khac',
-                                    label: 'Khác',
-                                },
-                            ]}
+                            options={levels}
                         />
                         <Title level={3}>Chủ đề</Title>
                         <Space
@@ -184,8 +173,6 @@ function NewDoc() {
         key: item.title,
         title: item.title,
     }));
-
-    console.log(submitDoc);
 
     return (
         <Flex wrap vertical className={cx('wrapper')}>

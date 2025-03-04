@@ -15,7 +15,7 @@ import {
 
 import styles from './Sidebar.module.scss';
 
-function Sidebar() {
+function Sidebar({ doc }) {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
     const { Sider } = Layout;
@@ -94,6 +94,10 @@ function Sidebar() {
             });
     };
 
+    const handleDownload = () => {
+        window.open(doc.link, '_blank');
+    };
+
     return (
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
             <Flex vertical justify="space-between" style={{ height: '100%' }}>
@@ -111,7 +115,7 @@ function Sidebar() {
                         }}
                         actions={[
                             <Tooltip title={'Tải về'}>
-                                <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleNewDoc}>
+                                <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleDownload}>
                                     <DownloadOutlined />
                                 </Button>
                             </Tooltip>,
