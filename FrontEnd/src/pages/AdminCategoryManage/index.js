@@ -4,12 +4,14 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
 import styles from './AdminCategoryManage.module.scss';
-import { getCategoriesApi, deleteCategoryApi, createCategoryApi } from '~/utils/api';
+import { getCategoriesApi, deleteCategoryApi, createCategoryApi, updateCategoryApi } from '~/utils/api';
 
 function AdminCategoryManage() {
     const cx = classNames.bind(styles);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    const [editingCategory, setEditingCategory] = useState(null);
     const [dataSource, setDataSources] = useState([]);
     const [form] = Form.useForm();
 
@@ -47,6 +49,32 @@ function AdminCategoryManage() {
         }
     };
 
+    const handleUpdateCategory = async (id) => {
+        try {
+            const values = await form.validateFields();
+            const res = await updateCategoryApi(editingCategory._id, values.title);
+
+            if (values.title === editingCategory.title) {
+                notification.success({ message: 'Thành công', description: 'Không có thay đổi nào, dữ liệu giữ nguyên' });
+                setIsModalUpdateOpen(false);
+                return;
+            }
+
+            if (res && res._id && res.title) {
+                notification.success({ message: 'Thành công', description: 'Cập nhật danh mục thành công' });
+                setDataSources((prevData) => prevData.map(category => 
+                    category._id === editingCategory._id ? { ...category, title: values.title } : category
+                ));
+                setIsModalUpdateOpen(false);
+                form.resetFields();
+            } else {
+                notification.warning({ message: 'Thất bại', description: 'Tên cấp bậc đã tồn tại' });
+            }
+        } catch (error) {
+            notification.error({ message: 'Lỗi', description: 'Có lỗi xảy ra khi cập nhật cấp bậc' });
+        }
+    };
+
     const handleDeleteCategory = async (id) => {
         try {
             const res = await deleteCategoryApi(id);
@@ -72,9 +100,22 @@ function AdminCategoryManage() {
             title: 'Tùy chọn',
             render: (record) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <Button style={{ backgroundColor: "green" }} type="primary" icon={<EditOutlined />} />
-                    <Popconfirm title="Are you sure?" onConfirm={() => handleDeleteCategory(record._id)} okText="Yes" cancelText="No">
-                        <Button type="primary" danger icon={<DeleteOutlined />} />
+                    <Button 
+                        style={{ backgroundColor: "green" }} 
+                        type="primary" 
+                        icon={<EditOutlined />} 
+                        onClick={() => {
+                            setEditingCategory(record);
+                            form.setFieldsValue({ title: record.title });
+                            setIsModalUpdateOpen(true);
+                        }}
+                    />
+                    <Popconfirm 
+                        title="Are you sure?" 
+                        onConfirm={() => handleDeleteCategory(record._id)} 
+                        okText="Yes" 
+                        cancelText="No"
+                    ><Button type="primary" danger icon={<DeleteOutlined />} />
                     </Popconfirm>
                 </div>
             ),
@@ -100,6 +141,13 @@ function AdminCategoryManage() {
                 <Form form={form} layout="vertical">
                     <Form.Item label="Tên danh mục" name="title" rules={[{ required: true, message: 'Vui lòng nhập tên danh mục' }]}>
                         <Input placeholder="Nhập tên danh mục" />
+                    </Form.Item>
+                </Form>
+            </Modal>
+            <Modal title="Chỉnh sửa danh mục" open={isModalUpdateOpen} onOk={handleUpdateCategory} onCancel={() => setIsModalUpdateOpen(false)}>
+                <Form form={form} layout="vertical">
+                    <Form.Item label="Tên danh mục mới" name="title" rules={[{ required: true, message: "Vui lòng nhập tên danh mục mới" }]}> 
+                        <Input placeholder="Nhập tên danh mục mới" />
                     </Form.Item>
                 </Form>
             </Modal>
