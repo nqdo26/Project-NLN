@@ -39,15 +39,10 @@ function NewDoc() {
     const [levels, setLevels] = useState([]);
 
     const handleUploadSuccess = (uniqueName, type) => {
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
         setSubmitDoc((prev) => ({
             ...prev,
-            createAt: `${dd}/${mm}/${yyyy}`,
             type: type,
-            link: process.env.REACT_APP_SUPABASE_DOCUMENTS_BUCKET + uniqueName,
+            link: `${process.env.REACT_APP_SUPABASE_DOCUMENTS_BUCKET}${uniqueName}`,
         }));
     };
 
@@ -87,6 +82,8 @@ function NewDoc() {
         placeholder: 'Chọn chủ đề',
         maxTagCount: 'responsive',
     };
+
+    console.log(submitDoc);
 
     const steps = [
         {

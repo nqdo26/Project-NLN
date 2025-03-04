@@ -10,7 +10,7 @@ const {
 
 const createDocument = async (req, res) => {
     const { author, title, description, createAt, link, type, categories, level, statistics } = req.body;
-
+    console.log(link);
     const data = await createDocumentService(
         author,
         title,

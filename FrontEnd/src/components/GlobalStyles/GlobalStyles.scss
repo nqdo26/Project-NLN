@@ -25,3 +25,7 @@ body {
     line-height: 1.5;
     text-rendering: optimizespeed;
 }
+
+iframe {
+    height: calc(100vh - var(--default-layout-header-height) - 12px) !important;
+}

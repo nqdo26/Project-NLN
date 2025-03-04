@@ -44,10 +44,22 @@ const deleteCategoryApi = (id) => {
 };
 
 //DOCUMENT
-const createDocumentApi = (author, title, description, createAt, link, type, categories, level, statistics) => {
+const createDocumentApi = (submitDoc) => {
+    const { author, title, description, createAt, link, type, categories, level, statistics } = submitDoc;
     const URL_API = '/v1/api/createDocument';
     return axios.post(URL_API, { author, title, description, createAt, link, type, categories, level, statistics });
 };
+
+const getDocumentApi = (id) => {
+    const URL_API = '/v1/api/getDocument/' + id;
+    return axios.get(URL_API);
+};
+
+const getDocumentsApi = () => {
+    const URL_API = '/v1/api/getDocuments';
+    return axios.get(URL_API);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -58,4 +70,6 @@ export {
     getCategoriesApi,
     deleteCategoryApi,
     createDocumentApi,
+    getDocumentApi,
+    getDocumentsApi,
 };

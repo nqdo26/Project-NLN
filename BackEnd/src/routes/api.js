@@ -41,7 +41,7 @@ routerAPI.get('/category', getCategories);
 
 //Document
 routerAPI.post('/createDocument', createDocument);
-routerAPI.get('/getDocument', getDocument);
+routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
 routerAPI.get('/deleteDocument', deleteDocument);
 
