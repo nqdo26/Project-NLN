@@ -7,6 +7,8 @@ const delay = require('../../middleware/delay');
 const { createAdmin, getUsers, deleteUser } = require('../controllers/adminController');
 const { createLevel, deleteLevel, updateLevel, getLevels } = require('../controllers/levelController');
 const { createCategory, updateCategory, deleteCategory, getCategories } = require('../controllers/categoryController');
+const { create } = require('../models/user');
+const { createDocument, getDocuments, deleteDocument, getDocument } = require('../controllers/documentController');
 
 const routerAPI = express.Router();
 
@@ -37,4 +39,10 @@ routerAPI.post('/category/:id', updateCategory);
 routerAPI.delete('/category/:id', deleteCategory);
 routerAPI.get('/category', getCategories);
 
-module.exports = routerAPI; 
+//Document
+routerAPI.post('/createDocument', createDocument);
+routerAPI.get('/getDocument', getDocument);
+routerAPI.get('/getDocuments', getDocuments);
+routerAPI.get('/deleteDocument', deleteDocument);
+
+module.exports = routerAPI;
