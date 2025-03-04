@@ -1,16 +1,17 @@
 import { Button, Popconfirm, notification, Table, Modal, Input, Form } from 'antd';
 import classNames from 'classnames/bind';
-import { DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
 import styles from './AdminLevelManage.module.scss';
-import { deleteLevelApi, getLevelsApi, createLevelApi } from '~/utils/api';
-
+import { deleteLevelApi, getLevelsApi, createLevelApi, updateLevelApi } from '~/utils/api';
 
 function AdminLevelManage() {
     const cx = classNames.bind(styles);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    const [editingLevel, setEditingLevel] = useState(null);
     const [dataSource, setDataSources] = useState([]);
     const [form] = Form.useForm();
 
@@ -18,27 +19,18 @@ function AdminLevelManage() {
         const fetchLevel = async () => {
             try {
                 const res = await getLevelsApi();
-                console.log(res);
-
                 if (res && Array.isArray(res.data)) {
                     setDataSources(res.data); 
                 } else {
                     setDataSources([]); 
-                    notification.error({
-                        message: 'Error',
-                        description: 'Invalid data format',
-                    });
+                    notification.error({ message: 'Error', description: 'Invalid data format' });
                 }
             } catch (error) {
                 console.error('Fetch error:', error);
                 setDataSources([]);
-                notification.error({
-                    message: 'Error',
-                    description: 'Failed to fetch categories',
-                });
+                notification.error({ message: 'Error', description: 'Failed to fetch categories' });
             }
         };
-
         fetchLevel();
     }, []);
 
@@ -52,44 +44,60 @@ function AdminLevelManage() {
                 setIsModalOpen(false);
                 form.resetFields();
             } else {
-                notification.error({ message: 'Error', description: res.EM});
+                notification.error({ message: 'Error', description: res.EM });
             }
         } catch (error) {
-            notification.error({ message: 'Error', description: "Đã xảy ra lỗi trong quá trình thêm cấp bậc"});
+            notification.error({ message: 'Error', description: "Đã xảy ra lỗi trong quá trình thêm cấp bậc" });
         }
     };
 
     const handleDeleteLevel = async (id) => {
-       try {
+        try {
             const res = await deleteLevelApi(id);
-            notification.success({
-                message: 'Thành công',
-                description: res.EM,
-            })
-
+            notification.success({ message: 'Thành công', description: res.EM });
             setDataSources((prevData) => prevData.filter(level => level._id !== id));
-       } catch(error) {
-            notification.error ({
-                message: 'Thất bại',
-                description: error.response?.data?.EM || 'Có lỗi xảy ra khi xóa người dùng!',
-            })
-       }
+        } catch (error) {
+            notification.error({ message: 'Thất bại', description: error.response?.data?.EM || 'Có lỗi xảy ra khi xóa người dùng!' });
+        }
     };
 
+    const handleUpdateLevel = async () => {
+        try {
+            const values = await form.validateFields();
+            const res = await updateLevelApi(editingLevel._id, values.title);
+
+            if (values.title === editingLevel.title) {
+                notification.success({ message: 'Thành công', description: 'Không có thay đổi nào, dữ liệu giữ nguyên' });
+                setIsModalUpdateOpen(false);
+                return;
+            }
+    
+            if (res && res._id && res.title) {
+                notification.success({ message: 'Thành công', description: 'Cập nhật cấp bậc thành công' });
+                setDataSources((prevData) => prevData.map(level =>
+                    level._id === editingLevel._id ? { ...level, title: values.title } : level
+                ));
+    
+                setIsModalUpdateOpen(false);
+                form.resetFields();
+            } else {
+                notification.warning({ message: 'Thất bại', description: "Tên cấp bậc đã tồn tại" });
+            }
+        } catch (error) {
+            console.error("Lỗi khi cập nhật:", error.response?.data || error);
+            notification.error({
+                message: 'Lỗi',
+                description: error.response?.data?.EM || 'Có lỗi xảy ra khi cập nhật cấp bậc'
+            });
+        }
+    };
+    
+    
+
     const columns = [
-        {       
-            title: 'STT',
-            key: 'index',
-            render: (_, __, index) => index + 1, 
-        },
-        {
-            title: 'Id',
-            dataIndex: '_id',
-        },
-        {
-            title: 'Tên cấp bậc',
-            dataIndex: 'title',
-        },
+        { title: 'STT', key: 'index', render: (_, __, index) => index + 1 },
+        { title: 'Id', dataIndex: '_id' },
+        { title: 'Tên cấp bậc', dataIndex: 'title' },
         {
             title: 'Tùy chọn',
             render: (record) => (
@@ -98,6 +106,11 @@ function AdminLevelManage() {
                         style={{ backgroundColor: "green" }}
                         type="primary" 
                         icon={<EditOutlined />} 
+                        onClick={() => {
+                            setEditingLevel(record);
+                            form.setFieldsValue({ title: record.title });
+                            setIsModalUpdateOpen(true);
+                        }}
                     />
                     <Popconfirm
                         title="Are you sure to delete this category?"
@@ -119,16 +132,23 @@ function AdminLevelManage() {
                     style={{ backgroundColor: "blue" }}
                     type="primary" 
                     icon={<PlusOutlined />} 
-                    onClick = {() => setIsModalOpen(true)}
-                > 
+                    onClick={() => setIsModalOpen(true)}
+                >
                     Thêm mới
                 </Button>
             </div>
             <Table dataSource={dataSource || []} columns={columns} bordered rowKey="_id" />
-            <Modal title= "Thêm cấp bậc mới" open={isModalOpen} onOk={handleAddLevel} onCancel = {() => setIsModalOpen(false)}  >
+            <Modal title="Thêm cấp bậc mới" open={isModalOpen} onOk={handleAddLevel} onCancel={() => setIsModalOpen(false)}>
                 <Form form={form} layout="vertical">
-                    <Form.Item lable="Tên danh mục" name="title" rules={[{ require: true, message: "Vui lòng nhập tên danh mục mới"}]}>
-                        <Input placeholder="Nhập tên danh mục mới" />
+                    <Form.Item label="Tên cấp bậc mới" name="title" rules={[{ required: true, message: "Vui lòng nhập tên cấp bậc mới" }]}> 
+                        <Input placeholder="Nhập tên cấp bậc mới" />
+                    </Form.Item>
+                </Form>
+            </Modal>
+            <Modal title="Chỉnh sửa cấp bậc" open={isModalUpdateOpen} onOk={handleUpdateLevel} onCancel={() => setIsModalUpdateOpen(false)}>
+                <Form form={form} layout="vertical">
+                    <Form.Item label="Tên cấp bậc mới" name="title" rules={[{ required: true, message: "Vui lòng nhập tên cấp bậc mới" }]}> 
+                        <Input placeholder="Nhập tên cấp bậc mới" />
                     </Form.Item>
                 </Form>
             </Modal>

@@ -29,13 +29,13 @@ routerAPI.delete('/users/:id', deleteUser);
 
 //Level
 routerAPI.post('/level', createLevel);
-routerAPI.post('/level/:id', updateLevel);
+routerAPI.put('/level/:id', updateLevel);
 routerAPI.delete('/level/:id', deleteLevel);
 routerAPI.get('/level', getLevels);
 
 //Category
 routerAPI.post('/category', createCategory);
-routerAPI.post('/category/:id', updateCategory);
+routerAPI.put('/category/:id', updateCategory);
 routerAPI.delete('/category/:id', deleteCategory);
 routerAPI.get('/category', getCategories);
 
