@@ -76,18 +76,25 @@ const getDocumentsApi = () => {
 export {
     getUsersApi,
     deleteUserApi,
+
     createLevelApi,
     getLevelsApi,
     deleteLevelApi,
+    updateLevelApi,
+
     createCategoryApi,
     getCategoriesApi,
     deleteCategoryApi,
+    updateCategoryApi,
+
     createDocumentApi,
+
     getDocumentApi,
     getDocumentsApi,
-    updateLevelApi,
-    createCategoryApi,
-    getCategoriesApi,
-    deleteCategoryApi,
+
+
+
+
+
 
 };

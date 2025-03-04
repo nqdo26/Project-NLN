@@ -2,17 +2,17 @@ import { Divider, Flex, Typography, Input, Button, Select, Steps, message, Toolt
 import CustomDragger from '~/components/CustomDragger';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { ReadOutlined } from '@ant-design/icons';
+
 
 import styles from './NewDoc.module.scss';
-import TagDrawer from '~/components/TagDrawer';
 import { getColorByFileType } from '~/utils/typeToColorCode';
 import { createDocumentApi, getCategoriesApi, getLevelsApi } from '~/utils/api';
-import { use } from 'react';
-import create from '@ant-design/icons/lib/components/IconFont';
+import { useNavigate } from 'react-router-dom';
+
 
 function NewDoc() {
     const cx = classNames.bind(styles);
+    const navigate = useNavigate()
     const { Title } = Typography;
     const { TextArea } = Input;
 
@@ -54,6 +54,7 @@ function NewDoc() {
         } else {
             message.error('Đã xảy ra lỗi trong quá trình đăng tải!');
         }
+        navigate(`/doc/${res.data._id}`)
 
         console.log(res);
     };
