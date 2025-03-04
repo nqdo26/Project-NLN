@@ -1,9 +1,7 @@
 import classNames from 'classnames/bind';
 import { Layout, Flex, Button, Form, Input, Checkbox } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
-import { BankTwoTone, UserOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 const { Title } = Typography;
 
@@ -17,8 +15,10 @@ function Login() {
     return (
         <Flex className={cx('wrapper')} justify="start" align="center" vertical>
             <div className={cx('logo')} justify="center" align="center">
-                <UserOutlined />
-                <Title level={3}>Sign in to Documan</Title>
+                <Link>
+                    <img style={{ width: 30, height: 30 }} src="logo.png" />
+                </Link>
+                <Title level={3}>Đăng Nhập Vào Documan</Title>
             </div>
             <Form
                 className={cx('coverForm')}
@@ -36,8 +36,11 @@ function Login() {
                     remember: true,
                 }}
                 autoComplete="off"
+                onFinish={(value) => {
+                    console.log(value);
+                }}
             >
-                <Title level={5}>Username</Title>
+                <Title level={5}>Tài Khoản</Title>
                 <Form.Item
                     style={{
                         width: '100%',
@@ -46,37 +49,39 @@ function Login() {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your username!',
+                            message: 'Vui lòng nhập tài khoản!',
                         },
                     ]}
                 >
                     <Input
                         style={{
-                            width: 250,
+                            width: '280px',
                         }}
                     />
                 </Form.Item>
-                <Title level={5}>Password</Title>
+                <Title level={5}>Mật Khẩu</Title>
                 <Form.Item
                     name="password"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
+                            message: 'Vui lòng nhập vào mật khẩu!',
                         },
                     ]}
                 >
                     <Input.Password
                         style={{
-                            width: 250,
+                            width: '280px',
                         }}
                     />
                 </Form.Item>
                 <Form.Item name="remember" valuePropName="checked" label={null}>
-                    <Checkbox>Remember me</Checkbox>
+                    <Checkbox>Ghi nhớ</Checkbox>
                 </Form.Item>
                 <Form.Item align="center">
-                    <button className={cx('subbtn')}>Sign in</button>
+                    <Button htmlType="submit" className={cx('subbtn')}>
+                        Đăng Nhập
+                    </Button>
                 </Form.Item>
 
                 <p
@@ -85,7 +90,7 @@ function Login() {
                         width: '100%',
                     }}
                 >
-                    New to Documan ?<a onClick={() => handleNavigate('signup')}> Create an Account</a>
+                    Lần Đầu Vào Documan ?<a onClick={() => handleNavigate('signup')}> Đăng Ký Tài Khoản</a>
                 </p>
             </Form>
         </Flex>
