@@ -1,5 +1,5 @@
-import { Card, Typography, Space } from 'antd';
-import { FileTextOutlined, CalendarOutlined, LikeOutlined } from '@ant-design/icons';
+import { Card, Typography, Space, Badge } from 'antd';
+import { CalendarOutlined, LikeOutlined, EyeOutlined, TrophyOutlined, ReadOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './CardSearch.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -9,11 +9,11 @@ const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardSearch() {
+function CardSearch({_id, title, level, badge, categories, createAt, totalVotes , views, likePercentage }) {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate('/doc/hehe');
+        navigate(`/doc/${_id}`);
     };
 
     const getBackgroundColor = (percentage) => {
@@ -21,11 +21,10 @@ function CardSearch() {
         return `rgb(${255 - greenIntensity}, ${greenIntensity}, ${100})`; 
     };
 
-    const likePercentage = 10; 
-
     return (
         <Card
             onClick={handleCardClick}
+            className={cx('card-container')}
             bodyStyle={{
                 display: 'flex',
                 width: '100%',
@@ -34,32 +33,35 @@ function CardSearch() {
               
             }}
         >
-            <div className={styles['image-container']}>
-                <img src="https://via.placeholder.com/80" alt="Document" className={styles.image} />
+            
+            <div className={cx('image-container')}>
+                <Badge className={cx('badge')} count={badge} />
+                <img alt="Document" className={styles.image} />
             </div>
 
             <div className={cx('content')} style={{ flex: 1 }}>
                 <Space>
                     <Title level={5} >
-                        <span className={cx('title')} >2025 Maths ATP Grade 12 Final</span>
+                        <span className={cx('title')} >{title}</span>
                     </Title>
                 </Space>
 
                 <Space size="middle">
                     <Text>
-                    <span className={cx('author')} >2025 Maths ATP Grade 12 Final</span>
+                    <ReadOutlined /> <span className={cx('author')} >{categories}</span>
                     </Text>
                     <Text>
-                    <span className={cx('author')} >2025 Maths ATP Grade 12 Final</span>
+                    <TrophyOutlined /> <span className={cx('author')} >{level}</span>
                     </Text>
                 </Space>
 
                 <Space size="middle" className={styles.footer}>
                     <Text>
-                        <FileTextOutlined /> <span className={cx('description')}>4 pages</span>
+                        <EyeOutlined /> <span className={cx('description')}>{views}</span>
                     </Text>
+
                     <Text>
-                        <CalendarOutlined /> <span className={cx('description')}>8/2019</span>
+                        <CalendarOutlined /> <span className={cx('description')}>{createAt}</span>
                     </Text>
                 </Space>
             </div>
@@ -73,7 +75,7 @@ function CardSearch() {
                     }}>
                     <LikeOutlined style={{ marginRight: '4px' }} />
                     {likePercentage}% 
-                    <Text className={cx('totalVotes')}>(155)</Text>
+                    <Text className={cx('totalVotes')}>{totalVotes}</Text>
                 </Text>
             </div>
         </Card>

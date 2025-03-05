@@ -73,6 +73,11 @@ const getDocumentsApi = () => {
     return axios.get(URL_API);
 };
 
+const searchDocumentsApi = (title) => {
+    const URL_API = `/v1/api/documents/search?title=${encodeURIComponent(title)}`;
+    return axios.get(URL_API);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -91,6 +96,7 @@ export {
 
     getDocumentApi,
     getDocumentsApi,
+    searchDocumentsApi
 
 
 

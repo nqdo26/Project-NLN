@@ -6,6 +6,7 @@ const {
     deleteDocumentService,
     getDocumentService,
     getDocumentsService,
+    getDocumentsByTitleService,
 } = require('../services/documentService');
 
 const createDocument = async (req, res) => {
@@ -40,6 +41,13 @@ const getDocuments = async (req, res) => {
     return res.status(200).json(data);
 };
 
+const getDocumentsByTitle = async (req, res) => {
+    const { title } = req.query; 
+    const data = await getDocumentsByTitleService(title); 
+
+    return res.status(200).json(data);
+}
+
 const deleteDocument = async (req, res) => {
     const { id } = req.params;
 
@@ -53,4 +61,5 @@ module.exports = {
     getDocument,
     getDocuments,
     deleteDocument,
+    getDocumentsByTitle,
 };

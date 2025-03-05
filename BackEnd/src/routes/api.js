@@ -8,7 +8,7 @@ const { createAdmin, getUsers, deleteUser } = require('../controllers/adminContr
 const { createLevel, deleteLevel, updateLevel, getLevels } = require('../controllers/levelController');
 const { createCategory, updateCategory, deleteCategory, getCategories } = require('../controllers/categoryController');
 const { create } = require('../models/user');
-const { createDocument, getDocuments, deleteDocument, getDocument } = require('../controllers/documentController');
+const { createDocument, getDocuments, deleteDocument, getDocument, getDocumentsByTitle } = require('../controllers/documentController');
 
 const routerAPI = express.Router();
 
@@ -44,5 +44,7 @@ routerAPI.post('/createDocument', createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
 routerAPI.get('/deleteDocument', deleteDocument);
+routerAPI.get('/documents/search', getDocumentsByTitle);
+
 
 module.exports = routerAPI;

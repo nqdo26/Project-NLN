@@ -16,7 +16,6 @@ function SuggestCarousel({ title }) {
         const fetchDocuments = async () => {
             try {
                 const res = await getDocumentsApi();
-                console.log('API Response:', res); 
                 if (res) {
                     setDocuments(res);
                 } else {

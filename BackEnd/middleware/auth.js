@@ -16,7 +16,7 @@ const auth = (req, res, next) => {
                 req.user = {
                     email: decoded.email,
                     name: decoded.name,
-                    createdBy: 'hehe',
+                    createdBy: 'null',
                 };
                 console.log(decoded);
                 next();
