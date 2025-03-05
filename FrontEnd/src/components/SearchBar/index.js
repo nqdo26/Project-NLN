@@ -8,26 +8,25 @@ import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function SearchBar() {
-    const [isPressed, setIsPressed] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
 
-    const handleMouseDown = () => {
-        setIsPressed(true);
-    };
-
-    const handleMouseUp = () => {
-        setIsPressed(false);
-        navigate('/search');
+    const handleSearch = () => {
+        if (searchValue.trim()) {
+            navigate(`/search?title=${encodeURIComponent(searchValue)}`);
+        }
     };
 
     return (
         <Input
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onPressEnter={handleSearch}
             placeholder="Tìm kiếm tài liệu..."
             prefix={
                 <SearchOutlined
-                    className={cx('search-icon', { 'search-icon-active': isPressed })}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
+                    className={cx('search-icon')}
+                    onClick={handleSearch}
                 />
             }
             style={{

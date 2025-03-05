@@ -5,20 +5,19 @@ import styles from './FilterTab.module.scss';
 const cx = classNames.bind(styles);
 
 const items = [
-    { key: 'all', label: 'All' },
-    { key: 'courses', label: 'Courses' },
-    { key: 'books', label: 'Books' },
+    { key: 'documents', label: 'Tài liệu' },
+    { key: 'categories', label: 'Danh mục' },
 ];
 
 const FilterTabs = ({ onChange }) => {
     return (
         <Tabs
             className={cx('tabs')}
-            defaultActiveKey="all"
+            defaultActiveKey="documents"
             items={items.map(item => ({
                 ...item,
                 label: (
-                    <span className={cx('tab-label', { 'tab-label-active': item.key === 'all' })}>
+                    <span className={cx('tab-label', { 'tab-label-active': item.key === 'documents' })}>
                         {item.label}
                     </span>
                 ),

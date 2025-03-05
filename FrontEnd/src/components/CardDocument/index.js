@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { Card, Button, Typography, Badge, Flex } from 'antd';
+import { Card, Button, Typography, Badge, Flex, notification } from 'antd';
 import { LikeOutlined, SaveOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
 
@@ -21,7 +21,7 @@ function CardDocument({
     };
 
     const handleCardClick = () => {
-        navigate('/doc/hehe');
+        navigate(`/doc/${document._id}`);
     };
 
     const handleAction = () => {
@@ -53,9 +53,10 @@ function CardDocument({
                 <Title level={5}>{truncateText(document.title, 50)}</Title>
             </div>
             <Flex justify="space-between" align="center" style={{ margin: '0 -5px 0 -5px' }}>
-                <Card.Meta description={document.createAt}></Card.Meta>
-                <Badge count={document.type} style={{}} />
+                <Card.Meta description={new Date(document.createAt).toLocaleDateString('vi-VN')} />
+                <Badge count={document.type} />
             </Flex>
+
             <div style={{ margin: '15px -10px -12px -10px' }}>
                 <Button
                     disabled={action === 'Save' ? false : true}
@@ -70,7 +71,7 @@ function CardDocument({
                         color: action === 'Save' && !isSaved ? 'black' : action === 'Save' && isSaved ? '#fff' : '#fff',
                         cursor: 'pointer',
                     }}
-                    className={cx('button')}
+                    className={cx('button', { 'save-button': action === 'Save' })}
                     icon={action === 'Save' ? <SaveOutlined /> : <LikeOutlined />}
                     block
                     onClick={handleAction}

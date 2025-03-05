@@ -73,21 +73,34 @@ const getDocumentsApi = () => {
     return axios.get(URL_API);
 };
 
+const searchDocumentsApi = (title) => {
+    const URL_API = `/v1/api/documents/search?title=${encodeURIComponent(title)}`;
+    return axios.get(URL_API);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
+
     createLevelApi,
     getLevelsApi,
     deleteLevelApi,
+    updateLevelApi,
+
     createCategoryApi,
     getCategoriesApi,
     deleteCategoryApi,
+    updateCategoryApi,
+
     createDocumentApi,
+
     getDocumentApi,
     getDocumentsApi,
-    updateLevelApi,
-    createCategoryApi,
-    getCategoriesApi,
-    deleteCategoryApi,
+    searchDocumentsApi
+
+
+
+
+
 
 };
