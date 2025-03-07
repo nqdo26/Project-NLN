@@ -15,11 +15,10 @@ function DefaultLayout({ children }) {
             <Layout hasSider>
                 <Sidebar className={cx('sidebar')} />
                 <Content className={cx('content')}>
-                    {children}
-                    <CustomFooter />
+                        {children}
                 </Content>
-                
             </Layout>
+            <div className={cx('footer')}><CustomFooter/></div>
         </Layout>
     );
 }

@@ -33,7 +33,7 @@ function CardDocument({
             className={cx('card')}
             hoverable
             onClick={handleCardClick}
-            style={{ maxWidth: '180px', borderRadius: '15px' }}
+            style={{ minWidth: '180px',  maxWidth: '180px', borderRadius: '15px' }}
             cover={
                 <div style={{ padding: '12px 12px 0 12px' }}>
                     <img
