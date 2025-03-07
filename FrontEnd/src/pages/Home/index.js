@@ -35,25 +35,24 @@ function Home() {
 
     return (
         <div className={cx('wrapper')}>
-            <SearchBar />
             <SubjectCarousel />
             <PostEncouragement />
             <SuggestCarousel title="Top subjects for you" />
-            <div>
+            <div className={cx('list-wrapper')}>
                 <h2 className={cx('title')}>Continue reading</h2>
-                <List
+                    <List 
                     grid={{
-                        gutter: 16,
-                        xs: 1,
-                        sm: 1,
-                        md: 2,
-                        lg: 3,
-                        xl: 3,
-                        xxl: 8,
+                        gutter: 10, 
+                        xs: 1,  
+                        sm: 2,  
+                        md: 3,  
+                        lg: 4,  
+                        xl: 6,  
+                        xxl: 8, 
                     }}
                     dataSource={documents} 
                     renderItem={(document) => (
-                        <List.Item>
+                        <List.Item >
                             <CardDocument document={document} />
                         </List.Item>
                     )}

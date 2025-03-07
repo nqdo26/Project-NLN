@@ -73,10 +73,11 @@ const getDocumentsApi = () => {
     return axios.get(URL_API);
 };
 
-const searchDocumentsApi = (title) => {
-    const URL_API = `/v1/api/documents/search?title=${encodeURIComponent(title)}`;
+const searchApi = (title) => {
+    const URL_API = `/v1/api/search/all?title=${encodeURIComponent(title)}`;
     return axios.get(URL_API);
 };
+
 
 export {
     getUsersApi,
@@ -96,8 +97,7 @@ export {
 
     getDocumentApi,
     getDocumentsApi,
-    searchDocumentsApi
-
+    searchApi,
 
 
 
