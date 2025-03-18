@@ -9,12 +9,12 @@ const path = require('path');
 
 const saltRounds = 10;
 
-const createUserService = async (email, password, fullName, avatar) => {
+const createUserService = async (fullName, email, password, avatar) => {
     try {
         const user = await User.findOne({ email: email });
         if (user) {
             return {
-                EC: 0,
+                EC: 1,
                 EM: `Email ${email} đã được sử dụng`,
             };
         }
@@ -66,7 +66,7 @@ const deleteUserService = async (id) => {
             EM: 'Đã xảy ra lỗi trong quá trình xóa người dùng',
         };
     }
-}
+};
 
 const loginService = async (email, password) => {
     try {
@@ -80,9 +80,11 @@ const loginService = async (email, password) => {
                 };
             } else {
                 const payload = {
-                    id: user._id,   
+                    id: user._id,
                     email: user.email,
                     isAdmin: user.isAdmin,
+                    fullName: user.fullName,
+                    avatar: user.avatar,
                 };
 
                 const access_token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -103,8 +105,8 @@ const loginService = async (email, password) => {
             }
         } else {
             return {
-                EC: 1, 
-                EM: 'Email/Password không hợp lệ', 
+                EC: 1,
+                EM: 'Email/Password không hợp lệ',
             };
         }
     } catch (error) {
@@ -115,19 +117,52 @@ const loginService = async (email, password) => {
 
 const getUsersService = async () => {
     try {
-        
-        let result = await User.find({}).select("-password");
+        let result = await User.find({}).select('-password');
         return result;
-
     } catch (error) {
         console.log(error);
         return null;
     }
-}
+};
+
+const updateNameService = async (id, title) => {
+    try {
+        const name = await User.findById(id);
+        if (!name) {
+            return {
+                EC: 0,
+                EM: `Danh mục ${id} không tồn tại`,
+            };
+        }
+
+        const newName = await User.findOne({ title: title });
+        if (newName) {
+            return {
+                EC: 0,
+                EM: `Danh mục ${title} đã tồn tại`,
+            };
+        }
+
+        const result = await User.findByIdAndUpdate(id, { title: title }, { new: true });
+
+        return {
+            EC: 1,
+            EM: 'Cập nhật danh mục thành công',
+            data: result,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi khi cập nhật danh mục',
+        };
+    }
+};
 
 module.exports = {
     createUserService,
     loginService,
     getUsersService,
     deleteUserService,
+    updateNameService,
 };

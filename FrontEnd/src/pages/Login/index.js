@@ -1,8 +1,11 @@
 import classNames from 'classnames/bind';
-import { Layout, Flex, Button, Form, Input, Checkbox } from 'antd';
+import { Layout, Flex, Button, Form, Input, Checkbox, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { Typography } from 'antd';
+import { loginApi, loginService } from '~/utils/api';
+import { useContext } from 'react';
+import { AuthContext } from '~/components/Context/auth.context';
 const { Title } = Typography;
 
 function Login() {
@@ -12,6 +15,31 @@ function Login() {
     const handleNavigate = (path) => {
         navigate('/' + path);
     };
+    const onFinish = async (values) => {
+        const { email, password } = values;
+        const res = await loginApi(email, password);
+        console.log(res);
+        if (res && res.EC === 0) {
+            localStorage.setItem('access_token', res.access_token);
+
+            message.success('Đăng nhập thành công');
+            setAuth({
+                isAuthenticated: true,
+                user: {
+                    email: res?.user?.email ?? '',
+                    fullName: res?.user?.fullName ?? '',
+                    avatar: res?.user?.avatar ?? '',
+                },
+            });
+            navigate('/');
+        } else {
+            message.error('Email/Password không đúng!');
+        }
+    };
+
+    const { auth, setAuth } = useContext(AuthContext);
+    console.log(auth);
+
     return (
         <Flex className={cx('wrapper')} justify="start" align="center" vertical>
             <div className={cx('logo')} justify="center" align="center">
@@ -36,9 +64,7 @@ function Login() {
                     remember: true,
                 }}
                 autoComplete="off"
-                onFinish={(value) => {
-                    console.log(value);
-                }}
+                onFinish={onFinish}
             >
                 <Title level={5}>Email</Title>
                 <Form.Item

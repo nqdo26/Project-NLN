@@ -4,12 +4,15 @@ import { Layout, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
+import { useContext } from 'react';
+import { AuthContext } from '~/components/Context/auth.context';
 
 function Header() {
     const cx = classNames.bind(styles);
     const { Header } = Layout;
     const navigate = useNavigate();
-
+    const { auth } = useContext(AuthContext);
+    console.log('>>>>Check:', auth);
     const handleNavigate = (path) => {
         navigate('/' + path);
     };
@@ -24,10 +27,13 @@ function Header() {
                 <div className={cx('menu')}>
                     <NavMenu />
                 </div>
-
-                <div className={cx('button')}>
-                    <button onClick={() => handleNavigate('login')}>Sign in</button>
-                </div>
+                {!auth.isAuthenticated ? (
+                    <div className={cx('button')}>
+                        <button onClick={() => handleNavigate('login')}>Đăng Nhập</button>
+                    </div>
+                ) : (
+                    <></>
+                )}
             </Flex>
         </Header>
     );

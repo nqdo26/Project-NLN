@@ -4,6 +4,8 @@ import styles from './Signup.module.scss';
 import { Typography } from 'antd';
 import classNames from 'classnames/bind';
 import { UploadOutlined } from '@ant-design/icons';
+import Password from 'antd/es/input/Password';
+import { createUserApi } from '~/utils/api';
 const { Title } = Typography;
 
 function Signup() {
@@ -13,9 +15,13 @@ function Signup() {
     const handleNavigate = (path) => {
         navigate('/' + path);
     };
-    const handleCreate = () => {
-        message.success('Created!');
+    const onFinish = async (values) => {
+        console.log(values);
+        const { fullName, email, password } = values;
+        const res = await createUserApi(fullName, email, password);
+        console.log(res);
     };
+
     return (
         <Flex className={cx('wrapper')} justify="center" align="center" vertical>
             <div justify="center" align="center">
@@ -40,16 +46,14 @@ function Signup() {
                     remember: true,
                 }}
                 autoComplete="off"
-                onFinish={(value) => {
-                    console.log(value);
-                }}
+                onFinish={onFinish}
             >
                 <Title level={5}>Họ và Tên</Title>
                 <Form.Item
                     style={{
                         width: '100%',
                     }}
-                    name="fullname"
+                    name="fullName"
                     rules={[
                         {
                             required: true,
@@ -71,7 +75,7 @@ function Signup() {
                     name="email"
                     rules={[
                         {
-                            message: 'Không đúng định dang Email!',
+                            message: 'Không đúng định dạng Email!',
                             type: 'email',
                         },
                         {
