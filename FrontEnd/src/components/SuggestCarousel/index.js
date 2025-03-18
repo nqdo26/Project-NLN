@@ -31,7 +31,12 @@ function SuggestCarousel({ title }) {
     }, []);
 
     return (
-        <div className={styles.carouselContainer}>
+        <div 
+        style={{
+            minWidth: '1500px',
+            overflow: 'hidden',
+        }}
+        className={styles.carouselContainer}>
             <h2 className={styles.title}>{title}</h2>
 
             <div className={cx('carousel')}>
@@ -41,11 +46,6 @@ function SuggestCarousel({ title }) {
                     arrows
                     prevArrow={<CustomArrow icon={<LeftOutlined style={{ marginLeft: '-4px' }} />} />}
                     nextArrow={<CustomArrow icon={<RightOutlined style={{ marginRight: '7px' }} />} />}
-                    responsive={[
-                        { breakpoint: 1024, settings: { slidesToShow: 3 } },
-                        { breakpoint: 768, settings: { slidesToShow: 2 } },
-                        { breakpoint: 480, settings: { slidesToShow: 1 } },
-                    ]}
                 >
                     {documents.map((doc) => (
                         <div key={doc._id} className={cx('carouselItem')}>

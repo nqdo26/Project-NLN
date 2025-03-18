@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const Document = require('../models/document');
 const mongoose = require('mongoose');
+const Category = require('../models/category');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -62,23 +63,34 @@ const getDocumentsService = async () => {
     return documents;
 };
 
-const getDocumentsByTitleService = async (title) => {
+const searchByTitleService = async (title) => {
     try {
-        const documents = await Document.find({ title: { $regex: title, $options: 'i' } });
+        const documents = await Document.find({ title: { $regex: title, $options: 'i' } })
+            .populate('level')
+            .populate('categories');
 
-        if (documents.length === 0) {
-            // Kiểm tra mảng rỗng
+
+        const categories = await Category.find({ title: { $regex: title, $options: 'i' } });
+
+        if (documents.length === 0 && categories.length === 0) {
             return {
                 EC: 1,
-                EM: 'Không tìm thấy tài liệu',
-                data: [],
+                EM: 'Không tìm thấy kết quả',
+                data: {
+                    documents: [],
+                    categories: []
+                }
             };
         }
 
         return {
             EC: 0,
             EM: 'Tìm kiếm thành công',
-            data: documents,
+
+            data: {
+                documents,
+                categories
+
         };
     } catch (error) {
         console.log('Lỗi truy vấn:', error);
@@ -116,5 +128,5 @@ module.exports = {
     getDocumentService,
     getDocumentsService,
     deleteDocumentService,
-    getDocumentsByTitleService,
+    searchByTitleService,
 };

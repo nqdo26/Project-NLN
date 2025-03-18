@@ -1,10 +1,11 @@
 import classNames from 'classnames/bind';
-import { Layout, Flex, Button, Form, Input, Checkbox } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Layout, Flex, Button, Form, Input, Checkbox, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
-import { eventWrapper } from '@testing-library/user-event/dist/utils';
-import { BankTwoTone, UserOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
+import { loginApi, loginService } from '~/utils/api';
+import { useContext } from 'react';
+import { AuthContext } from '~/components/Context/auth.context';
 const { Title } = Typography;
 
 function Login() {
@@ -14,11 +15,38 @@ function Login() {
     const handleNavigate = (path) => {
         navigate('/' + path);
     };
+    const onFinish = async (values) => {
+        const { email, password } = values;
+        const res = await loginApi(email, password);
+        console.log(res);
+        if (res && res.EC === 0) {
+            localStorage.setItem('access_token', res.access_token);
+
+            message.success('Đăng nhập thành công');
+            setAuth({
+                isAuthenticated: true,
+                user: {
+                    email: res?.user?.email ?? '',
+                    fullName: res?.user?.fullName ?? '',
+                    avatar: res?.user?.avatar ?? '',
+                },
+            });
+            navigate('/');
+        } else {
+            message.error('Email/Password không đúng!');
+        }
+    };
+
+    const { auth, setAuth } = useContext(AuthContext);
+    console.log(auth);
+
     return (
         <Flex className={cx('wrapper')} justify="start" align="center" vertical>
             <div className={cx('logo')} justify="center" align="center">
-                <UserOutlined />
-                <Title level={3}>Sign in to Documan</Title>
+                <a onClick={() => handleNavigate('')}>
+                    <img style={{ width: 90, height: 90 }} src="logo.png" />{' '}
+                </a>
+                <Title level={3}>Đăng Nhập Vào Documan</Title>
             </div>
             <Form
                 className={cx('coverForm')}
@@ -36,47 +64,54 @@ function Login() {
                     remember: true,
                 }}
                 autoComplete="off"
+                onFinish={onFinish}
             >
-                <Title level={5}>Username</Title>
+                <Title level={5}>Email</Title>
                 <Form.Item
                     style={{
                         width: '100%',
                     }}
-                    name="username"
+                    name="email"
                     rules={[
                         {
+                            message: 'Không đúng định dang Email!',
+                            type: 'email',
+                        },
+                        {
                             required: true,
-                            message: 'Please input your username!',
+                            message: 'Vui lòng nhập Email của bạn!',
                         },
                     ]}
                 >
                     <Input
                         style={{
-                            width: 250,
+                            width: '280px',
                         }}
                     />
                 </Form.Item>
-                <Title level={5}>Password</Title>
+                <Title level={5}>Mật Khẩu</Title>
                 <Form.Item
                     name="password"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
+                            message: 'Vui lòng nhập vào mật khẩu!',
                         },
                     ]}
                 >
                     <Input.Password
                         style={{
-                            width: 250,
+                            width: '280px',
                         }}
                     />
                 </Form.Item>
                 <Form.Item name="remember" valuePropName="checked" label={null}>
-                    <Checkbox>Remember me</Checkbox>
+                    <Checkbox>Ghi nhớ</Checkbox>
                 </Form.Item>
                 <Form.Item align="center">
-                    <button className={cx('subbtn')}>Sign in</button>
+                    <Button htmlType="submit" className={cx('subbtn')}>
+                        Đăng Nhập
+                    </Button>
                 </Form.Item>
 
                 <p
@@ -85,7 +120,7 @@ function Login() {
                         width: '100%',
                     }}
                 >
-                    New to Documan ?<a onClick={() => handleNavigate('signup')}> Create an Account</a>
+                    Lần Đầu Vào Documan ?<a onClick={() => handleNavigate('signup')}> Đăng Ký Tài Khoản</a>
                 </p>
             </Form>
         </Flex>

@@ -27,12 +27,15 @@ function SubjectCarousel() {
     }, []);
 
     return (
-        <div className={styles.carouselContainer}>
+        <div style={{
+            minWidth: '1500px',
+            overflow: 'hidden',
+        }} className={styles.carouselContainer}>
             <div className={cx('carousel')}>
                 {dataSource.length === 0 ? (
                     <p>Chưa có danh mục</p>
                 ) : (
-                    <Carousel
+                    <Carousel 
                         autoplay
                         autoplaySpeed={3000}
                         speed={1300}
