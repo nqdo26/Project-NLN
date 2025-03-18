@@ -19,7 +19,7 @@ function Signup() {
         console.log(values);
         const { fullName, email, password } = values;
         const res = await createUserApi(fullName, email, password);
-        console.log(res);
+        navigate('/login');
     };
 
     return (
