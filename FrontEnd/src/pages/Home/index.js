@@ -1,38 +1,59 @@
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-
+import { List, notification } from 'antd';
 import styles from './Home.module.scss';
 import SearchBar from '~/components/SearchBar';
 import SubjectCarousel from '~/components/SubjectCarousel';
 import PostEncouragement from '~/components/PostEncouragement';
 import SuggestCarousel from '~/components/SuggestCarousel';
-import { List } from 'antd';
 import CardDocument from '~/components/CardDocument';
+import { getDocumentsApi } from '~/utils/api';
 
 const cx = classNames.bind(styles);
 
 function Home() {
+    const [documents, setDocuments] = useState([]);
+
+    useEffect(() => {
+        const fetchDocuments = async () => {
+            try {
+                const res = await getDocumentsApi();
+                if (res) {
+                    setDocuments(res);
+                } else {
+                    notification.error({ message: 'Lỗi', description: 'Dữ liệu không hợp lệ' });
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                notification.error({ message: 'Lỗi', description: 'Không thể lấy danh sách tài liệu' });
+            }
+        };
+    
+        fetchDocuments();
+    }, []);
+    
+
     return (
         <div className={cx('wrapper')}>
-            <SearchBar />
-            <SubjectCarousel/>
+            <SubjectCarousel />
             <PostEncouragement />
             <SuggestCarousel title="Top subjects for you" />
-            <div>
+            <div className={cx('list-wrapper')}>
                 <h2 className={cx('title')}>Continue reading</h2>
-                <List
+                    <List 
                     grid={{
-                        gutter: 0,
-                        xs: 1,
-                        sm: 1,
-                        md: 2,
-                        lg: 3,
-                        xl: 3,
-                        xxl: 8,
+                        gutter: 10, 
+                        xs: 1,  
+                        sm: 2,  
+                        md: 3,  
+                        lg: 4,  
+                        xl: 6,  
+                        xxl: 8, 
                     }}
-                    dataSource={Array.from({ length: 5 }, (_, index) => index)}
-                    renderItem={() => (
-                        <List.Item>
-                            <CardDocument />
+                    dataSource={documents} 
+                    renderItem={(document) => (
+                        <List.Item >
+                            <CardDocument document={document} />
                         </List.Item>
                     )}
                 />

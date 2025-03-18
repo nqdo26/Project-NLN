@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, Row, Col, Typography, Space, Divider } from 'antd';
+import classNames from 'classnames/bind';
 import {
     FacebookOutlined,
     TwitterOutlined,
@@ -8,12 +9,15 @@ import {
     InstagramOutlined,
 } from '@ant-design/icons';
 
+import styles from './CustomFooter.module.scss';
+
 const { Footer } = Layout;
 const { Text, Title } = Typography;
 
 const CustomFooter = () => {
+    const cx = classNames.bind(styles);
     return (
-        <Footer style={{ backgroundColor: '#ffff', padding: '40px 20px' }}>
+        <Footer className={cx('wrapper')} style={{ width: '100%', backgroundColor: '#ffff', padding: '40px 20px'}}>
             <Row gutter={[16, 16]} justify="space-between">
                 <Col xs={24} sm={8}>
                     <Title level={4} style={{ color: '#6c757d' }}>

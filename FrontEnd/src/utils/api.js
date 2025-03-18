@@ -92,16 +92,27 @@ const updateNameApi = (id, title) => {
     return axios.put(URL_API, { title }).then((response) => response.data);
 };
 
+const searchApi = (title) => {
+    const URL_API = `/v1/api/search/all?title=${encodeURIComponent(title)}`;
+    return axios.get(URL_API);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
+
     createLevelApi,
     getLevelsApi,
     deleteLevelApi,
+    updateLevelApi,
+
     createCategoryApi,
     getCategoriesApi,
     deleteCategoryApi,
+    updateCategoryApi,
+
     createDocumentApi,
+
     getDocumentApi,
     getDocumentsApi,
     updateLevelApi,
@@ -110,4 +121,5 @@ export {
     loginApi,
     getAccountApi,
     updateNameApi,
+    searchApi,
 };
