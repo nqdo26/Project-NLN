@@ -1,9 +1,32 @@
-import { Fragment } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/components/Layouts';
+import axios from './utils/axios.custiomize';
+import { AuthContext } from './components/Context/auth.context';
+import { getAccountApi } from './utils/api';
 
 function App() {
+    const { setAuth } = useContext(AuthContext);
+
+    useEffect(() => {
+        const fetchAccount = async () => {
+            const res = await getAccountApi();
+            console.log('>>> check res:', res);
+            if (res) {
+                setAuth({
+                    isAuthenticated: true,
+                    user: {
+                        email: res.email,
+                        fullName: res.fullName,
+                        avatar: res.avatar,
+                    },
+                });
+            }
+        };
+        fetchAccount();
+    }, []);
+
     return (
         <Router>
             <div className="App">

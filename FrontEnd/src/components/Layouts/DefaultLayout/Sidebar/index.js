@@ -4,13 +4,19 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AppstoreOutlined, SettingOutlined, LogoutOutlined, BookOutlined, PlusOutlined } from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
+import { useContext } from 'react';
+import { AuthContext } from '~/components/Context/auth.context';
 
 function Sidebar() {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
+    const handleNavigate = (path) => {
+        navigate('/' + path);
+    };
     const location = useLocation();
     const { Sider } = Layout;
     const { Meta } = Card;
+    const { auth, setAuth } = useContext(AuthContext);
 
     const menuItems = [
         {
@@ -28,7 +34,7 @@ function Sidebar() {
 
         {
             key: 'profile',
-            label: 'Trang cá nhân',
+            label: `Trang cá nhân`,
             icon: <SettingOutlined />,
             path: '/profile',
         },
@@ -63,8 +69,8 @@ function Sidebar() {
                         ]}
                     >
                         <Meta
-                            avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                            title="KongTrua"
+                            avatar={<Avatar src={auth?.user?.avatar} />}
+                            title={auth?.user?.fullName}
                             description="This is the description"
                         />
                     </Card>
@@ -80,6 +86,18 @@ function Sidebar() {
                             icon: <LogoutOutlined />,
                         },
                     ]}
+                    onClick={() => {
+                        localStorage.clear('access_token');
+                        setAuth({
+                            isAuthenticated: false,
+                            user: {
+                                email: '',
+                                fullName: '',
+                            },
+                        });
+
+                        handleNavigate('login');
+                    }}
                 />
             </Flex>
         </Sider>
