@@ -8,13 +8,20 @@ const { createAdmin, getUsers, deleteUser } = require('../controllers/adminContr
 const { createLevel, deleteLevel, updateLevel, getLevels } = require('../controllers/levelController');
 const { createCategory, updateCategory, deleteCategory, getCategories } = require('../controllers/categoryController');
 const { create } = require('../models/user');
-const { createDocument, getDocuments, deleteDocument, getDocument, getDocumentsByTitle, searchByTitle } = require('../controllers/documentController');
+const {
+    createDocument,
+    getDocuments,
+    deleteDocument,
+    getDocument,
+    getDocumentsByTitle,
+    searchByTitle,
+} = require('../controllers/documentController');
 
 const routerAPI = express.Router();
 
 routerAPI.use(express.static(path.join(__dirname, 'public')));
 
-routerAPI.all('*', auth);
+// routerAPI.all('*', auth);
 
 routerAPI.get('/', (req, res) => {
     return res.status(200).json('Hello world api');
@@ -24,7 +31,7 @@ routerAPI.get('/', (req, res) => {
 routerAPI.post('/register', createUser);
 routerAPI.post('/createAdmin', createAdmin);
 routerAPI.post('/login', handleLogin);
-routerAPI.get('/users', getUsers);
+routerAPI.get('/users', auth, getUsers);
 routerAPI.delete('/users/:id', deleteUser);
 routerAPI.put('/users/:id', updateName);
 routerAPI.get('/account', auth, getAccount);
@@ -47,6 +54,5 @@ routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
 routerAPI.get('/deleteDocument', deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
-
 
 module.exports = routerAPI;
