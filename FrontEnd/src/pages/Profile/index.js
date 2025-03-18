@@ -43,7 +43,7 @@ function Profile() {
             if (values.title === name.title) {
                 notification.success({
                     message: 'Thành công',
-                    description: 'Không có thay đổi nào, dữ liệu giữ nguyên',
+                    description: 'Không có thay đổi nào, dữ  giữ liệu nguyên',
                 });
                 setIsModalUpdateName(false);
                 return;
