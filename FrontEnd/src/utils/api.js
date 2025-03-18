@@ -100,23 +100,17 @@ const searchApi = (title) => {
 export {
     getUsersApi,
     deleteUserApi,
-
     createLevelApi,
     getLevelsApi,
     deleteLevelApi,
     updateLevelApi,
-
     createCategoryApi,
     getCategoriesApi,
     deleteCategoryApi,
     updateCategoryApi,
-
     createDocumentApi,
-
     getDocumentApi,
     getDocumentsApi,
-    updateLevelApi,
-    updateCategoryApi,
     createUserApi,
     loginApi,
     getAccountApi,
