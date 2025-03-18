@@ -85,7 +85,6 @@ const searchByTitleService = async (title) => {
         return {
             EC: 0,
             EM: 'Tìm kiếm thành công',
-
             data: {
                 documents,
                 categories,
