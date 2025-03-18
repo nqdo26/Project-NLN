@@ -49,7 +49,7 @@ const createDocumentService = async (
 
 const getDocumentService = async (_id) => {
     try {
-        let result = await Document.findById(_id);
+        let result = await Document.findById(_id).populate('author').populate('level').populate('categories');
         return result;
     } catch (error) {
         console.log(error);
@@ -58,9 +58,7 @@ const getDocumentService = async (_id) => {
 };
 
 const getDocumentsService = async () => {
-    const documents = await Document.find()
-        .populate('level') 
-        .populate('categories'); 
+    const documents = await Document.find().populate('author').populate('level').populate('categories');
 
     return documents;
 };
@@ -70,6 +68,7 @@ const searchByTitleService = async (title) => {
         const documents = await Document.find({ title: { $regex: title, $options: 'i' } })
             .populate('level')
             .populate('categories');
+
 
         const categories = await Category.find({ title: { $regex: title, $options: 'i' } });
 
@@ -87,22 +86,20 @@ const searchByTitleService = async (title) => {
         return {
             EC: 0,
             EM: 'Tìm kiếm thành công',
+
             data: {
                 documents,
                 categories
-            }
+
         };
     } catch (error) {
         console.log('Lỗi truy vấn:', error);
         return {
             EC: 2,
-            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm'
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
         };
     }
 };
-
-
-
 
 const deleteDocumentService = async (id) => {
     try {

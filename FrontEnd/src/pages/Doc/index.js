@@ -43,6 +43,7 @@ function Doc() {
     const fetchDoc = async () => {
         try {
             const response = await getDocumentApi(docId);
+            console.log(response);
             setUri(response.link);
         } catch (error) {
             console.log(error);
