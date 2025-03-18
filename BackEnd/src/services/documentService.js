@@ -86,12 +86,11 @@ const searchByTitleService = async (title) => {
         return {
             EC: 0,
             EM: 'Tìm kiếm thành công',
-
             data: {
                 documents,
                 categories
-
-        };
+            }
+        } 
     } catch (error) {
         console.log('Lỗi truy vấn:', error);
         return {

@@ -115,8 +115,7 @@ export {
 
     getDocumentApi,
     getDocumentsApi,
-    updateLevelApi,
-    updateCategoryApi,
+    
     createUserApi,
     loginApi,
     getAccountApi,

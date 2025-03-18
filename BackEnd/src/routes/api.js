@@ -14,8 +14,6 @@ const routerAPI = express.Router();
 
 routerAPI.use(express.static(path.join(__dirname, 'public')));
 
-routerAPI.all('*', auth);
-
 routerAPI.get('/', (req, res) => {
     return res.status(200).json('Hello world api');
 });
@@ -24,28 +22,28 @@ routerAPI.get('/', (req, res) => {
 routerAPI.post('/register', createUser);
 routerAPI.post('/createAdmin', createAdmin);
 routerAPI.post('/login', handleLogin);
-routerAPI.get('/users', getUsers);
-routerAPI.delete('/users/:id', deleteUser);
-routerAPI.put('/users/:id', updateName);
-routerAPI.get('/account', auth, getAccount);
+routerAPI.get('/users', getUsers , auth);
+routerAPI.delete('/users/:id', deleteUser , auth);
+routerAPI.put('/users/:id', updateName , auth);
+routerAPI.get('/account', auth, getAccount , auth);
 
 //Level
-routerAPI.post('/level', createLevel);
-routerAPI.put('/level/:id', updateLevel);
-routerAPI.delete('/level/:id', deleteLevel);
-routerAPI.get('/level', getLevels);
+routerAPI.post('/level', createLevel , auth);
+routerAPI.put('/level/:id', updateLevel , auth);
+routerAPI.delete('/level/:id', deleteLevel , auth);
+routerAPI.get('/level', getLevels , auth);
 
 //Category
-routerAPI.post('/category', createCategory);
-routerAPI.put('/category/:id', updateCategory);
-routerAPI.delete('/category/:id', deleteCategory);
-routerAPI.get('/category', getCategories);
+routerAPI.post('/category', createCategory , auth);
+routerAPI.put('/category/:id', updateCategory , auth);
+routerAPI.delete('/category/:id', deleteCategory , auth);
+routerAPI.get('/category', getCategories , auth);
 
 //Document
-routerAPI.post('/createDocument', createDocument);
+routerAPI.post('/createDocument', createDocument , auth);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
-routerAPI.get('/deleteDocument', deleteDocument);
+routerAPI.get('/deleteDocument', deleteDocument , auth);
 routerAPI.get('/search/all', searchByTitle);
 
 
