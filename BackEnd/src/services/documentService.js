@@ -48,7 +48,7 @@ const createDocumentService = async (
 
 const getDocumentService = async (_id) => {
     try {
-        let result = await Document.findById(_id);
+        let result = await Document.findById(_id).populate('author').populate('level').populate('categories');
         return result;
     } catch (error) {
         console.log(error);
@@ -57,9 +57,7 @@ const getDocumentService = async (_id) => {
 };
 
 const getDocumentsService = async () => {
-    const documents = await Document.find()
-        .populate('level') 
-        .populate('categories'); 
+    const documents = await Document.find().populate('author').populate('level').populate('categories');
 
     return documents;
 };
@@ -68,30 +66,28 @@ const getDocumentsByTitleService = async (title) => {
     try {
         const documents = await Document.find({ title: { $regex: title, $options: 'i' } });
 
-        if (documents.length === 0) { // Kiểm tra mảng rỗng
+        if (documents.length === 0) {
+            // Kiểm tra mảng rỗng
             return {
                 EC: 1,
                 EM: 'Không tìm thấy tài liệu',
-                data: []
+                data: [],
             };
         }
 
         return {
             EC: 0,
             EM: 'Tìm kiếm thành công',
-            data: documents
+            data: documents,
         };
     } catch (error) {
         console.log('Lỗi truy vấn:', error);
         return {
             EC: 2,
-            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm'
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
         };
     }
 };
-
-
-
 
 const deleteDocumentService = async (id) => {
     try {

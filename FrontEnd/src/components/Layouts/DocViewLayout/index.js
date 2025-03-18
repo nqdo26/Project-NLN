@@ -11,7 +11,7 @@ function DocViewLayout({ children }) {
     const { Footer, Content } = Layout;
     const docId = useParams().docId;
 
-    const [doc, setDoc] = useState({});
+    const [doc, setDoc] = useState();
 
     const fetchDoc = async () => {
         try {

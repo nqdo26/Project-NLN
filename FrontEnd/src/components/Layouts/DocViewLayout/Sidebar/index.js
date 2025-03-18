@@ -102,13 +102,6 @@ function Sidebar({ doc }) {
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
             <Flex vertical justify="space-between" style={{ height: '100%' }}>
                 <Flex vertical className="description" style={{}}>
-                    {/* <Title level={3}>Tên tài liệu dwa dwa dwa dwa ad dwa adaw</Title>
-                    <div style={{ Mineight: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
-                        <p>
-                            Mô tả tài liệu mô tả he heh he he dưa da dưa đưa wd wd ada d awd wadwa d adw adwa dưa dưa da
-                            đưa a dưa đưa ư dwa da dwa da dwad a wad wad wad wad wadwa dw ada wdwa d wa wad wad wada
-                        </p>
-                    </div> */}
                     <Card
                         style={{
                             borderRadius: '0',
@@ -136,11 +129,7 @@ function Sidebar({ doc }) {
                             </Tooltip>,
                         ]}
                     >
-                        <Meta
-                            title="Tên tài liệu dwa dwa dwa dwa ad dwa adaw"
-                            description="Mô tả tài liệu mô tả he heh he he dưa da dưa đưa wd wd ada d awd wadwa d adw adwa dưa dưa da
-                            đưa a dưa đưa ư dwa da dwa da dwad a wad wad wad wad wadwa dw ada wdwa d wa wad wad wada"
-                        />
+                        <Meta title={doc?.title} description={doc?.description} />
                     </Card>
                     <Card
                         style={{
@@ -149,8 +138,8 @@ function Sidebar({ doc }) {
                     >
                         <Meta
                             avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                            title="Tên người tải lên"
-                            description={'Tải lên 01/01/2001'}
+                            title={doc?.author.fullName}
+                            description={'Tải lên ' + doc?.createAt}
                         />
                     </Card>
                 </Flex>

@@ -12,7 +12,7 @@ import NewDoc from '~/pages/NewDoc';
 import Login from '~/pages/Login';
 import Signup from '~/pages/Signup';
 import Admin from '~/pages/Admin';
-import AdminDocManage from '~/pages/AdminCategoryManage';
+import AdminDocManage from '~/pages/AdminDocManage';
 import AdminNotification from '~/pages/AdminNotification';
 import AdminUserManage from '~/pages/AdminUserManage';
 import AdminLevelManage from '~/pages/AdminLevelManage';
