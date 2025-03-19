@@ -13,10 +13,12 @@ function CardSubjectSearch({title, total}) {
         <Card
             className={cx('card-wrapper')}
 
-            bodyStyle={{
-                display: 'flex',
-                width: '100%',
-                padding: '10px',
+            styles={{
+                body: {
+                    display: 'flex',
+                    width: '100%',
+                    padding: '10px',
+                }
             }}
         >
             <div className={cx('icon')}>
