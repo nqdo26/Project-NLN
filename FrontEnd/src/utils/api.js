@@ -97,6 +97,12 @@ const searchApi = (title) => {
     return axios.get(URL_API);
 };
 
+const likeApi = (id, email) => {
+    const data = { email };
+    const URL_API = `/v1/api/like/${id}`;
+    return axios.post(URL_API, data);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -116,4 +122,5 @@ export {
     getAccountApi,
     updateNameApi,
     searchApi,
+    likeApi,
 };

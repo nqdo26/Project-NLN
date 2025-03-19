@@ -1,15 +1,12 @@
-import { Divider, Flex, Typography, Input, Button, theme, Steps, message, Spin } from 'antd';
+import { Flex, message, Spin } from 'antd';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
-import { EditOutlined, ReadOutlined } from '@ant-design/icons';
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import '@cyntler/react-doc-viewer/dist/index.css';
 
 import styles from './Doc.module.scss';
 import { useParams } from 'react-router-dom';
-import { use } from 'react';
 import { getDocumentApi } from '~/utils/api';
-import LoadingSpin from '~/components/LoadingSpin';
 
 function Doc() {
     const cx = classNames.bind(styles);
@@ -43,10 +40,10 @@ function Doc() {
     const fetchDoc = async () => {
         try {
             const response = await getDocumentApi(docId);
-            console.log(response);
             setUri(response.link);
         } catch (error) {
             console.log(error);
+            message.error('Error');
         }
     };
 

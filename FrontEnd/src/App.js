@@ -13,7 +13,7 @@ function App() {
         const fetchAccount = async () => {
             const res = await getAccountApi();
 
-            if (res && !res.message) {
+            if (res && res.message) {
                 setAuth({
                     isAuthenticated: false,
                     user: {
@@ -36,7 +36,6 @@ function App() {
         };
         fetchAccount();
     }, []);
-
     return (
         <Router>
             <div className="App">

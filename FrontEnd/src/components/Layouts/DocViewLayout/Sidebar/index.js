@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Button, Card, Layout, Menu, Avatar, Flex, Divider, message, Typography, Tooltip } from 'antd';
+import { Button, Card, Layout, Menu, Avatar, Flex, message, Tooltip } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
     AppstoreOutlined,
@@ -12,15 +12,20 @@ import {
     WarningOutlined,
     ShareAltOutlined,
 } from '@ant-design/icons';
-
+import { AuthContext } from '~/components/Context/auth.context';
 import styles from './Sidebar.module.scss';
+import { likeApi } from '~/utils/api';
+import { useContext } from 'react';
 
 function Sidebar({ doc }) {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
     const { Sider } = Layout;
     const { Meta } = Card;
-    const { Title } = Typography;
+    const { auth, setAuth } = useContext(AuthContext);
+    const handleNavigate = (path) => {
+        navigate('/' + path);
+    };
 
     const menuItems = [
         {
@@ -42,33 +47,6 @@ function Sidebar({ doc }) {
             icon: <SettingOutlined />,
             path: '/profile',
         },
-        {
-            key: 'logout',
-            label: 'Đăng xuất',
-            icon: <LogoutOutlined />,
-        },
-    ];
-
-    const docMenuItems = [
-        {
-            key: 'download',
-            label: 'Tải về',
-            icon: <DownloadOutlined />,
-            path: '/library',
-        },
-        {
-            key: 'save',
-            label: 'Lưu vào thư viện',
-            icon: <SaveOutlined />,
-            path: '/uploaded',
-        },
-
-        {
-            key: 'report',
-            label: 'Báo cáo',
-            icon: <WarningOutlined />,
-            path: '/profile',
-        },
     ];
 
     const handleOnclick = (e) => {
@@ -80,6 +58,17 @@ function Sidebar({ doc }) {
 
     const handleNewDoc = () => {
         navigate('/new-doc');
+    };
+
+    const handleLike = async () => {
+        const res = await likeApi(doc._id, auth.user.email);
+        if (res.EC === 1) {
+            message.success('Đã lưu vào thư viện');
+        } else if (res.EC === 0) {
+            message.warning('Tài liệu đã có sẵn trong thư viện');
+        } else {
+            message.error('Đã xảy ra lỗi');
+        }
     };
 
     const handleShare = () => {
@@ -112,16 +101,20 @@ function Sidebar({ doc }) {
                                     <DownloadOutlined />
                                 </Button>
                             </Tooltip>,
-                            <Tooltip title={'Lưu vào thư viện'}>
-                                <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleNewDoc}>
-                                    <SaveOutlined />
-                                </Button>
-                            </Tooltip>,
-                            <Tooltip title={'Báo cáo tài liệu'}>
-                                <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleNewDoc}>
-                                    <WarningOutlined />
-                                </Button>
-                            </Tooltip>,
+                            <div hidden={!auth.isAuthenticated}>
+                                <Tooltip title={'Lưu vào thư viện'}>
+                                    <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleLike}>
+                                        <SaveOutlined />
+                                    </Button>
+                                </Tooltip>
+                            </div>,
+                            <div hidden={!auth.isAuthenticated}>
+                                <Tooltip title={'Báo cáo tài liệu'}>
+                                    <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleNewDoc}>
+                                        <WarningOutlined />
+                                    </Button>
+                                </Tooltip>
+                            </div>,
                             <Tooltip title={'Chia sẻ tài liệu'}>
                                 <Button style={{ backgroundColor: 'orange', color: 'white' }} onClick={handleShare}>
                                     <ShareAltOutlined />
@@ -136,15 +129,11 @@ function Sidebar({ doc }) {
                             borderRadius: '0',
                         }}
                     >
-                        <Meta
-                            avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                            title={doc?.author.fullName}
-                            description={'Tải lên ' + doc?.createAt}
-                        />
+                        <Meta title={'Tải lên bởi: ' + doc?.author.fullName} description={Date(doc?.createAt)} />
                     </Card>
                 </Flex>
 
-                <div>
+                <div hidden={!auth.isAuthenticated}>
                     <Card
                         style={{
                             borderRadius: '0',
@@ -156,12 +145,34 @@ function Sidebar({ doc }) {
                         ]}
                     >
                         <Meta
-                            avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                            title="KongTrua"
-                            description="This is the description"
+                            avatar={<Avatar src={auth?.user?.avatar} />}
+                            title={auth?.user?.fullName}
+                            description={auth?.user?.email}
                         />
                     </Card>
                     <Menu mode="inline" items={menuItems} onClick={handleOnclick} />
+                    <Menu
+                        mode="inline"
+                        items={[
+                            {
+                                key: 'logout',
+                                label: 'Đăng xuất',
+                                icon: <LogoutOutlined />,
+                            },
+                        ]}
+                        onClick={() => {
+                            localStorage.clear('access_token');
+                            setAuth({
+                                isAuthenticated: false,
+                                user: {
+                                    email: '',
+                                    fullName: '',
+                                },
+                            });
+
+                            handleNavigate('');
+                        }}
+                    />
                 </div>
             </Flex>
         </Sider>

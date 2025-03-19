@@ -1,4 +1,4 @@
-const { createUserService, loginService, updateNameService } = require('../services/userService');
+const { createUserService, loginService, updateNameService, likeService } = require('../services/userService');
 const upload = require('../../middleware/multer');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -32,9 +32,18 @@ const updateName = async (req, res) => {
     return res.status(200).json(data);
 };
 
+const like = async (req, res) => {
+    const { id } = req.params;
+    const { email } = req.body;
+
+    const data = await likeService(id, email);
+    return res.status(200).json(data);
+};
+
 module.exports = {
     createUser,
     handleLogin,
     getAccount,
     updateName,
+    like,
 };
