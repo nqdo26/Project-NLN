@@ -13,16 +13,26 @@ function App() {
         const fetchAccount = async () => {
             const res = await getAccountApi();
             console.log('>>> check res:', res);
-            if (res) {
+            if (res.status(401)) {
                 setAuth({
-                    isAuthenticated: true,
+                    isAuthenticated: false,
                     user: {
                         email: res.email,
                         fullName: res.fullName,
                         avatar: res.avatar,
                     },
                 });
+                return;
             }
+
+            setAuth({
+                isAuthenticated: true,
+                user: {
+                    email: res.email,
+                    fullName: res.fullName,
+                    avatar: res.avatar,
+                },
+            });
         };
         fetchAccount();
     }, []);
