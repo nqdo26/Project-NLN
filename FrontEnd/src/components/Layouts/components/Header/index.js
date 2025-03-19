@@ -12,7 +12,6 @@ function Header() {
     const { Header } = Layout;
     const navigate = useNavigate();
     const { auth } = useContext(AuthContext);
-    console.log('>>>>Check:', auth);
     const handleNavigate = (path) => {
         navigate('/' + path);
     };

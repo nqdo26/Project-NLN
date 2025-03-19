@@ -12,8 +12,7 @@ function App() {
     useEffect(() => {
         const fetchAccount = async () => {
             const res = await getAccountApi();
-            console.log('>>> check res:', res);
-            if (res) {
+            if (res && !res.message) {
                 setAuth({
                     isAuthenticated: true,
                     user: {

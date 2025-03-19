@@ -25,12 +25,12 @@ function CardSearch({_id, title, level, badge, categories, createAt, totalVotes 
         <Card
             onClick={handleCardClick}
             className={cx('card-container')}
-            bodyStyle={{
-                display: 'flex',
-                width: '100%',
-                padding: '10px',
-    
-              
+            styles={{
+                body: {
+                    display: 'flex',
+                    width: '100%',
+                    padding: '10px',
+                }
             }}
         >
             

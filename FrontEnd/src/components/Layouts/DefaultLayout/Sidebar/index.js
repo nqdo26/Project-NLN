@@ -96,7 +96,7 @@ function Sidebar() {
                             },
                         });
 
-                        handleNavigate('login');
+                        handleNavigate('/');
                     }}
                 />
             </Flex>
