@@ -7,13 +7,12 @@
     display: flex;
     flex-direction: column;
     margin-left: var(--default-layout-sidebar-width);
-    margin-top: var(--default-layout-header-height );
+    margin-top: var(--default-layout-header-height);
     width: calc(100% - var(--default-layout-sidebar-width));
-    min-height: calc(100vh - var(--default-layout-header-height)); 
-    max-width: calc(100% - var(--default-layout-sidebar-width)) ;
+    min-height: calc(100vh - var(--default-layout-header-height));
+    max-width: calc(100% - var(--default-layout-sidebar-width));
 }
 
-
 .footer {
-    margin-left: var(--default-layout-sidebar-width) !important; 
+    margin-left: var(--default-layout-sidebar-width) !important;
 }

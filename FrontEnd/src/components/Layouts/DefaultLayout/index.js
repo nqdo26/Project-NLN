@@ -18,7 +18,9 @@ function DefaultLayout({ children }) {
             <Layout hasSider>
                 {auth.isAuthenticated && <Sidebar className={cx('sidebar')} />}
 
-                <Content className={cx('content')}>{children}</Content>
+                <Content style={{ marginLeft: !auth.isAuthenticated ? '0' : '' }} className={cx('content')}>
+                    {children}
+                </Content>
             </Layout>
             <div className={cx('footer')}>
                 <CustomFooter />

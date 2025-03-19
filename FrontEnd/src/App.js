@@ -14,13 +14,12 @@ function App() {
             const res = await getAccountApi();
 
             if (res && !res.message) {
-
                 setAuth({
                     isAuthenticated: false,
                     user: {
-                        email: res.email,
-                        fullName: res.fullName,
-                        avatar: res.avatar,
+                        email: '',
+                        fullName: '',
+                        avatar: '',
                     },
                 });
                 return;
