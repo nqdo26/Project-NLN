@@ -12,16 +12,28 @@ function App() {
     useEffect(() => {
         const fetchAccount = async () => {
             const res = await getAccountApi();
+
             if (res && !res.message) {
+
                 setAuth({
-                    isAuthenticated: true,
+                    isAuthenticated: false,
                     user: {
                         email: res.email,
                         fullName: res.fullName,
                         avatar: res.avatar,
                     },
                 });
+                return;
             }
+
+            setAuth({
+                isAuthenticated: true,
+                user: {
+                    email: res.email,
+                    fullName: res.fullName,
+                    avatar: res.avatar,
+                },
+            });
         };
         fetchAccount();
     }, []);
