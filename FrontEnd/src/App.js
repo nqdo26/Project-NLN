@@ -13,14 +13,13 @@ function App() {
         const fetchAccount = async () => {
             const res = await getAccountApi();
 
-            if (res && !res.message) {
-
+            if (res && res.message) {
                 setAuth({
                     isAuthenticated: false,
                     user: {
-                        email: res.email,
-                        fullName: res.fullName,
-                        avatar: res.avatar,
+                        email: '',
+                        fullName: '',
+                        avatar: '',
                     },
                 });
                 return;
@@ -37,7 +36,6 @@ function App() {
         };
         fetchAccount();
     }, []);
-
     return (
         <Router>
             <div className="App">

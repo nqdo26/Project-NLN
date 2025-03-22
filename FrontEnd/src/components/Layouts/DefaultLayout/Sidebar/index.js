@@ -71,7 +71,7 @@ function Sidebar() {
                         <Meta
                             avatar={<Avatar src={auth?.user?.avatar} />}
                             title={auth?.user?.fullName}
-                            description="This is the description"
+                            description={auth?.user?.email}
                         />
                     </Card>
                     <Menu mode="inline" items={menuItems} onClick={handleOnclick} selectedKeys={[selectedKey]} />
@@ -96,7 +96,7 @@ function Sidebar() {
                             },
                         });
 
-                        handleNavigate('/');
+                        handleNavigate('');
                     }}
                 />
             </Flex>
