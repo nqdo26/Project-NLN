@@ -1,24 +1,24 @@
 import { Divider, Flex, Typography, Input, Button, Select, Steps, message, Tooltip, Space, Badge } from 'antd';
 import CustomDragger from '~/components/CustomDragger';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
-
+import { useEffect, useState, useContext } from 'react';
 
 import styles from './NewDoc.module.scss';
 import { getColorByFileType } from '~/utils/typeToColorCode';
 import { createDocumentApi, getCategoriesApi, getLevelsApi } from '~/utils/api';
 import { useNavigate } from 'react-router-dom';
-
+import { AuthContext } from '~/components/Context/auth.context';
 
 function NewDoc() {
     const cx = classNames.bind(styles);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { Title } = Typography;
     const { TextArea } = Input;
+    const { auth } = useContext(AuthContext);
 
     const [current, setCurrent] = useState(0);
     const [submitDoc, setSubmitDoc] = useState({
-        author: '67bef530ce5e3a6afd98625e',
+        author: auth.user.id,
         title: '',
         description: '',
         createAt: '',
@@ -54,7 +54,7 @@ function NewDoc() {
         } else {
             message.error('Đã xảy ra lỗi trong quá trình đăng tải!');
         }
-        navigate(`/doc/${res.data._id}`)
+        navigate(`/doc/${res.data._id}`);
 
         console.log(res);
     };
@@ -83,8 +83,6 @@ function NewDoc() {
         placeholder: 'Chọn chủ đề',
         maxTagCount: 'responsive',
     };
-
-    console.log(submitDoc);
 
     const steps = [
         {

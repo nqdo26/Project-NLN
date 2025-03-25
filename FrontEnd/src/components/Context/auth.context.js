@@ -3,6 +3,7 @@ import React, { createContext, useState } from 'react';
 export const AuthContext = createContext({
     isAuthenticated: false,
     user: {
+        id: '',
         email: '',
         fullName: '',
         avatar: '',
@@ -13,6 +14,7 @@ export const AuthWrapper = (props) => {
     const [auth, setAuth] = useState({
         isAuthenticated: false,
         user: {
+            id: '',
             email: '',
             fullName: '',
             avatar: '',
@@ -20,7 +22,6 @@ export const AuthWrapper = (props) => {
     });
 
     const [appLoading, setAppLoading] = useState(false);
-
     return (
         <AuthContext.Provider
             value={{

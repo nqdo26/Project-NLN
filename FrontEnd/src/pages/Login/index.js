@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
-import { Layout, Flex, Button, Form, Input, Checkbox, message } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Flex, Button, Form, Input, Checkbox, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { Typography } from 'antd';
-import { loginApi, loginService } from '~/utils/api';
+import { loginApi } from '~/utils/api';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 const { Title } = Typography;
@@ -21,11 +21,11 @@ function Login() {
         console.log(res);
         if (res && res.EC === 0) {
             localStorage.setItem('access_token', res.access_token);
-
             message.success('Đăng nhập thành công');
             setAuth({
                 isAuthenticated: true,
                 user: {
+                    id: res?.user?.id ?? '',
                     email: res?.user?.email ?? '',
                     fullName: res?.user?.fullName ?? '',
                     avatar: res?.user?.avatar ?? '',
@@ -37,8 +37,7 @@ function Login() {
         }
     };
 
-    const { auth, setAuth } = useContext(AuthContext);
-    console.log(auth);
+    const { setAuth } = useContext(AuthContext);
 
     return (
         <Flex className={cx('wrapper')} justify="start" align="center" vertical>

@@ -21,7 +21,7 @@ const createDocumentService = async (
 ) => {
     try {
         let result = await Document.create({
-            author: new mongoose.Types.ObjectId('67bef530ce5e3a6afd98625e'),
+            author: author,
             title: title,
             description: description,
             createAt: new Date(),
