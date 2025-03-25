@@ -87,8 +87,8 @@ const getAccountApi = () => {
     return axios.get(URL_API);
 };
 
-const updateNameApi = (id, title) => {
-    const URL_API = `/v1/api/users/${id}`;
+const updateNameApi = (fullName, title) => {
+    const URL_API = `/v1/api/users/${fullName}`;
     return axios.put(URL_API, { title }).then((response) => response.data);
 };
 
