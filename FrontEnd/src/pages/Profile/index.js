@@ -35,10 +35,10 @@ function Profile() {
     const [newName, setNewName] = useState(null);
     const [form] = useForm();
 
-    const handleUpdateName = async (id) => {
+    const handleUpdateName = async (fullName) => {
         try {
             const values = await form.validateFields();
-            const res = await updateNameApi(name._id, values.title);
+            const res = await updateNameApi(name.fullName, values.title);
 
             if (values.title === name.title) {
                 notification.success({
@@ -49,11 +49,11 @@ function Profile() {
                 return;
             }
 
-            if (res && res._id && res.title) {
+            if (res && res.fullName && res.title) {
                 notification.success({ message: 'Thành công', description: 'Cập nhật tên thành công' });
                 setNewName((prevData) =>
                     prevData.map((newName) =>
-                        newName._id === name._id ? { ...newName, title: values.title } : newName,
+                        newName.fullName === name.fullName ? { ...newName, title: values.title } : newName,
                     ),
                 );
                 setIsModalUpdateName(false);

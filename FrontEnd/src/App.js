@@ -17,9 +17,11 @@ function App() {
                 setAuth({
                     isAuthenticated: false,
                     user: {
+                        id: '',
                         email: '',
                         fullName: '',
                         avatar: '',
+                        isAdmin: '',
                     },
                 });
                 return;
@@ -28,9 +30,11 @@ function App() {
             setAuth({
                 isAuthenticated: true,
                 user: {
+                    id: res.id,
                     email: res.email,
                     fullName: res.fullName,
                     avatar: res.avatar,
+                    isAdmin: res.isAdmin,
                 },
             });
         };

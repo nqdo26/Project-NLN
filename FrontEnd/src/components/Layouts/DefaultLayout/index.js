@@ -12,6 +12,8 @@ import { AuthContext } from '~/components/Context/auth.context';
 function DefaultLayout({ children }) {
     const { Content } = Layout;
     const { auth } = useContext(AuthContext);
+    const cx = classNames.bind(styles);
+    console.log(auth);
     return (
         <Layout
             style={{

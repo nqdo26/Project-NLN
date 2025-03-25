@@ -15,10 +15,16 @@ function Signup() {
         navigate('/' + path);
     };
     const onFinish = async (values) => {
-        console.log(values);
         const { fullName, email, password } = values;
         const res = await createUserApi(fullName, email, password);
-        navigate('/login');
+        if (res && res.EC === 0) {
+            navigate('/login');
+            message.success(res.EM);
+        } else if (res.EC === 1) {
+            message.error(res.EM);
+        } else {
+            message.error(res.EM);
+        }
     };
 
     return (
