@@ -2,19 +2,28 @@ import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './SearchBar.module.scss';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function SearchBar({ onSearch }) {
     const navigate = useNavigate();
+    const location = useLocation(); 
     const [searchValue, setSearchValue] = useState('');
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const title = params.get('title');
+        if (title) {
+            setSearchValue(title);
+        }
+    }, [location.search]); 
 
     const handleSearch = () => {
         if (!searchValue.trim()) return;
         navigate(`/search?title=${encodeURIComponent(searchValue)}`);
-        onSearch(searchValue); 
+        onSearch(searchValue);
     };
 
     return (
@@ -35,7 +44,6 @@ function SearchBar({ onSearch }) {
             }
             style={{
                 width: '100%',
-                minWidth: '738px',
                 borderRadius: 100000,
                 padding: '15px 20px',
                 paddingLeft: 55,

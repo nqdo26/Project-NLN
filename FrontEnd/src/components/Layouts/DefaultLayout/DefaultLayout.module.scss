@@ -1,6 +1,8 @@
 .sidebar {
     margin-top: var(--default-layout-header-height);
     background-color: transparent;
+    z-index: 1; 
+
 }
 
 .content {

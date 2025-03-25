@@ -7,11 +7,11 @@ import CustomFooter from '../components/Footer/CustomFooter';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 
+    const cx = classNames.bind(styles);
+
 function DefaultLayout({ children }) {
     const { Content } = Layout;
     const { auth } = useContext(AuthContext);
-
-    const cx = classNames.bind(styles);
     return (
         <Layout
             style={{
