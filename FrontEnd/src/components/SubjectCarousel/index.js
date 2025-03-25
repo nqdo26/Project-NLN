@@ -1,33 +1,58 @@
 import classNames from 'classnames/bind';
-import { Carousel } from 'antd';
+import { Carousel, notification } from 'antd';
 import styles from './SubjectCarousel.module.scss';
 import CardSubject from '../CardSubject';
+import { useEffect, useState } from 'react';
+import { getCategoriesApi } from '~/utils/api';
 
 const cx = classNames.bind(styles);
 
 function SubjectCarousel() {
-    const subject = Array.from({ length: 8 }, (_, index) => ({
-        id: index + 1,
-    }));
+    const [dataSource, setDataSources] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await getCategoriesApi();
+                if (res && Array.isArray(res.data)) {
+                    setDataSources(res.data);
+                } else {
+                    notification.error({ message: 'Error', description: 'Invalid data format' });
+                }
+            } catch (error) {
+                notification.error({ message: 'Error', description: 'Failed to fetch categories' });
+            }
+        }
+        fetchCategories();
+    }, []);
 
     return (
-        <div className={styles.carouselContainer}>
+        <div style={{
+            minWidth: '1500px',
+            overflow: 'hidden',
+        }} className={styles.carouselContainer}>
             <div className={cx('carousel')}>
-                <Carousel
-                    autoplay
-                    autoplaySpeed={3000}
-                    speed={1300} 
-                    slidesToShow={4}
-                    slidesToScroll={4}
-                    arrows
-                   
-                >
-                    {subject.map((doc) => (
-                        <div key={doc.id} className={cx('carouselItem')}>
-                            <CardSubject/>
-                        </div>
-                    ))}
-                </Carousel>
+                {dataSource.length === 0 ? (
+                    <p>Chưa có danh mục</p>
+                ) : (
+                    <Carousel 
+                        autoplay
+                        autoplaySpeed={3000}
+                        speed={1300}
+                        slidesToShow={Math.min(dataSource.length, 4)}
+                        slidesToScroll={Math.min(dataSource.length, 4)}
+                        arrows
+                    >
+                        {dataSource.map((item, index) => (
+                            <div key={item._id || index} className={cx('carouselItem')}>
+                                <CardSubject 
+                                    title={item.title}
+
+                                />
+                            </div>
+                        ))}
+                    </Carousel>
+                )}
             </div>
         </div>
     );

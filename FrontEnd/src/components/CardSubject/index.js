@@ -7,14 +7,17 @@ import styles from './CardSubject.module.scss';
 const cx = classNames.bind(styles);
 const { Text } = Typography;
 
-function CardSubject() {
+function CardSubject({title}) {
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
     };
+
+
     return (
         <Card
             bodyStyle={{
                 display: 'flex',
+                cursor: 'pointer'
             }}
             className={cx('document-card')}
         >
@@ -23,14 +26,11 @@ function CardSubject() {
             </div>
             <div className={cx('doc-content')}>
                 <Text strong className={cx('doc-title')}>
-                    Nhập môn lập trình căn bản
+                    {title}
                 </Text>
                 <div className={cx('doc-info')}>
                     <FolderOpenOutlined className={cx('doc-icon-small')} />
-                    <Text type="secondary">{truncateText('Thông tin gì đó', 15)}</Text>
-                    <span className={cx('dot-divider')}>•</span>
-                    <FaStickyNote className={cx('doc-icon-small')} />
-                    <Text type="secondary"> {truncateText('Thông tin gì đó', 12)}</Text>
+                    <Text type="secondary">{truncateText('10000000000000' + ' tài liệu', 50)}</Text>
                 </div>
             </div>
         </Card>

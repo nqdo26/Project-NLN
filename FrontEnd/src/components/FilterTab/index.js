@@ -5,9 +5,8 @@ import styles from './FilterTab.module.scss';
 const cx = classNames.bind(styles);
 
 const items = [
-    { key: 'all', label: 'All' },
-    { key: 'courses', label: 'Courses' },
-    { key: 'books', label: 'Books' },
+    { key: 'all', label: 'Tài liệu' },
+    { key: 'courses', label: 'Danh mục' },
 ];
 
 const FilterTabs = ({ onChange }) => {

@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const Document = require('../models/document');
 const mongoose = require('mongoose');
+const Category = require('../models/category');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -26,12 +27,10 @@ const createDocumentService = async (
             createAt: new Date(),
             link: link,
             type: type,
-            categories: [
-                new mongoose.Types.ObjectId('67c6bff74535cde485ee7a3e'),
-                new mongoose.Types.ObjectId('67bdca299444ec641f4159b9'),
-            ],
-            level: new mongoose.Types.ObjectId('67bdc15e6527c0c7ce5f3039'),
-            statistics: { views: 0, save: 0, downloads: 0, likes: 0, dislikes: 0 },
+            categories: [categories],
+            level: level,
+            categories: categories,
+            statistics: { views: 0, save: 0, downloads: 0, likes: 100, dislikes: 300 },
         });
 
         return {
@@ -48,9 +47,9 @@ const createDocumentService = async (
     }
 };
 
-const getDocumentService = async (id) => {
+const getDocumentService = async (_id) => {
     try {
-        let result = await Document.findById(id);
+        let result = await Document.findById(_id);
         return result;
     } catch (error) {
         console.log(error);
@@ -59,14 +58,51 @@ const getDocumentService = async (id) => {
 };
 
 const getDocumentsService = async () => {
+    const documents = await Document.find()
+        .populate('level') 
+        .populate('categories'); 
+
+    return documents;
+};
+
+const searchByTitleService = async (title) => {
     try {
-        let result = await Document.find({});
-        return result;
+        const documents = await Document.find({ title: { $regex: title, $options: 'i' } })
+            .populate('level')
+            .populate('categories');
+
+        const categories = await Category.find({ title: { $regex: title, $options: 'i' } });
+
+        if (documents.length === 0 && categories.length === 0) {
+            return {
+                EC: 1,
+                EM: 'Không tìm thấy kết quả',
+                data: {
+                    documents: [],
+                    categories: []
+                }
+            };
+        }
+
+        return {
+            EC: 0,
+            EM: 'Tìm kiếm thành công',
+            data: {
+                documents,
+                categories
+            }
+        };
     } catch (error) {
-        console.log(error);
-        return null;
+        console.log('Lỗi truy vấn:', error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm'
+        };
     }
 };
+
+
+
 
 const deleteDocumentService = async (id) => {
     try {
@@ -95,4 +131,5 @@ module.exports = {
     getDocumentService,
     getDocumentsService,
     deleteDocumentService,
+    searchByTitleService,
 };
