@@ -97,10 +97,22 @@ const searchApi = (title) => {
     return axios.get(URL_API);
 };
 
+//Actions
 const likeApi = (id, email) => {
     const data = { email };
     const URL_API = `/v1/api/like/${id}`;
     return axios.post(URL_API, data);
+};
+
+//Report
+const reportApi = (documentId, reporterId, description) => {
+    const URL_API = `/v1/api/report`;
+    return axios.post(URL_API, { documentId, reporterId, description });
+};
+
+const getReportsApi = () => {
+    const URL_API = '/v1/api/reports';
+    return axios.get(URL_API);
 };
 
 export {
@@ -123,4 +135,6 @@ export {
     updateNameApi,
     searchApi,
     likeApi,
+    reportApi,
+    getReportsApi,
 };
