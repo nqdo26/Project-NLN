@@ -25,7 +25,7 @@ routerAPI.post('/login', handleLogin);
 routerAPI.get('/users', getUsers , auth);
 routerAPI.delete('/users/:id', deleteUser , auth);
 routerAPI.put('/users/:id', updateName , auth);
-routerAPI.get('/account', auth, getAccount , auth);
+routerAPI.get('/account', auth, getAccount);
 
 //Level
 routerAPI.post('/level', createLevel , auth);
