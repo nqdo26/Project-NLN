@@ -1,7 +1,4 @@
-.tabs {
-    border-bottom: 1.5px solid #d9d9d9; /* Màu xám */
-    padding-bottom: 10px;
-}
+
 
 .tab-label {
     font-size: 16px;
@@ -13,4 +10,10 @@
 .tab-label-active {
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-secondary);
+}
+
+:global {
+    .ant-tabs-nav {
+        margin-bottom: 0 !important;
+    }
 }

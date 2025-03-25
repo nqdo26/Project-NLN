@@ -29,15 +29,9 @@ routerAPI.get('/', (req, res) => {
 routerAPI.post('/register', createUser);
 routerAPI.post('/createAdmin', createAdmin);
 routerAPI.post('/login', handleLogin);
-<<<<<<< HEAD
-routerAPI.get('/users', getUsers , auth);
-routerAPI.delete('/users/:id', deleteUser , auth);
-routerAPI.put('/users/:id', updateName , auth);
-=======
 routerAPI.get('/users', auth, getUsers);
 routerAPI.delete('/users/:id', auth, deleteUser);
 routerAPI.put('/users/:id', auth, updateName);
->>>>>>> abada5e2ecf3d603f6a05299fa75a889d8c2d566
 routerAPI.get('/account', auth, getAccount);
 
 //Level
