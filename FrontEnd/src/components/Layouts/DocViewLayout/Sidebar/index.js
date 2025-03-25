@@ -129,7 +129,7 @@ function Sidebar({ doc }) {
                             borderRadius: '0',
                         }}
                     >
-                        <Meta title={'Tải lên bởi: ' + doc?.author.fullName} description={Date(doc?.createAt)} />
+                        <Meta title={'Tải lên bởi: ' + doc?.author?.fullName} description={Date(doc?.createAt)} />
                     </Card>
                 </Flex>
 

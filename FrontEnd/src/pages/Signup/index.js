@@ -1,10 +1,9 @@
-import { Layout, Flex, Button, Form, Input, Checkbox, message } from 'antd';
+import { Flex, Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import styles from './Signup.module.scss';
 import { Typography } from 'antd';
 import classNames from 'classnames/bind';
-import { UploadOutlined } from '@ant-design/icons';
-import Password from 'antd/es/input/Password';
+
 import { createUserApi } from '~/utils/api';
 const { Title } = Typography;
 
