@@ -19,7 +19,7 @@ function AdminLayout({ children }) {
             navigate('/');
             message.error('Bạn không có quyền truy cập vào trang này');
         }
-    }, []);
+    }, [auth, navigate]);
     return (
         <Layout>
             <Header className={cx('header')} />
