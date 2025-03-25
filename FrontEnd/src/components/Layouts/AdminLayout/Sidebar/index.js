@@ -12,6 +12,8 @@ import {
 } from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
+import { useContext } from 'react';
+import { AuthContext } from '~/components/Context/auth.context';
 
 function Sidebar() {
     const cx = classNames.bind(styles);
@@ -19,6 +21,8 @@ function Sidebar() {
     const location = useLocation();
     const { Sider } = Layout;
     const { Meta } = Card;
+
+    const { auth, setAuth } = useContext(AuthContext);
 
     const menuItems = [
         {
@@ -54,7 +58,7 @@ function Sidebar() {
         {
             key: 'categorymanage',
             label: 'Quản lý danh mục',
-            icon: <AppstoreOutlined/>,
+            icon: <AppstoreOutlined />,
             path: '/admin/category-manage',
         },
     ];
@@ -91,6 +95,15 @@ function Sidebar() {
                     mode="inline"
                     items={[
                         {
+                            onClick: () => {
+                                localStorage.clear('access_token');
+                                setAuth({
+                                    isAuthenticated: false,
+                                    user: { id: '', email: '', fullName: '', avatar: '', isAdmin: false },
+                                });
+
+                                navigate('/');
+                            },
                             key: 'logout',
                             label: 'Đăng xuất',
                             icon: <LogoutOutlined />,

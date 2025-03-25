@@ -165,8 +165,11 @@ function Sidebar({ doc }) {
                             setAuth({
                                 isAuthenticated: false,
                                 user: {
+                                    id: '',
                                     email: '',
                                     fullName: '',
+                                    avatar: '',
+                                    isAdmin: false,
                                 },
                             });
 
