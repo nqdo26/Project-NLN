@@ -2,13 +2,24 @@ import classNames from 'classnames/bind';
 import Header from '~/components/Layouts/components/Header';
 import styles from './AdminLayout.module.scss';
 import Sidebar from './Sidebar';
-import { Layout } from 'antd';
+import { Layout, message } from 'antd';
 import CustomFooter from '../components/Footer/CustomFooter';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '~/components/Context/auth.context';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLayout({ children }) {
     const { Content } = Layout;
-
+    const { auth } = useContext(AuthContext);
+    const navigate = useNavigate();
     const cx = classNames.bind(styles);
+
+    useEffect(() => {
+        if (!auth.isAuthenticated || !auth.user.isAdmin) {
+            navigate('/');
+            message.error('Bạn không có quyền truy cập vào trang này');
+        }
+    }, []);
     return (
         <Layout>
             <Header className={cx('header')} />

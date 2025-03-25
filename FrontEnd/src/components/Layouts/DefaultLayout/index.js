@@ -12,6 +12,7 @@ function DefaultLayout({ children }) {
     const { auth } = useContext(AuthContext);
 
     const cx = classNames.bind(styles);
+    console.log(auth);
     return (
         <Layout>
             <Header className={cx('header')} />

@@ -1,7 +1,14 @@
 import classNames from 'classnames/bind';
 import { Button, Card, Layout, Menu, Avatar, Flex } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppstoreOutlined, SettingOutlined, LogoutOutlined, BookOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+    AppstoreOutlined,
+    SettingOutlined,
+    LogoutOutlined,
+    BookOutlined,
+    PlusOutlined,
+    CodeOutlined,
+} from '@ant-design/icons';
 
 import styles from './Sidebar.module.scss';
 import { useContext } from 'react';
@@ -10,9 +17,6 @@ import { AuthContext } from '~/components/Context/auth.context';
 function Sidebar() {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
-    const handleNavigate = (path) => {
-        navigate('/' + path);
-    };
     const location = useLocation();
     const { Sider } = Layout;
     const { Meta } = Card;
@@ -47,10 +51,6 @@ function Sidebar() {
         }
     };
 
-    const handleNewDoc = () => {
-        navigate('/new-doc');
-    };
-
     const selectedKey = menuItems.find((item) => item.path === location.pathname)?.key;
 
     return (
@@ -63,8 +63,11 @@ function Sidebar() {
                             borderRadius: '0',
                         }}
                         actions={[
-                            <Button onClick={handleNewDoc}>
-                                <PlusOutlined /> Tạo tài liệu mới
+                            <Button onClick={() => navigate('/new-doc')}>
+                                <PlusOutlined /> Tài liệu mới
+                            </Button>,
+                            <Button onClick={() => navigate('/admin')}>
+                                <CodeOutlined /> Quản lý
                             </Button>,
                         ]}
                     >
@@ -96,7 +99,7 @@ function Sidebar() {
                             },
                         });
 
-                        handleNavigate('');
+                        navigate('');
                     }}
                 />
             </Flex>
