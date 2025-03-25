@@ -13,10 +13,15 @@ function DefaultLayout({ children }) {
 
     const cx = classNames.bind(styles);
     return (
-        <Layout>
+        <Layout
+            style={{
+                backgroundColor: 'white',
+            }}>
             <Header className={cx('header')} />
-            <Layout hasSider>
-                {auth.isAuthenticated && <Sidebar className={cx('sidebar')} />}
+            <Layout style={{
+                backgroundColor: 'white',
+            }} hasSider>
+                {auth.isAuthenticated ? <Sidebar className={cx('sidebar')} /> : <></>}
 
                 <Content
                     style={{
