@@ -26,12 +26,10 @@ function Header() {
                 <div className={cx('menu')}>
                     <NavMenu />
                 </div>
-                {!auth.isAuthenticated ? (
+                {!auth.isAuthenticated && (
                     <div className={cx('button')}>
                         <button onClick={() => handleNavigate('login')}>Đăng Nhập</button>
                     </div>
-                ) : (
-                    <></>
                 )}
             </Flex>
         </Header>

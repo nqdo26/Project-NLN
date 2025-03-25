@@ -188,6 +188,20 @@ const likeService = async (id, email) => {
     }
 };
 
+const getAccountService = async (email) => {
+    try {
+        const user = await User.findOne({ email: email }).select('-password');
+        if (!user) {
+            return null;
+        }
+
+        return user;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
 module.exports = {
     createUserService,
     loginService,
@@ -195,4 +209,5 @@ module.exports = {
     deleteUserService,
     updateNameService,
     likeService,
+    getAccountService,
 };

@@ -29,8 +29,10 @@ function Login() {
                     email: res?.user?.email ?? '',
                     fullName: res?.user?.fullName ?? '',
                     avatar: res?.user?.avatar ?? '',
+                    isAdmin: res?.user?.isAdmin ?? false,
                 },
             });
+
             navigate('/');
         } else {
             message.error('Email/Password không đúng!');
