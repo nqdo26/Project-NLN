@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { createUser, handleLogin, getUserInf, getAccount, updateName } = require('../controllers/userController');
+const { createUser, handleLogin, getUserInf, getAccount, updateName, like } = require('../controllers/userController');
 
 const auth = require('../../middleware/auth');
 const delay = require('../../middleware/delay');
@@ -8,13 +8,18 @@ const { createAdmin, getUsers, deleteUser } = require('../controllers/adminContr
 const { createLevel, deleteLevel, updateLevel, getLevels } = require('../controllers/levelController');
 const { createCategory, updateCategory, deleteCategory, getCategories } = require('../controllers/categoryController');
 const { create } = require('../models/user');
-const { createDocument, getDocuments, deleteDocument, getDocument, getDocumentsByTitle, searchByTitle } = require('../controllers/documentController');
+const {
+    createDocument,
+    getDocuments,
+    deleteDocument,
+    getDocument,
+    getDocumentsByTitle,
+    searchByTitle,
+} = require('../controllers/documentController');
 
 const routerAPI = express.Router();
 
 routerAPI.use(express.static(path.join(__dirname, 'public')));
-
-routerAPI.all('*', auth);
 
 routerAPI.get('/', (req, res) => {
     return res.status(200).json('Hello world api');
@@ -24,29 +29,31 @@ routerAPI.get('/', (req, res) => {
 routerAPI.post('/register', createUser);
 routerAPI.post('/createAdmin', createAdmin);
 routerAPI.post('/login', handleLogin);
-routerAPI.get('/users', getUsers);
-routerAPI.delete('/users/:id', deleteUser);
-routerAPI.put('/users/:id', updateName);
+routerAPI.get('/users', auth, getUsers);
+routerAPI.delete('/users/:id', auth, deleteUser);
+routerAPI.put('/users/:id', auth, updateName);
 routerAPI.get('/account', auth, getAccount);
 
 //Level
-routerAPI.post('/level', createLevel);
-routerAPI.put('/level/:id', updateLevel);
-routerAPI.delete('/level/:id', deleteLevel);
+routerAPI.post('/level', auth, createLevel);
+routerAPI.put('/level/:id', auth, updateLevel);
+routerAPI.delete('/level/:id', auth, deleteLevel);
 routerAPI.get('/level', getLevels);
 
 //Category
-routerAPI.post('/category', createCategory);
-routerAPI.put('/category/:id', updateCategory);
-routerAPI.delete('/category/:id', deleteCategory);
+routerAPI.post('/category', auth, createCategory);
+routerAPI.put('/category/:id', auth, updateCategory);
+routerAPI.delete('/category/:id', auth, deleteCategory);
 routerAPI.get('/category', getCategories);
 
 //Document
-routerAPI.post('/createDocument', createDocument);
+routerAPI.post('/createDocument', auth, createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
-routerAPI.get('/deleteDocument', deleteDocument);
+routerAPI.get('/deleteDocument', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
 
+//Actions
+routerAPI.post('/like/:id', auth, like);
 
 module.exports = routerAPI;

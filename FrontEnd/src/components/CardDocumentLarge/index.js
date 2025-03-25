@@ -4,30 +4,21 @@ import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge, Flex, Tag, Divider, Avatar } from 'antd';
 import { LikeOutlined, SaveOutlined } from '@ant-design/icons';
 import styles from './CardDocumentLarge.module.scss';
+import { getColorByFileType } from '~/utils/typeToColorCode';
 
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardDocumentLarge({
-    document = {
-        title: 'Null',
-        description: 'Document description',
-        createAt: 'Null',
-        type: 'type',
-        statistics: { likes: 0, dislikes: 0 },
-    },
-    action = 'Save',
-    isSaved = false,
-}) {
+function CardDocumentLarge({ item, action = 'Save', isSaved = false }) {
     const navigate = useNavigate();
 
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
     };
 
-    const handleOnClick = () => {
-        navigate('/doc/hehe');
+    const handleOnClick = (item) => {
+        navigate('/doc/' + item._id);
     };
 
     const handleAction = () => {
@@ -37,21 +28,32 @@ function CardDocumentLarge({
     return (
         <Card
             hoverable
-            onClick={() => handleOnClick()}
-            title={document.title}
+            onClick={(e) => {
+                e.preventDefault();
+                handleOnClick(item);
+            }}
+            title={item.title}
             extra={
-                <Tag style={{ marginRight: '-5px' }} color={document.color}>
-                    {document.type}
+                <Tag style={{ marginRight: '-5px' }} color={getColorByFileType(item.type)}>
+                    {item.type}
                 </Tag>
             }
-            cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
         >
-            <Card.Meta description={document.description} />
+            <div style={{ margin: '0 0 20px 0' }}>
+                <Flex justify="space-between">
+                    <p>Mô tả</p>
+                    <p>{item.level.title}</p>
+                </Flex>
+                <Card.Meta style={{ padding: '10px 10px 10px 10px' }} description={item.description} />
+            </div>
+            <Flex wrap gap={4}>
+                {item.categories && item.categories.map((category, index) => <Tag key={index}>{category.title}</Tag>)}
+            </Flex>
             <Divider></Divider>
             <Card.Meta
                 avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                title="KongTrua"
-                description={'Ngày đăng ' + document.createAt}
+                title={item.author.fullName}
+                description={'Ngày đăng ' + item.createAt}
             />
         </Card>
     );

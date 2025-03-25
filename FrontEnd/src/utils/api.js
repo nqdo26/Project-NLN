@@ -97,29 +97,30 @@ const searchApi = (title) => {
     return axios.get(URL_API);
 };
 
+const likeApi = (id, email) => {
+    const data = { email };
+    const URL_API = `/v1/api/like/${id}`;
+    return axios.post(URL_API, data);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
-
     createLevelApi,
     getLevelsApi,
     deleteLevelApi,
     updateLevelApi,
-
     createCategoryApi,
     getCategoriesApi,
     deleteCategoryApi,
     updateCategoryApi,
-
     createDocumentApi,
-
     getDocumentApi,
     getDocumentsApi,
-    updateLevelApi,
-    updateCategoryApi,
     createUserApi,
     loginApi,
     getAccountApi,
     updateNameApi,
     searchApi,
+    likeApi,
 };

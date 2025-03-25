@@ -16,13 +16,22 @@ function DefaultLayout({ children }) {
         <Layout>
             <Header className={cx('header')} />
             <Layout hasSider>
-                {auth.isAuthenticated ? <Sidebar className={cx('sidebar')} /> : <></>}
+                {auth.isAuthenticated && <Sidebar className={cx('sidebar')} />}
 
-                <Content className={cx('content')}>
-                        {children}
+                <Content
+                    style={{
+                        marginLeft: !auth.isAuthenticated ? '0' : '',
+                        width: !auth.isAuthenticated ? '100%' : '',
+                        maxWidth: !auth.isAuthenticated ? '100%' : '',
+                    }}
+                    className={cx('content')}
+                >
+                    {children}
                 </Content>
             </Layout>
-            <div className={cx('footer')}><CustomFooter/></div>
+            <div className={cx('footer')}>
+                <CustomFooter />
+            </div>
         </Layout>
     );
 }

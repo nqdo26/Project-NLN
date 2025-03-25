@@ -15,9 +15,11 @@ function CardSubject({title}) {
 
     return (
         <Card
-            bodyStyle={{
-                display: 'flex',
+            styles={{
+                body: {
+                        display: 'flex',
                 cursor: 'pointer'
+                }
             }}
             className={cx('document-card')}
         >

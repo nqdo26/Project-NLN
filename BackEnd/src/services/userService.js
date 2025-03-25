@@ -159,10 +159,40 @@ const updateNameService = async (id, title) => {
     }
 };
 
+const likeService = async (id, email) => {
+    try {
+        const user = await User.findOne({ email: email });
+        console.log(id, email);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if (user.statistics.liked.includes(id)) {
+            return {
+                EC: 0,
+                EM: 'Tài liệu đã được thêm vào yêu thích trước đó',
+            };
+        }
+        user.statistics.liked.push(id);
+        await user.save();
+        return {
+            EC: 1,
+            EM: 'Thêm tài liệu vào yêu thích thành công',
+            data: user,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi khi thêm tài liệu vào yêu thích',
+        };
+    }
+};
+
 module.exports = {
     createUserService,
     loginService,
     getUsersService,
     deleteUserService,
     updateNameService,
+    likeService,
 };
