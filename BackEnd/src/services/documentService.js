@@ -69,7 +69,6 @@ const searchByTitleService = async (title) => {
             .populate('level')
             .populate('categories');
 
-
         const categories = await Category.find({ title: { $regex: title, $options: 'i' } });
 
         if (documents.length === 0 && categories.length === 0) {
@@ -78,8 +77,8 @@ const searchByTitleService = async (title) => {
                 EM: 'Không tìm thấy kết quả',
                 data: {
                     documents: [],
-                    categories: []
-                }
+                    categories: [],
+                },
             };
         }
 
@@ -88,9 +87,9 @@ const searchByTitleService = async (title) => {
             EM: 'Tìm kiếm thành công',
             data: {
                 documents,
-                categories
-            }
-        } 
+                categories,
+            },
+        };
     } catch (error) {
         console.log('Lỗi truy vấn:', error);
         return {
