@@ -16,6 +16,7 @@ const {
     getDocumentsByTitle,
     searchByTitle,
 } = require('../controllers/documentController');
+const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
 const routerAPI = express.Router();
 
@@ -55,5 +56,12 @@ routerAPI.get('/search/all', searchByTitle);
 
 //Actions
 routerAPI.post('/like/:id', auth, like);
+
+//Report
+
+routerAPI.post('/report', createReport); // Tạo báo cáo mới
+routerAPI.get('/reports', getReports); // Lấy danh sách báo cáo
+routerAPI.put('/report/:id', updateReportStatus); // Cập nhật trạng thái báo cáo
+routerAPI.delete('/report/:id', deleteReport); // Xóa báo cáo
 
 module.exports = routerAPI;
