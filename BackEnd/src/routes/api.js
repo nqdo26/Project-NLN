@@ -1,6 +1,14 @@
 const express = require('express');
 const path = require('path');
-const { createUser, handleLogin, getUserInf, getAccount, updateName, like } = require('../controllers/userController');
+const {
+    createUser,
+    handleLogin,
+    getUserInf,
+    getAccount,
+    updateName,
+    like,
+    getUserDocument,
+} = require('../controllers/userController');
 
 const auth = require('../../middleware/auth');
 const delay = require('../../middleware/delay');
@@ -53,6 +61,7 @@ routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
 routerAPI.get('/deleteDocument', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
+routerAPI.get('/getUserDocument/:id', getUserDocument);
 
 //Actions
 routerAPI.post('/like/:id', auth, like);

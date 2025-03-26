@@ -87,9 +87,9 @@ const getAccountApi = () => {
     return axios.get(URL_API);
 };
 
-const updateNameApi = (fullName, title) => {
+const updateNameApi = (fullName) => {
     const URL_API = `/v1/api/users/${fullName}`;
-    return axios.put(URL_API, { title }).then((response) => response.data);
+    return axios.put(URL_API, { fullName }).then((response) => response.data);
 };
 
 const searchApi = (title) => {
@@ -102,6 +102,12 @@ const likeApi = (id, email) => {
     const data = { email };
     const URL_API = `/v1/api/like/${id}`;
     return axios.post(URL_API, data);
+};
+
+
+const getUserDocumentApi = (_id) => {
+    const URL_API = `/v1/api/getUserDocument/` + _id;
+    return axios.get(URL_API);
 };
 
 //Report
@@ -135,6 +141,8 @@ export {
     updateNameApi,
     searchApi,
     likeApi,
+
+    getUserDocumentApi,
     reportApi,
     getReportsApi,
 };
