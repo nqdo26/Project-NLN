@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function SearchBar({ onSearch }) {
+function SearchBar({ onSearch, searchPath }) {
     const navigate = useNavigate();
     const location = useLocation(); 
     const [searchValue, setSearchValue] = useState('');
@@ -21,8 +21,8 @@ function SearchBar({ onSearch }) {
     }, [location.search]); 
 
     const handleSearch = () => {
-        if (!searchValue.trim()) return;
-        navigate(`/search?title=${encodeURIComponent(searchValue)}`);
+        if (!searchValue.trim() || !searchPath) return;
+        navigate(`${searchPath}?title=${encodeURIComponent(searchValue)}`);
         onSearch(searchValue);
     };
 
