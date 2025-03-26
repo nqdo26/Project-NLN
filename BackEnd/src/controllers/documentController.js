@@ -7,6 +7,8 @@ const {
     getDocumentService,
     getDocumentsService,
     searchByTitleService,
+    getDocumentsByCategoryService,
+    getDocumentsByLevelService,
 } = require('../services/documentService');
 
 const createDocument = async (req, res) => {
@@ -56,10 +58,28 @@ const deleteDocument = async (req, res) => {
     return res.status(200).json(data);
 };
 
+const getDocumentsByCategory = async (req, res) => {
+    const { id } = req.params;
+
+    const data = await getDocumentsByCategoryService(id);
+
+    return res.status(200).json(data);
+}
+
+const getDocumentsByLevel = async (req, res) => {
+    const { id } = req.params;
+
+    const data = await getDocumentsByLevelService(id);
+
+    return res.status(200).json(data);
+}
+
 module.exports = {
     createDocument,
     getDocument,
     getDocuments,
     deleteDocument,
     searchByTitle,
+    getDocumentsByCategory,
+    getDocumentsByLevel,
 };

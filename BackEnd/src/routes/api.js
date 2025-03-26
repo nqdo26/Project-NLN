@@ -13,8 +13,9 @@ const {
     getDocuments,
     deleteDocument,
     getDocument,
-    getDocumentsByTitle,
     searchByTitle,
+    getDocumentsByCategory,
+    getDocumentsByLevel,
 } = require('../controllers/documentController');
 
 const routerAPI = express.Router();
@@ -40,11 +41,15 @@ routerAPI.put('/level/:id', auth, updateLevel);
 routerAPI.delete('/level/:id', auth, deleteLevel);
 routerAPI.get('/level', getLevels);
 
+routerAPI.get('/level/:id', getDocumentsByLevel);
+
 //Category
 routerAPI.post('/category', auth, createCategory);
 routerAPI.put('/category/:id', auth, updateCategory);
 routerAPI.delete('/category/:id', auth, deleteCategory);
 routerAPI.get('/category', getCategories);
+
+routerAPI.get('/category/:id', getDocumentsByCategory);
 
 //Document
 routerAPI.post('/createDocument', auth, createDocument);

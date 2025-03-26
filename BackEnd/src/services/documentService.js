@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const Level = require('../models/level');
 
 const createDocumentService = async (
     author,
@@ -121,9 +122,10 @@ const deleteDocumentService = async (id) => {
     }
 };
 
-const getDocumentByCategoryService = async (id) => {
+const getDocumentsByCategoryService = async (id) => {
     try {
         const category = await Category.findById(id);
+        const categorryTitle = category.title;
         if (!category) {
             return {
                 EC: 1,
@@ -140,7 +142,39 @@ const getDocumentByCategoryService = async (id) => {
                 return {
                     EC: 0,
                     EM: 'Tìm kiếm thành công',
-                    data: result,
+                    data: categorryTitle, result,
+                };
+            }
+        } catch (error) {
+            console.log('Lỗi truy vấn:', error);
+                return {
+                    EC: 2,
+                    EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+                }
+        }
+}
+
+const getDocumentsByLevelService = async (id) => {
+    try {
+        const level = await Level.findById(id);
+        const levelTitle = level.title;
+        if (!level) {
+            return {
+                EC: 1,
+                EM: 'Cấp bậc không tồn tại',
+            };
+        }
+        const result = await Document.find({ level: id });
+            if (!result) {
+                return {
+                    EC: 1,
+                    EM: 'Không có tài liệu nào trong danh mục này',
+                };
+            } else {
+                return {
+                    EC: 0,
+                    EM: 'Tìm kiếm thành công',
+                    data: levelTitle, result,
                 };
             }
         } catch (error) {
@@ -157,5 +191,6 @@ module.exports = {
     getDocumentsService,
     deleteDocumentService,
     searchByTitleService,
-    getDocumentByCategoryService,
+    getDocumentsByCategoryService,
+    getDocumentsByLevelService,
 };

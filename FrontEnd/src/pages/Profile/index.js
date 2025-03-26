@@ -4,7 +4,6 @@ import {
     Row,
     Button,
     Avatar,
-    List,
     Upload,
     Modal,
     Form,
@@ -17,11 +16,9 @@ import {
 } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
-import SuggestCarousel from '~/components/SuggestCarousel';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { UploadOutlined } from '@ant-design/icons';
-import { getUserInfApi, getUsersApi, updateNameApi } from '~/utils/api';
+import { updateNameApi } from '~/utils/api';
 import { AuthContext } from '~/components/Context/auth.context';
 
 function Profile() {
