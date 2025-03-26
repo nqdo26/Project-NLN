@@ -5,10 +5,9 @@ import styles from './Home.module.scss';
 import SearchBar from '~/components/SearchBar';
 import SubjectCarousel from '~/components/SubjectCarousel';
 import PostEncouragement from '~/components/PostEncouragement';
-import SuggestCarousel from '~/components/SuggestCarousel';
 import CardDocument from '~/components/CardDocument';
 import { getDocumentsApi } from '~/utils/api';
-import TestCarousel from '~/components/TestCarousel';
+import DocumentCarousel from '~/components/DocumentCarousel';
 
 const cx = classNames.bind(styles);
 
@@ -40,8 +39,7 @@ function Home() {
                 <SearchBar />
                 <SubjectCarousel />
                 <PostEncouragement />
-                <SuggestCarousel />
-                <TestCarousel />
+                <DocumentCarousel />
                 <List
                     grid={{
                         gutter: 16,
@@ -50,7 +48,7 @@ function Home() {
                         md: 3,
                         lg: 4,
                         xl: 5,
-                        xxl: 6,
+                        xxl: 8,
                     }}
                     dataSource={documents}
                     renderItem={(document) => (

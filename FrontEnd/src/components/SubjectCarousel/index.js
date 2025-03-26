@@ -28,7 +28,6 @@ function SubjectCarousel() {
 
     return (
         <div style={{
-            minWidth: '1500px',
             overflow: 'hidden',
         }} className={styles.carouselContainer}>
             <div className={cx('carousel')}>
@@ -41,13 +40,19 @@ function SubjectCarousel() {
                         speed={1300}
                         slidesToShow={Math.min(dataSource.length, 4)}
                         slidesToScroll={Math.min(dataSource.length, 4)}
-                        arrows
+                        dots={false}
+                        arrows={false}
+                        responsive={[
+                            { breakpoint: 1900, settings: { slidesToShow: 4, slidesToScroll: 4 } },
+                            { breakpoint: 1800, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+                            { breakpoint: 1300, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+                            { breakpoint: 1000, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+                        ]}
                     >
                         {dataSource.map((item, index) => (
                             <div key={item._id || index} className={cx('carouselItem')}>
                                 <CardSubject 
                                     title={item.title}
-
                                 />
                             </div>
                         ))}

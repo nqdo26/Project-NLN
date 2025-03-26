@@ -97,16 +97,30 @@ const searchApi = (title) => {
     return axios.get(URL_API);
 };
 
+//Actions
 const likeApi = (id, email) => {
     const data = { email };
     const URL_API = `/v1/api/like/${id}`;
     return axios.post(URL_API, data);
 };
 
+
 const getUserDocumentApi = (_id) => {
     const URL_API = `/v1/api/getUserDocument/` + _id;
     return axios.get(URL_API);
 };
+
+//Report
+const reportApi = (documentId, reporterId, description) => {
+    const URL_API = `/v1/api/report`;
+    return axios.post(URL_API, { documentId, reporterId, description });
+};
+
+const getReportsApi = () => {
+    const URL_API = '/v1/api/reports';
+    return axios.get(URL_API);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -127,5 +141,8 @@ export {
     updateNameApi,
     searchApi,
     likeApi,
+
     getUserDocumentApi,
+    reportApi,
+    getReportsApi,
 };

@@ -18,7 +18,6 @@ import AdminUserManage from '~/pages/AdminUserManage';
 import AdminLevelManage from '~/pages/AdminLevelManage';
 import AdminCategoryManage from '~/pages/AdminCategoryManage';
 
-// Public routes
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/profile', component: Profile },

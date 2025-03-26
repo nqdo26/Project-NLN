@@ -5,7 +5,7 @@ const reportSchema = new mongoose.Schema({
     reporterId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     description: String,
     reportAt: Date,
-    status: String,
+    status: Boolean,
 });
 
 const Report = mongoose.model('report', reportSchema);

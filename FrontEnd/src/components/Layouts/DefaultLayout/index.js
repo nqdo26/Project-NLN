@@ -7,10 +7,11 @@ import CustomFooter from '../components/Footer/CustomFooter';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 
+    const cx = classNames.bind(styles);
+
 function DefaultLayout({ children }) {
     const { Content } = Layout;
     const { auth } = useContext(AuthContext);
-
     const cx = classNames.bind(styles);
     console.log(auth);
     return (
@@ -35,7 +36,14 @@ function DefaultLayout({ children }) {
                     {children}
                 </Content>
             </Layout>
-            <div className={cx('footer')}>
+            <div
+                style={{
+                    marginLeft: !auth.isAuthenticated ? '0' : '',
+                    width: !auth.isAuthenticated ? '100%' : '',
+                    maxWidth: !auth.isAuthenticated ? '100%' : '',
+                }}
+                className={cx('footer')}
+            >
                 <CustomFooter />
             </div>
         </Layout>

@@ -94,12 +94,15 @@ function Sidebar() {
                         setAuth({
                             isAuthenticated: false,
                             user: {
+                                id: '',
                                 email: '',
                                 fullName: '',
+                                isAdmin: false,
+                                avatar: '',
                             },
                         });
 
-                        navigate('');
+                        navigate('/');
                     }}
                 />
             </Flex>

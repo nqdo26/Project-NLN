@@ -50,7 +50,7 @@ function CardDocument({
             }
         >
             <div style={{ margin: '-15px -5px 0px -5px', height: '80px' }}>
-                <Title level={5}>{truncateText(document.title, 50)}</Title>
+                <Title level={5}>{truncateText(document.title, 45)}</Title>
             </div>
             <Flex justify="space-between" align="center" style={{ margin: '0 -5px 0 -5px' }}>
                 <Card.Meta description={new Date(document.createAt).toLocaleDateString('vi-VN')} />
