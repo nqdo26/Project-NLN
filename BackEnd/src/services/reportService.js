@@ -70,12 +70,12 @@ const deleteReportService = async (id) => {
         const report = await Report.findByIdAndDelete(id);
         if (!report) {
             return {
-                EC: 0,
+                EC: 1,
                 EM: 'Báo cáo không tồn tại',
             };
         }
         return {
-            EC: 1,
+            EC: 0,
             EM: 'Xóa báo cáo thành công',
         };
     } catch (error) {

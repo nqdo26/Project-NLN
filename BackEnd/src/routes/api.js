@@ -64,7 +64,7 @@ routerAPI.get('/category/:id', getDocumentsByCategory);
 routerAPI.post('/createDocument', auth, createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
-routerAPI.get('/deleteDocument', auth, deleteDocument);
+routerAPI.delete('/document/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
 

@@ -83,9 +83,9 @@ function Sidebar() {
                         }}
                     >
                         <Meta
-                            avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
+                            avatar={<Avatar src={auth?.user?.avatar} />}
                             title="Admin"
-                            description="This is the description"
+                            description={auth?.user?.fullName}
                         />
                     </Card>
                     <Menu mode="inline" items={menuItems} onClick={handleOnclick} selectedKeys={[selectedKey]} />

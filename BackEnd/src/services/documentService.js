@@ -3,12 +3,12 @@ require('dotenv').config();
 const Document = require('../models/document');
 const mongoose = require('mongoose');
 const Category = require('../models/category');
+const Level = require('../models/level');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const User = require('../models/user');
-const Level = require('../models/level');
 
 const createDocumentService = async (
     author,
@@ -143,7 +143,7 @@ const getDocumentsByCategoryService = async (id) => {
                 return {
                     EC: 0,
                     EM: 'Tìm kiếm thành công',
-                    data: categorryTitle, result,
+                    data: categorryTitle, result
                 };
             }
         } catch (error) {
@@ -186,40 +186,12 @@ const getDocumentsByLevelService = async (id) => {
                 }
         }
 }
-
-const getUserDocumentService = async (_id) => {
-    try {
-        const user = await User.findById({ _id });
-        console.log('check id ', _id);
-        console.log('check user', user);
-        if (!user) {
-            return {
-                EC: 1,
-                EM: 'User not found',
-            };
-        }
-        const documents = await Document.find({ author: user._id });
-        return {
-            EC: 0,
-            data: documents,
-        };
-    } catch (error) {
-        console.log(error);
-        return {
-            EC: 2,
-            EM: 'error',
-        };
-    }
-};
-
-
 module.exports = {
     createDocumentService,
     getDocumentService,
     getDocumentsService,
     deleteDocumentService,
     searchByTitleService,
-    getUserDocumentService,
     getDocumentsByCategoryService,
     getDocumentsByLevelService,
 };
