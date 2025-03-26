@@ -33,7 +33,7 @@ function Sidebar() {
             key: 'uploaded',
             label: 'Các bài đăng',
             icon: <AppstoreOutlined />,
-            path: '/uploaded',
+            path: `/uploaded/${auth?.user?.id}`,
         },
 
         {
@@ -94,12 +94,15 @@ function Sidebar() {
                         setAuth({
                             isAuthenticated: false,
                             user: {
+                                id: '',
                                 email: '',
                                 fullName: '',
+                                isAdmin: false,
+                                avatar: '',
                             },
                         });
 
-                        navigate('');
+                        navigate('/');
                     }}
                 />
             </Flex>
