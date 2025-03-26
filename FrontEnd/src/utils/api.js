@@ -32,6 +32,11 @@ const deleteLevelApi = (id) => {
     return axios.delete(URL_API);
 };
 
+const getDocumentsByLevelApi = (id) => {
+    const URL_API = `/v1/api/level/${id}`;
+    return axios.get(URL_API);
+}
+
 //CATEGORY
 const getCategoriesApi = () => {
     const URL_API = '/v1/api/category';
@@ -52,6 +57,11 @@ const deleteCategoryApi = (id) => {
     const URL_API = `/v1/api/category/${id}`;
     return axios.delete(URL_API);
 };
+
+const getDocumentsByCategoryApi = (id) => {
+    const URL_API = `/v1/api/category/${id}`;
+    return axios.get(URL_API);
+}
 
 //DOCUMENT
 const createDocumentApi = (submitDoc) => {
@@ -157,9 +167,14 @@ export {
     updateNameApi,
     searchApi,
     likeApi,
+
+    getDocumentsByCategoryApi,
+    getDocumentsByLevelApi,
+
     getUserDocumentApi,
     reportApi,
     getReportsApi,
     updateReportApi,
     deleteReportApi,
+
 };

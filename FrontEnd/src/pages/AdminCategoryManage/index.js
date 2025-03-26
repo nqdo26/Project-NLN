@@ -1,13 +1,15 @@
 import { Button,Popconfirm, notification, Table, Modal, Input, Form } from 'antd';
 import classNames from 'classnames/bind';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './AdminCategoryManage.module.scss';
 import { getCategoriesApi, deleteCategoryApi, createCategoryApi, updateCategoryApi } from '~/utils/api';
 
 function AdminCategoryManage() {
     const cx = classNames.bind(styles);
+    const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
@@ -117,6 +119,13 @@ function AdminCategoryManage() {
                         cancelText="No"
                     ><Button type="primary" danger icon={<DeleteOutlined />} />
                     </Popconfirm>
+                    <Button 
+                        style={{ backgroundColor: "#FAAD14", borderColor: "#FAAD14", color: "#000" }} 
+                        type="primary" 
+                        icon={<ArrowRightOutlined />} 
+                        onClick={() => navigate(`/category/${record._id}`)}
+                    >
+                    </Button>
                 </div>
             ),
         },

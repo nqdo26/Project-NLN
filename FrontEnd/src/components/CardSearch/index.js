@@ -3,6 +3,7 @@ import { CalendarOutlined, LikeOutlined, EyeOutlined, TrophyOutlined, ReadOutlin
 import classNames from 'classnames/bind';
 import styles from './CardSearch.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { getColorByFileType } from '~/utils/typeToColorCode';
 
 
 const { Title, Text } = Typography;
@@ -35,7 +36,11 @@ function CardSearch({_id, title, level, badge, categories, createAt, totalVotes 
         >
             
             <div className={cx('image-container')}>
-                <Badge className={cx('badge')} count={badge} />
+                <Badge 
+                    className={cx('badge')} 
+                    count={badge} 
+                    style={{ backgroundColor: getColorByFileType(badge) }} 
+                />
                 <img alt="Document" className={styles.image} />
             </div>
 
