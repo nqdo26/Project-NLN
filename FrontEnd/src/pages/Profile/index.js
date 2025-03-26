@@ -101,8 +101,8 @@ function Profile() {
     };
 
     return (
-        <Row justify={'center'}>
-            <Col span={12} style={{ backgroundColor: '#fff', margin: '16px', borderRadius: '8px' }}>
+        <Row justify={'center'} style={{ backgroundColor: '#f6f7fb' }}>
+            <Col span={12} style={{ backgroundColor: '#ffff', margin: '16px', borderRadius: '8px' }}>
                 <div className="profile-container" style={{ textAlign: 'center', marginTop: '16px' }}>
                     <Typography.Title level={3}>Trang Cá Nhân</Typography.Title>
                     <Divider />

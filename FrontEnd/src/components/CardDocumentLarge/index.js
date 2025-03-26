@@ -1,24 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { Card, Button, Typography, Badge, Flex, Tag, Divider, Avatar } from 'antd';
-import { LikeOutlined, SaveOutlined } from '@ant-design/icons';
+import { Card, Button, Typography, Badge, Flex, Tag, Divider, Avatar, Popconfirm } from 'antd';
+import { DeleteOutlined, LikeOutlined, SaveOutlined } from '@ant-design/icons';
 import styles from './CardDocumentLarge.module.scss';
 import { getColorByFileType } from '~/utils/typeToColorCode';
-
-const { Title, Text } = Typography;
-
-const cx = classNames.bind(styles);
 
 function CardDocumentLarge({ item, action = 'Save', isSaved = false }) {
     const navigate = useNavigate();
 
-    const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
-    };
-
     const handleOnClick = (item) => {
-        navigate('/doc/' + item._id);
+        navigate('/doc/' + item?._id);
     };
 
     const handleAction = () => {
@@ -32,28 +24,51 @@ function CardDocumentLarge({ item, action = 'Save', isSaved = false }) {
                 e.preventDefault();
                 handleOnClick(item);
             }}
-            title={item.title}
+            title={item?.title}
             extra={
-                <Tag style={{ marginRight: '-5px' }} color={getColorByFileType(item.type)}>
-                    {item.type}
-                </Tag>
+                <Flex>
+                    <Tag key={'type'} color={getColorByFileType(item?.type)}>
+                        {item?.type}
+                    </Tag>
+                    <Popconfirm
+                        title={'Xóa tài liệu này?'}
+                        description={'Bạn có chắc chắn muốn xóa tài liệu này?'}
+                        okText="Xóa"
+                        cancelText="Hủy"
+                        onCancel={(e) => e.stopPropagation()}
+                        onConfirm={(e) => {
+                            e.stopPropagation();
+                            handleAction();
+                        }}
+                    >
+                        <Button
+                            key={'delete'}
+                            ghost
+                            size="small"
+                            style={{ color: 'red' }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <DeleteOutlined />
+                        </Button>
+                    </Popconfirm>
+                </Flex>
             }
         >
             <div style={{ margin: '0 0 20px 0' }}>
                 <Flex justify="space-between">
                     <p>Mô tả</p>
-                    <p>{item.level.title}</p>
+                    <p>{item?.level.title}</p>
                 </Flex>
-                <Card.Meta style={{ padding: '10px 10px 10px 10px' }} description={item.description} />
+                <Card.Meta style={{ padding: '10px 10px 10px 10px' }} description={item?.description} />
             </div>
             <Flex wrap gap={4}>
-                {item.categories && item.categories.map((category, index) => <Tag key={index}>{category.title}</Tag>)}
+                {item?.categories && item?.categories.map((category, index) => <Tag key={index}>{category.title}</Tag>)}
             </Flex>
             <Divider></Divider>
             <Card.Meta
                 avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-                title={item.author.fullName}
-                description={'Ngày đăng ' + item.createAt}
+                title={item?.author.fullName}
+                description={'Ngày đăng ' + new Date(item?.createAt).toLocaleDateString('vi-VN')}
             />
         </Card>
     );

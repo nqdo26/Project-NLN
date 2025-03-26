@@ -18,11 +18,11 @@ function CardDocument({
     const navigate = useNavigate();
 
     const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
+        return text?.length > maxLength ? text?.slice(0, maxLength - 3) + '...' : text;
     };
 
     const handleCardClick = () => {
-        navigate(`/doc/${document._id}`);
+        navigate(`/doc/${document?._id}`);
     };
 
     const handleAction = () => {
@@ -34,7 +34,7 @@ function CardDocument({
             className={cx('card')}
             hoverable
             onClick={handleCardClick}
-            style={{ minWidth: '180px',  maxWidth: '180px', borderRadius: '15px' }}
+            style={{ minWidth: '180px', maxWidth: '180px', borderRadius: '15px' }}
             cover={
                 <div style={{ padding: '12px 12px 0 12px' }}>
                     <img
@@ -51,14 +51,16 @@ function CardDocument({
             }
         >
             <div style={{ margin: '-15px -5px 0px -5px', height: '80px' }}>
-                <Title level={5}>{truncateText(document.title, 45)}</Title>
+                <Title level={5}>{truncateText(document?.title, 45)}</Title>
             </div>
             <Flex justify="space-between" align="center" style={{ margin: '0 -5px 0 -5px' }}>
+
                 <Card.Meta description={new Date(document.createAt).toLocaleDateString('vi-VN')} />
                 <Badge 
                     count={document.type} 
                     style={{ backgroundColor: getColorByFileType(document.type) }} 
                 />
+
             </Flex>
 
             <div style={{ margin: '15px -10px -12px -10px' }}>
@@ -83,14 +85,14 @@ function CardDocument({
                     {action === 'Save'
                         ? 'Save'
                         : Math.round(
-                              (document.statistics.likes /
-                                  (document.statistics.likes + document.statistics.dislikes !== 0
-                                      ? document.statistics.likes + document.statistics.dislikes
+                              (document?.statistics.likes /
+                                  (document?.statistics.likes + document?.statistics.dislikes !== 0
+                                      ? document?.statistics.likes + document?.statistics.dislikes
                                       : 1)) *
                                   100,
                           ) +
                           '% (' +
-                          document.statistics.likes +
+                          document?.statistics.likes +
                           ')'}
                 </Button>
             </div>

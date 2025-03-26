@@ -53,9 +53,8 @@ const searchByTitle = async (req, res) => {
 const deleteDocument = async (req, res) => {
     const { id } = req.params;
 
-    const data = await deleteDocumentService(id);
-
-    return res.status(200).json(data);
+    const result = await deleteDocumentService(id);
+    return res.status(200).json(result);
 };
 
 const getDocumentsByCategory = async (req, res) => {

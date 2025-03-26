@@ -80,6 +80,12 @@ const getDocumentsApi = () => {
     return axios.get(URL_API);
 };
 
+const deleteDocumentApi = (id) => {
+    const URL_API = `/v1/api/document/${id}`;
+    return axios.delete(URL_API);
+};
+
+//USER
 const createUserApi = (fullName, email, password) => {
     const URL_API = '/v1/api/register';
     const data = { fullName, email, password };
@@ -97,9 +103,9 @@ const getAccountApi = () => {
     return axios.get(URL_API);
 };
 
-const updateNameApi = (fullName, title) => {
+const updateNameApi = (fullName) => {
     const URL_API = `/v1/api/users/${fullName}`;
-    return axios.put(URL_API, { title }).then((response) => response.data);
+    return axios.put(URL_API, { fullName }).then((response) => response.data);
 };
 
 const searchApi = (title) => {
@@ -107,10 +113,37 @@ const searchApi = (title) => {
     return axios.get(URL_API);
 };
 
+//Actions
 const likeApi = (id, email) => {
     const data = { email };
     const URL_API = `/v1/api/like/${id}`;
     return axios.post(URL_API, data);
+};
+
+const getUserDocumentApi = (_id) => {
+    const URL_API = `/v1/api/getUserDocument/` + _id;
+    return axios.get(URL_API);
+};
+
+//Report
+const reportApi = (documentId, reporterId, description) => {
+    const URL_API = `/v1/api/report`;
+    return axios.post(URL_API, { documentId, reporterId, description });
+};
+
+const getReportsApi = () => {
+    const URL_API = '/v1/api/reports';
+    return axios.get(URL_API);
+};
+
+const updateReportApi = (id, status) => {
+    const URL_API = `/v1/api/report/${id}`;
+    return axios.put(URL_API, { status });
+};
+
+const deleteReportApi = (id) => {
+    const URL_API = `/v1/api/report/${id}`;
+    return axios.delete(URL_API);
 };
 
 export {
@@ -127,12 +160,21 @@ export {
     createDocumentApi,
     getDocumentApi,
     getDocumentsApi,
+    deleteDocumentApi,
     createUserApi,
     loginApi,
     getAccountApi,
     updateNameApi,
     searchApi,
     likeApi,
+
     getDocumentsByCategoryApi,
     getDocumentsByLevelApi,
+
+    getUserDocumentApi,
+    reportApi,
+    getReportsApi,
+    updateReportApi,
+    deleteReportApi,
+
 };

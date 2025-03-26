@@ -1,6 +1,14 @@
 const express = require('express');
 const path = require('path');
-const { createUser, handleLogin, getUserInf, getAccount, updateName, like } = require('../controllers/userController');
+const {
+    createUser,
+    handleLogin,
+    getUserInf,
+    getAccount,
+    updateName,
+    like,
+    getUserDocument,
+} = require('../controllers/userController');
 
 const auth = require('../../middleware/auth');
 const delay = require('../../middleware/delay');
@@ -17,6 +25,7 @@ const {
     getDocumentsByCategory,
     getDocumentsByLevel,
 } = require('../controllers/documentController');
+const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
 const routerAPI = express.Router();
 
@@ -55,10 +64,18 @@ routerAPI.get('/category/:id', getDocumentsByCategory);
 routerAPI.post('/createDocument', auth, createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
-routerAPI.get('/deleteDocument', auth, deleteDocument);
+routerAPI.delete('/document/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
+routerAPI.get('/getUserDocument/:id', getUserDocument);
 
 //Actions
 routerAPI.post('/like/:id', auth, like);
+
+//Report
+
+routerAPI.post('/report', createReport); // Tạo báo cáo mới
+routerAPI.get('/reports', getReports); // Lấy danh sách báo cáo
+routerAPI.put('/report/:id', updateReportStatus); // Cập nhật trạng thái báo cáo
+routerAPI.delete('/report/:id', deleteReport); // Xóa báo cáo
 
 module.exports = routerAPI;

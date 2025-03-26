@@ -29,7 +29,7 @@ const createUserService = async (fullName, email, password, avatar) => {
             fullName: fullName,
             avatar: userAvatar,
             isAdmin: false,
-            statistics: { liked: [], disliked: [], uploaded: 0 },
+            statistics: { liked: [], disliked: [] },
         });
 
         return {
@@ -125,25 +125,26 @@ const getUsersService = async () => {
     }
 };
 
-const updateNameService = async (id, title) => {
+const updateNameService = async (id, fullName) => {
     try {
         const name = await User.findById(id);
+        console.log(id, fullName);
         if (!name) {
             return {
                 EC: 0,
-                EM: `Danh mục ${id} không tồn tại`,
+                EM: `Người dùng ${id} không tồn tại`,
             };
         }
 
-        const newName = await User.findOne({ title: title });
+        const newName = await User.findOne({ fullName: fullName });
         if (newName) {
             return {
                 EC: 0,
-                EM: `Danh mục ${title} đã tồn tại`,
+                EM: `Tên ${fullName} đã tồn tại 111`,
             };
         }
 
-        const result = await User.findByIdAndUpdate(id, { title: title }, { new: true });
+        const result = await User.findByIdAndUpdate(id, { fullName: fullName }, { new: true });
 
         return {
             EC: 1,
@@ -154,7 +155,7 @@ const updateNameService = async (id, title) => {
         console.log(error);
         return {
             EC: 2,
-            EM: 'Đã xảy ra lỗi khi cập nhật danh mục',
+            EM: 'Đã xảy ra lỗi khi cập nhật tên người dùng',
         };
     }
 };

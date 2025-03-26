@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Button, Card, Layout, Menu, Avatar, Flex, message, Tooltip } from 'antd';
+import { Button, Card, Layout, Menu, Avatar, Flex, message, Tooltip, Modal, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
     AppstoreOutlined,
@@ -14,8 +14,8 @@ import {
 } from '@ant-design/icons';
 import { AuthContext } from '~/components/Context/auth.context';
 import styles from './Sidebar.module.scss';
-import { likeApi } from '~/utils/api';
-import { useContext } from 'react';
+import { likeApi, reportApi } from '~/utils/api';
+import { useContext, useState } from 'react';
 
 function Sidebar({ doc }) {
     const cx = classNames.bind(styles);
@@ -26,6 +26,7 @@ function Sidebar({ doc }) {
     const handleNavigate = (path) => {
         navigate('/' + path);
     };
+    const [reportDescription, setReportDescription] = useState('');
 
     const menuItems = [
         {
@@ -86,6 +87,26 @@ function Sidebar({ doc }) {
     const handleDownload = () => {
         window.open(doc.link, '_blank');
     };
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = async () => {
+        console.log(doc._id, auth.user.email, reportDescription);
+        const res = await reportApi(doc._id, auth.user.id, reportDescription);
+        if (res.EC === 0 || res.EC === 2) {
+            message.warning('Đã xảy ra lỗi');
+        } else if (res.EC === 1) {
+            message.success('Báo cáo thành công');
+        }
+
+        console.log(res);
+        setIsModalOpen(false);
+        setReportDescription('');
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <Sider style={{ position: 'fixed', backgroundColor: '#ccc' }} width="300px" className={cx('wrapper')}>
@@ -110,7 +131,7 @@ function Sidebar({ doc }) {
                             </div>,
                             <div hidden={!auth.isAuthenticated}>
                                 <Tooltip title={'Báo cáo tài liệu'}>
-                                    <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleNewDoc}>
+                                    <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={showModal}>
                                         <WarningOutlined />
                                     </Button>
                                 </Tooltip>
@@ -129,10 +150,20 @@ function Sidebar({ doc }) {
                             borderRadius: '0',
                         }}
                     >
-                        <Meta title={'Tải lên bởi: ' + doc?.author?.fullName} description={Date(doc?.createAt)} />
+                        <Meta
+                            title={'Tải lên bởi: ' + doc?.author?.fullName}
+                            description={new Date(doc?.createAt).toLocaleDateString('vi-VN')}
+                        />
                     </Card>
                 </Flex>
-
+                <Modal title="Báo cáo tài liệu" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <p>Nhập nội dung báo cáo</p>
+                    <Input
+                        value={reportDescription}
+                        onChange={(e) => setReportDescription(e.target.value)}
+                        style={{ marginTop: '10px' }}
+                    ></Input>
+                </Modal>
                 <div hidden={!auth.isAuthenticated}>
                     <Card
                         style={{
@@ -165,8 +196,11 @@ function Sidebar({ doc }) {
                             setAuth({
                                 isAuthenticated: false,
                                 user: {
+                                    id: '',
                                     email: '',
                                     fullName: '',
+                                    avatar: '',
+                                    isAdmin: false,
                                 },
                             });
 

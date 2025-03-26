@@ -11,10 +11,10 @@ const documentSchema = new mongoose.Schema({
     level: { type: mongoose.Schema.Types.ObjectId, ref: 'level' },
     statistics: {
         views: Number,
-        save: Number,
-        downloads: Number,
-        likes: Number,
-        dislikes: Number,
+        saved: Number,
+        downloaded: Number,
+        liked: Number,
+        disliked: Number,
     },
 });
 
