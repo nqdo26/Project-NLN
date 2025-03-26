@@ -70,6 +70,12 @@ const getDocumentsApi = () => {
     return axios.get(URL_API);
 };
 
+const deleteDocumentApi = (id) => {
+    const URL_API = `/v1/api/document/${id}`;
+    return axios.delete(URL_API);
+};
+
+//USER
 const createUserApi = (fullName, email, password) => {
     const URL_API = '/v1/api/register';
     const data = { fullName, email, password };
@@ -104,7 +110,6 @@ const likeApi = (id, email) => {
     return axios.post(URL_API, data);
 };
 
-
 const getUserDocumentApi = (_id) => {
     const URL_API = `/v1/api/getUserDocument/` + _id;
     return axios.get(URL_API);
@@ -121,6 +126,16 @@ const getReportsApi = () => {
     return axios.get(URL_API);
 };
 
+const updateReportApi = (id, status) => {
+    const URL_API = `/v1/api/report/${id}`;
+    return axios.put(URL_API, { status });
+};
+
+const deleteReportApi = (id) => {
+    const URL_API = `/v1/api/report/${id}`;
+    return axios.delete(URL_API);
+};
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -135,14 +150,16 @@ export {
     createDocumentApi,
     getDocumentApi,
     getDocumentsApi,
+    deleteDocumentApi,
     createUserApi,
     loginApi,
     getAccountApi,
     updateNameApi,
     searchApi,
     likeApi,
-
     getUserDocumentApi,
     reportApi,
     getReportsApi,
+    updateReportApi,
+    deleteReportApi,
 };

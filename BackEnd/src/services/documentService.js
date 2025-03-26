@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const User = require('../models/user');
+const Report = require('../models/report');
 
 const createDocumentService = async (
     author,
@@ -31,7 +32,7 @@ const createDocumentService = async (
             categories: [categories],
             level: level,
             categories: categories,
-            statistics: { views: 0, save: 0, downloads: 0, likes: 100, dislikes: 300 },
+            statistics: { views: 0, saved: 0, downloaded: 0, liked: 0, disliked: 0 },
         });
 
         return {
@@ -102,26 +103,36 @@ const searchByTitleService = async (title) => {
 
 const deleteDocumentService = async (id) => {
     try {
-        let result = await Document.findByIdAndDelete(id);
-        if (!result) {
+        // Tìm tài liệu cần xóa
+        const document = await Document.findById(id);
+        if (!document) {
             return {
                 EC: 1,
                 EM: 'Tài liệu không tồn tại',
             };
         }
+
+        // Xóa tài liệu khỏi thư viện của người dùng
+        await User.updateMany({ 'statistics.liked': id }, { $pull: { 'statistics.liked': id } });
+        await User.updateMany({ 'statistics.disliked': id }, { $pull: { 'statistics.disliked': id } });
+        await User.updateMany({ 'statistics.saved': id }, { $pull: { 'statistics.saved': id } });
+        await Report.deleteMany({ documentId: id });
+
+        // Xóa tài liệu khỏi cơ sở dữ liệu
+        await Document.findByIdAndDelete(id);
+
         return {
             EC: 0,
             EM: 'Xóa tài liệu thành công',
         };
     } catch (error) {
-        console.log(error);
+        console.error('Error deleting document:', error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi trong quá trình xóa tài liệu',
         };
     }
 };
-
 
 const getDocumentByCategoryService = async (id) => {
     try {
@@ -133,26 +144,26 @@ const getDocumentByCategoryService = async (id) => {
             };
         }
         const result = await Document.find({ categories: id });
-            if (!result) {
-                return {
-                    EC: 1,
-                    EM: 'Không có tài liệu nào trong danh mục này',
-                };
-            } else {
-                return {
-                    EC: 0,
-                    EM: 'Tìm kiếm thành công',
-                    data: result,
-                };
-            }
-        } catch (error) {
-            console.log('Lỗi truy vấn:', error);
-                return {
-                    EC: 2,
-                    EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
-                }
+        if (!result) {
+            return {
+                EC: 1,
+                EM: 'Không có tài liệu nào trong danh mục này',
+            };
+        } else {
+            return {
+                EC: 0,
+                EM: 'Tìm kiếm thành công',
+                data: result,
+            };
         }
-}
+    } catch (error) {
+        console.log('Lỗi truy vấn:', error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+        };
+    }
+};
 
 const getUserDocumentService = async (_id) => {
     try {
@@ -178,7 +189,6 @@ const getUserDocumentService = async (_id) => {
         };
     }
 };
-
 
 module.exports = {
     createDocumentService,

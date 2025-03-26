@@ -19,7 +19,7 @@ function AdminNotification() {
     }
     useEffect(() => {
         getReports();
-    }, []);
+    }, [initLoading]);
 
     return (
         <div className={cx('wrapper')}>
@@ -29,7 +29,7 @@ function AdminNotification() {
                     loading={initLoading}
                     itemLayout="horizontal"
                     dataSource={list}
-                    renderItem={(item) => <Notification item={item} />}
+                    renderItem={(item) => <Notification item={item} setInitLoading={setInitLoading} />}
                 />
             </div>
         </div>

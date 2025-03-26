@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
     statistics: {
         liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],
         disliked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],
-        uploaded: Number,
     },
 });
 

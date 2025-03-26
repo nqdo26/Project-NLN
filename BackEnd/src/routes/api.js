@@ -21,7 +21,6 @@ const {
     getDocuments,
     deleteDocument,
     getDocument,
-    getDocumentsByTitle,
     searchByTitle,
 } = require('../controllers/documentController');
 const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
@@ -59,7 +58,7 @@ routerAPI.get('/category', getCategories);
 routerAPI.post('/createDocument', auth, createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
-routerAPI.get('/deleteDocument', auth, deleteDocument);
+routerAPI.delete('/document/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
 
