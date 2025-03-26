@@ -57,7 +57,7 @@ function Notification({ item, setInitLoading }) {
                             {item?.reporterId?.fullName} đã báo cáo về tài liệu
                         </Button>
                     }
-                    description={item?.reportAt}
+                    description={new Date(item?.reportAt).toLocaleDateString('vi-VN')}
                 />
                 <Flex style={{ padding: '10px' }}>{item?.description}</Flex>
                 <Flex gap={10} style={{ padding: '10px' }}>
