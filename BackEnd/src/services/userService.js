@@ -29,7 +29,7 @@ const createUserService = async (fullName, email, password, avatar) => {
             fullName: fullName,
             avatar: userAvatar,
             isAdmin: false,
-            statistics: { liked: [], disliked: [], uploaded: 0 },
+            statistics: { liked: [], disliked: [] },
         });
 
         return {
