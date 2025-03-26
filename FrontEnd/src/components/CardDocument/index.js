@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge, Flex, notification } from 'antd';
 import { LikeOutlined, SaveOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
+import { getColorByFileType } from '~/utils/typeToColorCode';
 
 const { Title, Text } = Typography;
 
@@ -54,7 +55,10 @@ function CardDocument({
             </div>
             <Flex justify="space-between" align="center" style={{ margin: '0 -5px 0 -5px' }}>
                 <Card.Meta description={new Date(document.createAt).toLocaleDateString('vi-VN')} />
-                <Badge count={document.type} />
+                <Badge 
+                    count={document.type} 
+                    style={{ backgroundColor: getColorByFileType(document.type) }} 
+                />
             </Flex>
 
             <div style={{ margin: '15px -10px -12px -10px' }}>
