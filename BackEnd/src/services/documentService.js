@@ -121,10 +121,41 @@ const deleteDocumentService = async (id) => {
     }
 };
 
+const getDocumentByCategoryService = async (id) => {
+    try {
+        const category = await Category.findById(id);
+        if (!category) {
+            return {
+                EC: 1,
+                EM: 'Danh mục không tồn tại',
+            };
+        }
+        const result = await Document.find({ categories: id });
+            if (!result) {
+                return {
+                    EC: 1,
+                    EM: 'Không có tài liệu nào trong danh mục này',
+                };
+            } else {
+                return {
+                    EC: 0,
+                    EM: 'Tìm kiếm thành công',
+                    data: result,
+                };
+            }
+        } catch (error) {
+            console.log('Lỗi truy vấn:', error);
+                return {
+                    EC: 2,
+                    EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+                }
+        }
+}
 module.exports = {
     createDocumentService,
     getDocumentService,
     getDocumentsService,
     deleteDocumentService,
     searchByTitleService,
+    getDocumentByCategoryService,
 };

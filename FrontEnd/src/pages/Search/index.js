@@ -24,31 +24,31 @@ function Search() {
   const location = useLocation();
 
   const fetchAllData = async () => {
-    try {
-      const [docsRes, catsRes] = await Promise.all([getDocumentsApi(), getCategoriesApi()]);
+      try {
+        const [docsRes, catsRes] = await Promise.all([getDocumentsApi(), getCategoriesApi()]);
 
-      if (docsRes) setAllDocuments(docsRes);
-      if (catsRes?.data && Array.isArray(catsRes.data)) setAllCategories(catsRes.data);
-    } catch (error) {
-      notification.error({ message: 'Lỗi', description: 'Không thể lấy dữ liệu' });
-    }
+        if (docsRes) setAllDocuments(docsRes);
+        if (catsRes?.data && Array.isArray(catsRes.data)) setAllCategories(catsRes.data);
+      } catch (error) {
+        notification.error({ message: 'Lỗi', description: 'Không thể lấy dữ liệu' });
+      }
   };
 
   const handleSearch = async (title) => {
-    try {
-      const res = await searchApi(title);
-      if (res?.EC === 0) {
-        setSearchedDocuments(res.data.documents);
-        setSearchedCategories(res.data.categories);
-        setIsSearching(true);
-      } else {
-        setSearchedDocuments([]);
-        setSearchedCategories([]);
-        setIsSearching(true);
+      try {
+          const res = await searchApi(title);
+          if (res?.EC === 0) {
+            setSearchedDocuments(res.data.documents);
+            setSearchedCategories(res.data.categories);
+            setIsSearching(true);
+          } else {
+            setSearchedDocuments([]);
+            setSearchedCategories([]);
+            setIsSearching(true);
+          }
+        } catch (error) {
+          notification.error({ message: 'Lỗi', description: 'Lỗi tìm kiếm dữ liệu' });
       }
-    } catch (error) {
-      notification.error({ message: 'Lỗi', description: 'Lỗi tìm kiếm dữ liệu' });
-    }
   };
 
   useEffect(() => {
@@ -63,7 +63,6 @@ function Search() {
     }
   }, [location.search]);
 
-  // Lọc tài liệu theo level đã chọn
   const filteredDocuments = (isSearching ? searchedDocuments : allDocuments).filter((doc) =>
     selectedLevel === "Tất cả" || doc.level?.title === selectedLevel
   );
@@ -71,7 +70,10 @@ function Search() {
   return (
     <div className={cx('wrapper')}>
       <div className={cx('inner')}>
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar 
+            onSearch={handleSearch} 
+            searchPath={'/search'}
+        />
         <FilterTabs onChange={setActiveTab} activeTab={activeTab} />
         <div className={cx('content')}>
           <div className={cx('result-sorter')}>

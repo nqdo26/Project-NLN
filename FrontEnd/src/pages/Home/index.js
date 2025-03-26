@@ -36,7 +36,9 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')} >
-                <SearchBar />
+            <SearchBar 
+                 searchPath={'/search'}
+            />
                 <SubjectCarousel />
                 <PostEncouragement />
                 <DocumentCarousel />
