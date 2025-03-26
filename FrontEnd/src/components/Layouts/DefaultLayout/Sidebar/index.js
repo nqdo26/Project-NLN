@@ -33,7 +33,7 @@ function Sidebar() {
             key: 'uploaded',
             label: 'Các bài đăng',
             icon: <AppstoreOutlined />,
-            path: '/uploaded',
+            path: `/uploaded/${auth?.user?.id}`,
         },
 
         {

@@ -22,7 +22,7 @@ import AdminCategoryManage from '~/pages/AdminCategoryManage';
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/profile', component: Profile },
-    { path: '/uploaded', component: Uploaded, layout: DefaultLayout },
+    { path: '/uploaded/:userId', component: Uploaded, layout: DefaultLayout },
     { path: '/search', component: Search, layout: DefaultLayout },
     { path: '/doc/:docId', component: Doc, layout: DocViewLayout },
     { path: '/library', component: Library, layout: DefaultLayout },

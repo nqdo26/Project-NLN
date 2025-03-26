@@ -1,6 +1,14 @@
 const express = require('express');
 const path = require('path');
-const { createUser, handleLogin, getUserInf, getAccount, updateName, like } = require('../controllers/userController');
+const {
+    createUser,
+    handleLogin,
+    getUserInf,
+    getAccount,
+    updateName,
+    like,
+    getUserDocument,
+} = require('../controllers/userController');
 
 const auth = require('../../middleware/auth');
 const delay = require('../../middleware/delay');
@@ -29,15 +37,9 @@ routerAPI.get('/', (req, res) => {
 routerAPI.post('/register', createUser);
 routerAPI.post('/createAdmin', createAdmin);
 routerAPI.post('/login', handleLogin);
-<<<<<<< HEAD
-routerAPI.get('/users', getUsers , auth);
-routerAPI.delete('/users/:id', deleteUser , auth);
-routerAPI.put('/users/:id', updateName , auth);
-=======
 routerAPI.get('/users', auth, getUsers);
 routerAPI.delete('/users/:id', auth, deleteUser);
 routerAPI.put('/users/:id', auth, updateName);
->>>>>>> abada5e2ecf3d603f6a05299fa75a889d8c2d566
 routerAPI.get('/account', auth, getAccount);
 
 //Level
@@ -58,6 +60,7 @@ routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
 routerAPI.get('/deleteDocument', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
+routerAPI.get('/getUserDocument/:id', getUserDocument);
 
 //Actions
 routerAPI.post('/like/:id', auth, like);

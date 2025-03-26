@@ -29,6 +29,7 @@ function Header() {
                 {!auth.isAuthenticated && (
                     <div className={cx('button')}>
                         <button onClick={() => handleNavigate('login')}>Đăng Nhập</button>
+                        <button onClick={() => handleNavigate('signup')}>Đăng Ký</button>
                     </div>
                 )}
             </Flex>
