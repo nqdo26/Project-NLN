@@ -66,7 +66,7 @@ function RecentlyReadCarousel() {
 
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('title')}>Tài liệu bạn đã đọc gần đây</h2>
+            {documents.length > 0 && <h2 className={cx('title')}>Tài liệu bạn đã đọc gần đây</h2>}
             <div className={cx('carousel-container')} ref={containerRef}>
                 {documents.length > slidesPerView && (
                     <button ref={prevRef} className={cx('arrow', 'prev-arrow')}>
@@ -97,6 +97,7 @@ function RecentlyReadCarousel() {
             </div>
         </div>
     );
+    
 }
 
 export default RecentlyReadCarousel;
