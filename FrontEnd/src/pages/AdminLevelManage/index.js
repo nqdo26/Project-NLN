@@ -20,9 +20,9 @@ function AdminLevelManage() {
             try {
                 const res = await getLevelsApi();
                 if (res && Array.isArray(res.data)) {
-                    setDataSources(res.data); 
+                    setDataSources(res.data);
                 } else {
-                    setDataSources([]); 
+                    setDataSources([]);
                     notification.error({ message: 'Error', description: 'Invalid data format' });
                 }
             } catch (error) {
@@ -47,7 +47,7 @@ function AdminLevelManage() {
                 notification.error({ message: 'Error', description: res.EM });
             }
         } catch (error) {
-            notification.error({ message: 'Error', description: "Đã xảy ra lỗi trong quá trình thêm cấp bậc" });
+            notification.error({ message: 'Error', description: 'Đã xảy ra lỗi trong quá trình thêm cấp bậc' });
         }
     };
 
@@ -55,9 +55,12 @@ function AdminLevelManage() {
         try {
             const res = await deleteLevelApi(id);
             notification.success({ message: 'Thành công', description: res.EM });
-            setDataSources((prevData) => prevData.filter(level => level._id !== id));
+            setDataSources((prevData) => prevData.filter((level) => level._id !== id));
         } catch (error) {
-            notification.error({ message: 'Thất bại', description: error.response?.data?.EM || 'Có lỗi xảy ra khi xóa người dùng!' });
+            notification.error({
+                message: 'Thất bại',
+                description: error.response?.data?.EM || 'Có lỗi xảy ra khi xóa người dùng!',
+            });
         }
     };
 
@@ -67,32 +70,35 @@ function AdminLevelManage() {
             const res = await updateLevelApi(editingLevel._id, values.title);
 
             if (values.title === editingLevel.title) {
-                notification.success({ message: 'Thành công', description: 'Không có thay đổi nào, dữ liệu giữ nguyên' });
+                notification.success({
+                    message: 'Thành công',
+                    description: 'Không có thay đổi nào, dữ liệu giữ nguyên',
+                });
                 setIsModalUpdateOpen(false);
                 return;
             }
-    
+
             if (res && res._id && res.title) {
                 notification.success({ message: 'Thành công', description: 'Cập nhật cấp bậc thành công' });
-                setDataSources((prevData) => prevData.map(level =>
-                    level._id === editingLevel._id ? { ...level, title: values.title } : level
-                ));
-    
+                setDataSources((prevData) =>
+                    prevData.map((level) =>
+                        level._id === editingLevel._id ? { ...level, title: values.title } : level,
+                    ),
+                );
+
                 setIsModalUpdateOpen(false);
                 form.resetFields();
             } else {
-                notification.warning({ message: 'Thất bại', description: "Tên cấp bậc đã tồn tại" });
+                notification.warning({ message: 'Thất bại', description: 'Tên cấp bậc đã tồn tại' });
             }
         } catch (error) {
-            console.error("Lỗi khi cập nhật:", error.response?.data || error);
+            console.error('Lỗi khi cập nhật:', error.response?.data || error);
             notification.error({
                 message: 'Lỗi',
-                description: error.response?.data?.EM || 'Có lỗi xảy ra khi cập nhật cấp bậc'
+                description: error.response?.data?.EM || 'Có lỗi xảy ra khi cập nhật cấp bậc',
             });
         }
     };
-    
-    
 
     const columns = [
         { title: 'STT', key: 'index', render: (_, __, index) => index + 1 },
@@ -102,10 +108,10 @@ function AdminLevelManage() {
             title: 'Tùy chọn',
             render: (record) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <Button 
-                        style={{ backgroundColor: "green" }}
-                        type="primary" 
-                        icon={<EditOutlined />} 
+                    <Button
+                        style={{ backgroundColor: 'green' }}
+                        type="primary"
+                        icon={<EditOutlined />}
                         onClick={() => {
                             setEditingLevel(record);
                             form.setFieldsValue({ title: record.title });
@@ -128,26 +134,44 @@ function AdminLevelManage() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                <Button 
-                    style={{ backgroundColor: "blue" }}
-                    type="primary" 
-                    icon={<PlusOutlined />} 
+                <Button
+                    style={{ backgroundColor: 'blue' }}
+                    type="primary"
+                    icon={<PlusOutlined />}
                     onClick={() => setIsModalOpen(true)}
                 >
                     Thêm mới
                 </Button>
             </div>
             <Table dataSource={dataSource || []} columns={columns} bordered rowKey="_id" />
-            <Modal title="Thêm cấp bậc mới" open={isModalOpen} onOk={handleAddLevel} onCancel={() => setIsModalOpen(false)}>
+            <Modal
+                title="Thêm cấp bậc mới"
+                open={isModalOpen}
+                onOk={handleAddLevel}
+                onCancel={() => setIsModalOpen(false)}
+            >
                 <Form form={form} layout="vertical">
-                    <Form.Item label="Tên cấp bậc mới" name="title" rules={[{ required: true, message: "Vui lòng nhập tên cấp bậc mới" }]}> 
+                    <Form.Item
+                        label="Tên cấp bậc mới"
+                        name="title"
+                        rules={[{ required: true, message: 'Vui lòng nhập tên cấp bậc mới' }]}
+                    >
                         <Input placeholder="Nhập tên cấp bậc mới" />
                     </Form.Item>
                 </Form>
             </Modal>
-            <Modal title="Chỉnh sửa cấp bậc" open={isModalUpdateOpen} onOk={handleUpdateLevel} onCancel={() => setIsModalUpdateOpen(false)}>
+            <Modal
+                title="Chỉnh sửa cấp bậc"
+                open={isModalUpdateOpen}
+                onOk={handleUpdateLevel}
+                onCancel={() => setIsModalUpdateOpen(false)}
+            >
                 <Form form={form} layout="vertical">
-                    <Form.Item label="Tên cấp bậc mới" name="title" rules={[{ required: true, message: "Vui lòng nhập tên cấp bậc mới" }]}> 
+                    <Form.Item
+                        label="Tên cấp bậc mới"
+                        name="title"
+                        rules={[{ required: true, message: 'Vui lòng nhập tên cấp bậc mới' }]}
+                    >
                         <Input placeholder="Nhập tên cấp bậc mới" />
                     </Form.Item>
                 </Form>
