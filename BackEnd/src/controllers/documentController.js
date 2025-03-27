@@ -9,6 +9,7 @@ const {
     searchByTitleService,
     getDocumentsByCategoryService,
     getDocumentsByLevelService,
+    getTopDocumentsByViewsService,
 } = require('../services/documentService');
 const { getRecentlyReadService, addRecentlyReadService } = require('../services/userService');
 
@@ -93,6 +94,27 @@ const getRecentlyRead = async (req, res) => {
     return res.status(200).json(result);
 };
 
+const getTopDocumentsByViews = async (req, res) => {
+    try {
+
+        const limit = parseInt(req.query.limit) || 10;
+        
+        const result = await getTopDocumentsByViewsService(limit);
+        
+        if (result.EC === 0) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(400).json(result);
+        }
+    } catch (error) {
+        return res.status(500).json({
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình xử lý',
+        });
+    }
+};
+
+
 
 module.exports = {
     createDocument,
@@ -104,4 +126,5 @@ module.exports = {
     getDocumentsByLevel,
     addRecentlyRead,
     getRecentlyRead,
+    getTopDocumentsByViews,
 };

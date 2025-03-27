@@ -26,6 +26,7 @@ const {
     getDocumentsByLevel,
     addRecentlyRead,
     getRecentlyRead,
+    getTopDocumentsByViews,
 } = require('../controllers/documentController');
 const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
@@ -71,6 +72,8 @@ routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
 routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
 routerAPI.get('/getRecentlyRead', getRecentlyRead);
+routerAPI.get('/documents/top-views', getTopDocumentsByViews);  
+
 
 //Actions
 routerAPI.post('/like/:id', auth, like);

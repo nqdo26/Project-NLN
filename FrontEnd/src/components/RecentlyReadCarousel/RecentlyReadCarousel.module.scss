@@ -45,6 +45,15 @@
     right: 0px;
 }
 
+.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 1.5rem;
+    color: #666;
+}
+
 @media (max-width: 992px) {
     .prev-arrow {
         left: -35px;

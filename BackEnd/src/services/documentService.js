@@ -51,13 +51,22 @@ const createDocumentService = async (
 
 const getDocumentService = async (_id) => {
     try {
-        let result = await Document.findById(_id).populate('author').populate('level').populate('categories');
+        let result = await Document.findByIdAndUpdate(
+            _id,
+            { $inc: { 'statistics.views': 0.25 } }, 
+            { new: true } 
+        )
+        .populate('author')
+        .populate('level')
+        .populate('categories');
+
         return result;
     } catch (error) {
         console.log(error);
         return null;
     }
 };
+
 
 const getDocumentsService = async () => {
     const documents = await Document.find().populate('author').populate('level').populate('categories');
@@ -186,6 +195,30 @@ const getDocumentsByLevelService = async (id) => {
                 }
         }
 }
+
+const getTopDocumentsByViewsService = async (limit = 10) => {
+    try {
+        const documents = await Document.find()
+            .sort({ 'statistics.views': -1 })  
+            .limit(limit)  
+            .populate('author')
+            .populate('level')
+            .populate('categories');
+
+        return {
+            EC: 0,
+            EM: 'Lấy danh sách tài liệu có nhiều lượt xem thành công',
+            data: documents,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình lấy danh sách tài liệu',
+        };
+    }
+};
+
 module.exports = {
     createDocumentService,
     getDocumentService,
@@ -194,4 +227,5 @@ module.exports = {
     searchByTitleService,
     getDocumentsByCategoryService,
     getDocumentsByLevelService,
+    getTopDocumentsByViewsService,
 };

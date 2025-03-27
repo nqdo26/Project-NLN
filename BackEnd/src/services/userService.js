@@ -128,7 +128,6 @@ const getUsersService = async () => {
 const updateNameService = async (id, fullName) => {
     try {
         const name = await User.findById(id);
-        console.log(id, fullName);
         if (!name) {
             return {
                 EC: 0,
@@ -163,7 +162,6 @@ const updateNameService = async (id, fullName) => {
 const likeService = async (id, email) => {
     try {
         const user = await User.findOne({ email: email });
-        console.log(id, email);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
