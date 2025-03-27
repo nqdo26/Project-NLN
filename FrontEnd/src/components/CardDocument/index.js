@@ -1,18 +1,14 @@
-
-import React from 'react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import { getColorByFileType } from '~/utils/typeToColorCode';
+import { addRecentlyReadApi, deleteDocumentApi } from '~/utils/api';
+import { AuthContext } from '../Context/auth.context';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { Card, Button, Typography, Badge, Flex, Modal, message } from 'antd';
+import { Card, Button, Typography, Badge, Flex, Modal, message, notification } from 'antd';
 import { LikeOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
-import { deleteDocumentApi } from '~/utils/api';
 const { Title } = Typography;
-import { getColorByFileType } from '~/utils/typeToColorCode';
-import { addRecentlyReadApi } from '~/utils/api';
-import { AuthContext } from '../Context/auth.context';
 
-const { Title } = Typography;
 
 const cx = classNames.bind(styles);
 
@@ -83,8 +79,7 @@ function CardDocument({
                 maxWidth: '180px',
                 borderRadius: '15px',
                 position: 'relative',
-            }
-            style={{ minWidth: '180px', maxWidth: '180px', borderRadius: '15px' }}
+            }}
             cover={
                 <div style={{ padding: '12px 12px 0 12px' }}>
                     <img
