@@ -15,6 +15,7 @@ function Uploaded() {
     const fetchDoc = async () => {
         try {
             const response = await getUserDocumentApi(userId);
+            console.log(response);
             if (response) {
                 setMyDoc(response);
             }

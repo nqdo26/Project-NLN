@@ -196,7 +196,6 @@ export {
     createDocumentApi,
     getDocumentApi,
     getDocumentsApi,
-    deleteDocumentApi,
     createUserApi,
     loginApi,
     getAccountApi,

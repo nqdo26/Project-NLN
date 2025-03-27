@@ -219,6 +219,31 @@ const getTopDocumentsByViewsService = async (limit = 10) => {
     }
 };
 
+const getUserDocumentService = async (_id) => {
+    try {
+        const user = await User.findById({ _id });
+        console.log('check id ', _id);
+        console.log('check user', user);
+        if (!user) {
+            return {
+                EC: 1,
+                EM: 'User not found',
+            };
+        }
+        const documents = await Document.find({ author: user._id });
+        return {
+            EC: 0,
+            data: documents,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'error',
+        };
+    }
+};
+
 module.exports = {
     createDocumentService,
     getDocumentService,
@@ -228,4 +253,5 @@ module.exports = {
     getDocumentsByCategoryService,
     getDocumentsByLevelService,
     getTopDocumentsByViewsService,
+    getUserDocumentService,
 };
