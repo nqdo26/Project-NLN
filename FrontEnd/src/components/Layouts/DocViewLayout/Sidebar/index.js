@@ -11,10 +11,12 @@ import {
     SaveOutlined,
     WarningOutlined,
     ShareAltOutlined,
+    LikeOutlined,
+    DislikeOutlined,
 } from '@ant-design/icons';
 import { AuthContext } from '~/components/Context/auth.context';
 import styles from './Sidebar.module.scss';
-import { likeApi, reportApi } from '~/utils/api';
+import { dislikeApi, likeApi, reportApi, saveApi } from '~/utils/api';
 import { useContext, useState } from 'react';
 
 function Sidebar({ doc }) {
@@ -39,7 +41,7 @@ function Sidebar({ doc }) {
             key: 'uploaded',
             label: 'Các bài đăng',
             icon: <AppstoreOutlined />,
-            path: '/uploaded',
+            path: '/uploaded/' + auth.user.id,
         },
 
         {
@@ -63,12 +65,35 @@ function Sidebar({ doc }) {
 
     const handleLike = async () => {
         const res = await likeApi(doc._id, auth.user.email);
+        console.log('Check ressss', res);
         if (res.EC === 1) {
-            message.success('Đã lưu vào thư viện');
-        } else if (res.EC === 0) {
-            message.warning('Tài liệu đã có sẵn trong thư viện');
+            message.success('Đã thích bài đăng');
+        } else if (res.EC === -1) {
+            message.warning(res.EM);
         } else {
             message.error('Đã xảy ra lỗi');
+        }
+    };
+
+    const handleDisLike = async () => {
+        const res = await dislikeApi(doc._id, auth.user.email);
+        if (res.EC === 1) {
+            message.success(res.EM);
+        } else if (res.EC === -1) {
+            message.warning(res.EM);
+        } else {
+            message.error(res.EM);
+        }
+    };
+
+    const handleSave = async () => {
+        const res = await saveApi(doc._id, auth.user.email);
+        if (res.EC === 1) {
+            message.success(res.EM);
+        } else if (res.EC === -1) {
+            message.warning(res.EM);
+        } else {
+            message.error(res.EM);
         }
     };
 
@@ -117,30 +142,46 @@ function Sidebar({ doc }) {
                             borderRadius: '0',
                         }}
                         actions={[
-                            <Tooltip title={'Tải về'}>
-                                <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleDownload}>
-                                    <DownloadOutlined />
-                                </Button>
-                            </Tooltip>,
                             <div hidden={!auth.isAuthenticated}>
-                                <Tooltip title={'Lưu vào thư viện'}>
-                                    <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleLike}>
+                                <Tooltip title={'Lưu Bài Đăng'}>
+                                    <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleSave}>
                                         <SaveOutlined />
                                     </Button>
                                 </Tooltip>
                             </div>,
                             <div hidden={!auth.isAuthenticated}>
-                                <Tooltip title={'Báo cáo tài liệu'}>
-                                    <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={showModal}>
-                                        <WarningOutlined />
+                                <Tooltip title={'Yêu Thích Bài Đăng'}>
+                                    <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleLike}>
+                                        <LikeOutlined />
                                     </Button>
                                 </Tooltip>
                             </div>,
+                            <div hidden={!auth.isAuthenticated}>
+                                <Tooltip title={'Không Yêu Thích Bài Đăng'}>
+                                    <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleDisLike}>
+                                        <DislikeOutlined />
+                                    </Button>
+                                </Tooltip>
+                            </div>,
+
                             <Tooltip title={'Chia sẻ tài liệu'}>
                                 <Button style={{ backgroundColor: 'orange', color: 'white' }} onClick={handleShare}>
                                     <ShareAltOutlined />
                                 </Button>
                             </Tooltip>,
+                            <Tooltip title={'Tải về'}>
+                                <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleDownload}>
+                                    <DownloadOutlined />
+                                </Button>
+                            </Tooltip>,
+
+                            <div hidden={!auth.isAuthenticated}>
+                                <Tooltip title={'Báo cáo tài liệu'}>
+                                    <Button style={{ backgroundColor: '#a8071a', color: 'white' }} onClick={showModal}>
+                                        <WarningOutlined />
+                                    </Button>
+                                </Tooltip>
+                            </div>,
                         ]}
                     >
                         <Meta title={doc?.title} description={doc?.description} />

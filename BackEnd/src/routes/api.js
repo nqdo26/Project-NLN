@@ -8,6 +8,9 @@ const {
     updateName,
     like,
     getUserDocument,
+    dislike,
+    save,
+    getSavedDocument,
 } = require('../controllers/userController');
 
 const auth = require('../../middleware/auth');
@@ -43,7 +46,7 @@ routerAPI.post('/createAdmin', createAdmin);
 routerAPI.post('/login', handleLogin);
 routerAPI.get('/users', auth, getUsers);
 routerAPI.delete('/users/:id', auth, deleteUser);
-routerAPI.put('/users/:id', auth, updateName);
+routerAPI.put('/users/:id', updateName);
 routerAPI.get('/account', auth, getAccount);
 
 //Level
@@ -66,14 +69,23 @@ routerAPI.get('/category/:id', getDocumentsByCategory);
 routerAPI.post('/createDocument', auth, createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
-routerAPI.delete('/document/:id', auth, deleteDocument);
+
+routerAPI.delete('/deleteDocument/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
+routerAPI.get('/getSavedDocument/:id', getSavedDocument);
+
+
+
+
 routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
 routerAPI.get('/getRecentlyRead', getRecentlyRead);
 
+
 //Actions
 routerAPI.post('/like/:id', auth, like);
+routerAPI.post('/dislike/:id', auth, dislike);
+routerAPI.post('/save/:id', auth, save);
 
 //Report
 routerAPI.post('/report', createReport); 

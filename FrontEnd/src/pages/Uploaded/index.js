@@ -12,21 +12,26 @@ const cx = classNames.bind(styles);
 function Uploaded() {
     const { userId } = useParams();
     const [myDoc, setMyDoc] = useState();
-    useEffect(() => {
-        const fetchDoc = async () => {
-            try {
-                const response = await getUserDocumentApi(userId);
-                console.log('check>>>', userId);
-                console.log('check>>>', response);
-                if (response) {
-                    setMyDoc(response);
-                }
-            } catch (error) {
-                console.error('error', error);
+    const fetchDoc = async () => {
+        try {
+            const response = await getUserDocumentApi(userId);
+            if (response) {
+                setMyDoc(response);
             }
-        };
+        } catch (error) {
+            console.error('Lỗi khi lấy tài liệu:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchDoc();
     }, [userId]);
+
+    const handleDelete = (docId) => {
+        setMyDoc((prevDocs) => prevDocs.filter((doc) => doc._id !== docId));
+        fetchDoc(); // Gọi lại API để cập nhật danh sách sau khi xóa
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -55,7 +60,7 @@ function Uploaded() {
                         dataSource={myDoc}
                         renderItem={(document) => (
                             <List.Item>
-                                <CardDocument document={document} />
+                                <CardDocument myDoc document={document} onDelete={handleDelete} />
                             </List.Item>
                         )}
                     />

@@ -4,6 +4,10 @@ const {
     updateNameService,
     likeService,
     getAccountService,
+    dislikeService,
+    savedService,
+    getSavedDocumentService,
+    updateUserNameService,
 } = require('../services/userService');
 const upload = require('../../middleware/multer');
 const jwt = require('jsonwebtoken');
@@ -40,18 +44,33 @@ const getAccount = async (req, res) => {
 
 const updateName = async (req, res) => {
     const { id } = req.params;
-    const { fullName } = req.body;
-    console.log('Check>>>>>', fullName);
+    const { title } = req.body;
+    console.log(title);
 
-    const data = await updateNameService(id, fullName);
+    const data = await updateUserNameService(id, title);
     return res.status(200).json(data);
 };
-
 const like = async (req, res) => {
     const { id } = req.params;
     const { email } = req.body;
 
     const data = await likeService(id, email);
+    return res.status(200).json(data);
+};
+
+const dislike = async (req, res) => {
+    const { id } = req.params;
+    const { email } = req.body;
+
+    const data = await dislikeService(id, email);
+    return res.status(200).json(data);
+};
+
+const save = async (req, res) => {
+    const { id } = req.params;
+    const { email } = req.body;
+
+    const data = await savedService(id, email);
     return res.status(200).json(data);
 };
 
@@ -69,11 +88,28 @@ const getUserDocument = async (req, res) => {
     }
 };
 
+const getSavedDocument = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await getSavedDocumentService(id);
+        if (result.EC === 0) {
+            return res.status(200).json(result.data);
+        } else {
+            return res.status(400).json({ error: result.EM });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: 'error' });
+    }
+};
+
 module.exports = {
     createUser,
     handleLogin,
     getAccount,
     updateName,
     like,
+    dislike,
+    save,
     getUserDocument,
+    getSavedDocument,
 };

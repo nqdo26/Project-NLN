@@ -81,11 +81,12 @@ const getDocumentsApi = () => {
 };
 
 const deleteDocumentApi = (id) => {
-    const URL_API = `/v1/api/document/${id}`;
+    const URL_API = `/v1/api/deleteDocument/${id}`;
     return axios.delete(URL_API);
 };
 
 //USER
+
 const createUserApi = (fullName, email, password) => {
     const URL_API = '/v1/api/register';
     const data = { fullName, email, password };
@@ -103,9 +104,9 @@ const getAccountApi = () => {
     return axios.get(URL_API);
 };
 
-const updateNameApi = (fullName) => {
-    const URL_API = `/v1/api/users/${fullName}`;
-    return axios.put(URL_API, { fullName }).then((response) => response.data);
+const updateNameApi = (id, title) => {
+    const URL_API = `/v1/api/users/${id}`;
+    return axios.put(URL_API, { title }).then((response) => response.data);
 };
 
 const searchApi = (title) => {
@@ -120,8 +121,26 @@ const likeApi = (id, email) => {
     return axios.post(URL_API, data);
 };
 
+
+const dislikeApi = (id, email) => {
+    const data = { email };
+    const URL_API = `/v1/api/dislike/${id}`;
+    return axios.post(URL_API, data);
+};
+
+const saveApi = (id, email) => {
+    const data = { email };
+    const URL_API = `/v1/api/save/${id}`;
+    return axios.post(URL_API, data);
+};
+
 const getUserDocumentApi = (_id) => {
     const URL_API = `/v1/api/getUserDocument/` + _id;
+    return axios.get(URL_API);
+};
+
+const getSavedDocumentApi = (_id) => {
+    const URL_API = `/v1/api/getSavedDocument/` + _id;
     return axios.get(URL_API);
 };
 
@@ -180,6 +199,12 @@ export {
     searchApi,
     likeApi,
 
+    dislikeApi,
+    saveApi,
+    getSavedDocumentApi,
+    deleteDocumentApi,
+
+
     getDocumentsByCategoryApi,
     getDocumentsByLevelApi,
 
@@ -191,5 +216,4 @@ export {
 
     addRecentlyReadApi,
     getRecentlyReadApi,
-
 };

@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const Document = require('../models/document');
 
 const saltRounds = 10;
 
@@ -125,34 +126,32 @@ const getUsersService = async () => {
     }
 };
 
-const updateNameService = async (id, fullName) => {
+const updateUserNameService = async (id, title) => {
     try {
-        const name = await User.findById(id);
-        console.log(id, fullName);
-        if (!name) {
+        const user = await User.findById(id);
+        if (!user) {
             return {
-                EC: 0,
-                EM: `Người dùng ${id} không tồn tại`,
+                EC: 1,
+                EM: 'Người dùng không tồn tại',
+            };
+        }
+        const newFullName = await User.findOne({ fullName: title });
+        if (newFullName) {
+            return {
+                EC: 1,
+                EM: 'Tên người dùng đã tồn tại',
             };
         }
 
-        const newName = await User.findOne({ fullName: fullName });
-        if (newName) {
-            return {
-                EC: 0,
-                EM: `Tên ${fullName} đã tồn tại 111`,
-            };
-        }
-
-        const result = await User.findByIdAndUpdate(id, { fullName: fullName }, { new: true });
+        const result = await User.findByIdAndUpdate(id, { fullName: title }, { new: true });
 
         return {
-            EC: 1,
-            EM: 'Cập nhật danh mục thành công',
+            EC: 0,
+            EM: 'Cập nhật tên người dùng thành công',
             data: result,
         };
     } catch (error) {
-        console.log(error);
+        console.error('Error in updateUserNameService:', error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi khi cập nhật tên người dùng',
@@ -163,29 +162,111 @@ const updateNameService = async (id, fullName) => {
 const likeService = async (id, email) => {
     try {
         const user = await User.findOne({ email: email });
-        console.log(id, email);
+
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return { EC: 0, EM: 'User not found' };
         }
-        if (user.statistics.liked.includes(id)) {
+
+        const likedIndex = user.statistics.liked.indexOf(id);
+        const dislikedIndex = user.statistics.disliked.indexOf(id);
+
+        if (likedIndex !== -1) {
+            user.statistics.liked.splice(likedIndex, 1);
+            await user.save();
             return {
-                EC: 0,
-                EM: 'Tài liệu đã được thêm vào yêu thích trước đó',
+                EC: -1,
+                EM: 'Xóa tài liệu khỏi danh sách yêu thích thành công',
+                data: user,
+            };
+        } else {
+            if (dislikedIndex !== -1) {
+                user.statistics.disliked.splice(dislikedIndex, 1);
+            }
+
+            user.statistics.liked.push(id);
+            await user.save();
+            return {
+                EC: 1,
+                EM: 'Thêm tài liệu vào danh sách yêu thích thành công',
+                data: user,
             };
         }
-        user.statistics.liked.push(id);
-        await user.save();
-        return {
-            EC: 1,
-            EM: 'Thêm tài liệu vào yêu thích thành công',
-            data: user,
-        };
     } catch (error) {
-        console.log(error);
-        return {
-            EC: 2,
-            EM: 'Đã xảy ra lỗi khi thêm tài liệu vào yêu thích',
-        };
+        console.error(error);
+        return { EC: 2, EM: 'Đã xảy ra lỗi khi xử lý yêu thích' };
+    }
+};
+
+const dislikeService = async (id, email) => {
+    try {
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return { EC: 0, EM: 'User not found' };
+        }
+
+        const dislikedIndex = user.statistics.disliked.indexOf(id);
+        const likedIndex = user.statistics.liked.indexOf(id);
+
+        if (dislikedIndex !== -1) {
+            user.statistics.disliked.splice(dislikedIndex, 1);
+            await user.save();
+            return {
+                EC: -1,
+                EM: 'Xóa tài liệu khỏi danh sách không yêu thích thành công',
+                data: user,
+            };
+        } else {
+            if (likedIndex !== -1) {
+                user.statistics.liked.splice(likedIndex, 1);
+            }
+
+            user.statistics.disliked.push(id);
+            await user.save();
+            return {
+                EC: 1,
+                EM: 'Thêm tài liệu vào danh sách không yêu thích thành công',
+                data: user,
+            };
+        }
+    } catch (error) {
+        console.error(error);
+        return { EC: 2, EM: 'Đã xảy ra lỗi khi xử lý không yêu thích' };
+    }
+};
+
+const savedService = async (id, email) => {
+    try {
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return { EC: 0, EM: 'User not found' };
+        }
+
+        const savedIndex = user.statistics.saved.indexOf(id);
+
+        if (savedIndex !== -1) {
+            // Nếu document đã có trong liked, thì xoá nó
+            user.statistics.saved.splice(savedIndex, 1);
+            await user.save();
+            return {
+                EC: -1,
+                EM: 'Xóa tài liệu khỏi thư viện thành công',
+                data: user,
+            };
+        } else {
+            // Nếu document chưa có trong liked, thì thêm vào
+            user.statistics.saved.push(id);
+            await user.save();
+            return {
+                EC: 1,
+                EM: 'Thêm tài liệu vào thư viện thành công',
+                data: user,
+            };
+        }
+    } catch (error) {
+        console.error(error);
+        return { EC: 2, EM: 'Đã xảy ra lỗi khi xử lý' };
     }
 };
 
@@ -200,6 +281,34 @@ const getAccountService = async (email) => {
     } catch (error) {
         console.log(error);
         return null;
+    }
+};
+
+
+const getSavedDocumentService = async (id) => {
+    try {
+        // Find the user by ID and populate the saved documents
+        const user = await User.findById(id).populate('statistics.saved');
+        if (!user) {
+            return {
+                EC: 1,
+                EM: 'User not found',
+            };
+        }
+        console.log(user);
+
+        // Return the saved documents
+        return {
+            EC: 0,
+            EM: 'Lấy danh sách tài liệu đã lưu thành công',
+            data: user.statistics.saved,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình lấy danh sách tài liệu đã lưu',
+        };
     }
 };
 
@@ -251,14 +360,20 @@ const getRecentlyReadService = async (userId) => {
 };
 
 
+
 module.exports = {
     createUserService,
     loginService,
     getUsersService,
     deleteUserService,
-    updateNameService,
+    updateUserNameService,
     likeService,
     getAccountService,
+    dislikeService,
+    savedService,
+    getSavedDocumentService,
+
     addRecentlyReadService,
     getRecentlyReadService,
+
 };
