@@ -28,47 +28,43 @@ function Profile() {
     const [avatar, setAvatar] = useState(auth?.user?.avatar);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalUpdateName, setIsModalUpdateName] = useState(false);
-    const [name, setName] = useState([]);
-    const [newName, setNewName] = useState(null);
     const [form] = useForm();
 
-    const handleUpdateName = async (fullName) => {
+    const handleUpdateName = async () => {
         try {
-            const values = await form.validateFields();
-            const res = await updateNameApi(name.fullName, values.title);
-
-            if (values.title === name.title) {
-                notification.success({
-                    message: 'Thành công',
-                    description: 'Không có thay đổi nào, dữ  giữ liệu nguyên',
-                });
-                setIsModalUpdateName(false);
-                return;
-            }
-
-            if (res && res.fullName && res.title) {
-                notification.success({ message: 'Thành công', description: 'Cập nhật tên thành công' });
-                setNewName((prevData) =>
-                    prevData.map((newName) =>
-                        newName.fullName === name.fullName ? { ...newName, title: values.title } : newName,
-                    ),
-                );
-                setIsModalUpdateName(false);
-                form.resetFields();
-            } else {
-                notification.warning({ message: 'Thất bại', description: 'Tên đã tồn tại' });
+            if (auth?.user?.id) {
+                const values = await form.validateFields();
+                const res = await updateNameApi(auth?.user?.id, values.title);
+                console.log('checkk res', res);
+                if (res) {
+                    notification.success({
+                        message: 'Thành công',
+                        description: 'Cập nhật tên thành công',
+                    });
+                    setAuth((prevAuth) => ({
+                        ...prevAuth,
+                        user: {
+                            ...prevAuth.user,
+                            fullName: values.title,
+                        },
+                    }));
+                    setIsModalUpdateName(false);
+                    form.resetFields();
+                } else {
+                    notification.warning({
+                        message: 'Thất bại',
+                        description: res.EM || 'Tên đã tồn tại hoặc có lỗi xảy ra',
+                    });
+                }
             }
         } catch (error) {
-            notification.error({ message: 'Lỗi', description: 'Có lỗi xảy ra khi cập nhật tên' });
+            notification.error({
+                message: 'Lỗi',
+                description: 'Có lỗi xảy ra khi cập nhật tên',
+            });
+            console.error('Error in handleUpdateName:', error);
         }
     };
-
-    //    const handleUpdateName = async (values) => {
-    //      setName(newName);
-    //   message.success('Tên Đã Được Thay Đổi');
-    //   handleOkName();
-    //  form.resetFields();
-    //};
 
     const handleAvatarChange = (file) => {
         setAvatar(URL.createObjectURL(file));
