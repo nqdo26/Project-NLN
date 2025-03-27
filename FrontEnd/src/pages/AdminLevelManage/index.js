@@ -67,6 +67,7 @@ function AdminLevelManage() {
         try {
             const values = await form.validateFields();
             const res = await updateLevelApi(editingLevel._id, values.title);
+            console.log("res", res);
 
             if (values.title === editingLevel.title) {
                 notification.success({ message: 'Thành công', description: 'Không có thay đổi nào, dữ liệu giữ nguyên' });

@@ -10,6 +10,7 @@ const {
     getDocumentsByCategoryService,
     getDocumentsByLevelService,
 } = require('../services/documentService');
+const { getRecentlyReadService, addRecentlyReadService } = require('../services/userService');
 
 const createDocument = async (req, res) => {
     const { author, title, description, createAt, link, type, categories, level, statistics } = req.body;
@@ -73,6 +74,26 @@ const getDocumentsByLevel = async (req, res) => {
     return res.status(200).json(data);
 }
 
+const addRecentlyRead = async (req, res) => {
+    const { userId } = req.body;  
+    const { documentId } = req.params; 
+
+    if (!userId || !documentId) {
+        return res.status(400).json({ EC: 1, EM: 'Thiếu userId hoặc documentId' });
+    }
+
+    const result = await addRecentlyReadService(userId, documentId);
+    return res.status(200).json(result);
+};
+
+
+const getRecentlyRead = async (req, res) => {
+    const { userId } = req.query;
+    const result = await getRecentlyReadService(userId);
+    return res.status(200).json(result);
+};
+
+
 module.exports = {
     createDocument,
     getDocument,
@@ -81,4 +102,6 @@ module.exports = {
     searchByTitle,
     getDocumentsByCategory,
     getDocumentsByLevel,
+    addRecentlyRead,
+    getRecentlyRead,
 };

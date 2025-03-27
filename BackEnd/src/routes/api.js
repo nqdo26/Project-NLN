@@ -24,6 +24,8 @@ const {
     searchByTitle,
     getDocumentsByCategory,
     getDocumentsByLevel,
+    addRecentlyRead,
+    getRecentlyRead,
 } = require('../controllers/documentController');
 const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
@@ -46,7 +48,7 @@ routerAPI.get('/account', auth, getAccount);
 
 //Level
 routerAPI.post('/level', auth, createLevel);
-routerAPI.put('/level/:id', auth, updateLevel);
+routerAPI.put('/level/:id', updateLevel);
 routerAPI.delete('/level/:id', auth, deleteLevel);
 routerAPI.get('/level', getLevels);
 
@@ -67,15 +69,16 @@ routerAPI.get('/getDocuments', getDocuments);
 routerAPI.delete('/document/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
+routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
+routerAPI.get('/getRecentlyRead', getRecentlyRead);
 
 //Actions
 routerAPI.post('/like/:id', auth, like);
 
 //Report
-
-routerAPI.post('/report', createReport); // Tạo báo cáo mới
-routerAPI.get('/reports', getReports); // Lấy danh sách báo cáo
-routerAPI.put('/report/:id', updateReportStatus); // Cập nhật trạng thái báo cáo
-routerAPI.delete('/report/:id', deleteReport); // Xóa báo cáo
+routerAPI.post('/report', createReport); 
+routerAPI.get('/reports', getReports); 
+routerAPI.put('/report/:id', updateReportStatus); 
+routerAPI.delete('/report/:id', deleteReport); 
 
 module.exports = routerAPI;

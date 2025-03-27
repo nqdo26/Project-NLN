@@ -35,7 +35,7 @@ function DocumentCarousel() {
             } else if (width >= 768) {
                 setSlidesPerView(3);
             } else {
-                setSlidesPerView(3);
+                setSlidesPerView(2);
             }
         });
 
@@ -66,7 +66,7 @@ function DocumentCarousel() {
 
     return (
         <div className={cx('wrapper')}>
-                <h2 className={cx('title')}>Suggested documents for you</h2>
+                <h2 className={cx('title')}>Có thể phù hợp với bạn</h2>
                 <div className={cx('carousel-container')} ref={containerRef}>
                     <button
                         ref={prevRef}
