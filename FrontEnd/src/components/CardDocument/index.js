@@ -1,13 +1,10 @@
-
-import React from 'react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import { Card, Button, Typography, Badge, Flex, Modal, message } from 'antd';
+import { Card, Button, Typography, Badge, Flex, Modal, message, notification } from 'antd';
 import { LikeOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
 import { deleteDocumentApi } from '~/utils/api';
-const { Title } = Typography;
 import { getColorByFileType } from '~/utils/typeToColorCode';
 import { addRecentlyReadApi } from '~/utils/api';
 import { AuthContext } from '../Context/auth.context';
@@ -25,7 +22,6 @@ function CardDocument({
     myDoc = false,
     onDelete = () => {},
 }) {
-
     const { auth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -34,9 +30,9 @@ function CardDocument({
     };
 
     const handleCardClick = async () => {
-        const userId = auth?.user?.id; 
+        const userId = auth?.user?.id;
         const documentId = document?._id;
-    
+
         if (userId && documentId) {
             try {
                 await addRecentlyReadApi(userId, documentId);
@@ -48,10 +44,9 @@ function CardDocument({
                 });
             }
         }
-    
+
         navigate(`/doc/${documentId}`);
     };
-    
 
     const handleDelete = (e) => {
         e.stopPropagation();
@@ -83,8 +78,7 @@ function CardDocument({
                 maxWidth: '180px',
                 borderRadius: '15px',
                 position: 'relative',
-            }
-            style={{ minWidth: '180px', maxWidth: '180px', borderRadius: '15px' }}
+            }}
             cover={
                 <div style={{ padding: '12px 12px 0 12px' }}>
                     <img
@@ -125,12 +119,8 @@ function CardDocument({
                 <Title level={5}>{truncateText(document?.title, 45)}</Title>
             </div>
             <Flex justify="space-between" align="center" style={{ margin: '0 -5px 0 -5px' }}>
-
                 <Card.Meta description={new Date(document.createAt).toLocaleDateString('vi-VN')} />
-                <Badge 
-                    count={document.type} 
-                    style={{ backgroundColor: getColorByFileType(document.type) }} 
-                />
+                <Badge count={document.type} style={{ backgroundColor: getColorByFileType(document.type) }} />
             </Flex>
 
             <div style={{ margin: '15px -10px -12px -10px' }}>
@@ -160,14 +150,10 @@ function CardDocument({
                             ? 'Saved'
                             : 'Save'
                         : Math.round(
-
-                            
-
                               (document?.statistics.likes /
                                   (document?.statistics.likes + document?.statistics.dislikes !== 0
                                       ? document?.statistics.likes + document?.statistics.dislikes
                                       : 1)) *
-
                                   100,
                           ) +
                           '% (' +
