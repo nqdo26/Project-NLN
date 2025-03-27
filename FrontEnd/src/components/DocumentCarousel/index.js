@@ -8,7 +8,7 @@ import CardDocument from '../CardDocument';
 import styles from './DocumentCarousel.module.scss';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { getDocumentsApi } from '~/utils/api';
+import { getDocumentsApi, getTopDocumentsByViewsApi } from '~/utils/api';
 
 const cx = classNames.bind(styles);
 
@@ -49,9 +49,9 @@ function DocumentCarousel() {
     useEffect (() => {
         const fetchDocuments = async () => {
             try {
-                const res = await getDocumentsApi();
-                if (res) {
-                    setDocuments(res);
+                const res = await getTopDocumentsByViewsApi();
+                if (res && res.EC === 0) {
+                    setDocuments(res.data);
                 } else {
                     notification.error({ message: 'Lỗi', description: 'Dữ liệu không hợp lệ' });
                 }
@@ -66,7 +66,7 @@ function DocumentCarousel() {
 
     return (
         <div className={cx('wrapper')}>
-                <h2 className={cx('title')}>Có thể phù hợp với bạn</h2>
+                <h2 className={cx('title')}>Top tài liệu theo lượt xem</h2>
                 <div className={cx('carousel-container')} ref={containerRef}>
                     <button
                         ref={prevRef}

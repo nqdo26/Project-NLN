@@ -48,6 +48,7 @@ function Doc() {
     };
 
     useEffect(() => {
+        console.log("🔥 useEffect chạy!");
         fetchDoc();
     }, []);
     return (

@@ -29,6 +29,7 @@ const {
     getDocumentsByLevel,
     addRecentlyRead,
     getRecentlyRead,
+    getTopDocumentsByViews,
 } = require('../controllers/documentController');
 const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
@@ -80,6 +81,8 @@ routerAPI.get('/getSavedDocument/:id', getSavedDocument);
 
 routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
 routerAPI.get('/getRecentlyRead', getRecentlyRead);
+routerAPI.get('/documents/top-views', getTopDocumentsByViews);  
+
 
 
 //Actions

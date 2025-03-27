@@ -45,8 +45,6 @@ const getAccount = async (req, res) => {
 const updateName = async (req, res) => {
     const { id } = req.params;
     const { title } = req.body;
-    console.log(title);
-
     const data = await updateUserNameService(id, title);
     return res.status(200).json(data);
 };

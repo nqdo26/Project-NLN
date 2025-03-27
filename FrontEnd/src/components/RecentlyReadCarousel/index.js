@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from 'react';
 import { notification } from 'antd';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined, SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import CardDocument from '../CardDocument';
 import styles from './RecentlyReadCarousel.module.scss';
@@ -66,35 +66,48 @@ function RecentlyReadCarousel() {
 
     return (
         <div className={cx('wrapper')}>
-            {documents.length > 0 && <h2 className={cx('title')}>Tài liệu bạn đã đọc gần đây</h2>}
-            <div className={cx('carousel-container')} ref={containerRef}>
-                {documents.length > slidesPerView && (
-                    <button ref={prevRef} className={cx('arrow', 'prev-arrow')}>
-                        <LeftOutlined />
-                    </button>
-                )}
-                <Swiper
-                    style={{ padding: '2px 0px' }}
-                    modules={[Navigation]}
-                    spaceBetween={15}
-                    slidesPerView={slidesPerView}
-                    navigation={documents.length > slidesPerView ? {
-                        prevEl: prevRef.current,
-                        nextEl: nextRef.current,
-                    } : false}
-                >
-                    {documents.map(({ document }) => (
-                        <SwiperSlide key={document._id}>
-                            <CardDocument document={document} action="Like" />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-                {documents.length > slidesPerView && (
-                    <button ref={nextRef} className={cx('arrow', 'next-arrow')}>
-                        <RightOutlined />
-                    </button>
-                )}
-            </div>
+            <h2 className={cx('title')}>Tài liệu bạn đã đọc gần đây</h2>
+            {documents.length > 0 ? (
+                <>
+                    <div className={cx('carousel-container')} ref={containerRef}>
+                        {documents.length > slidesPerView && (
+                            <button ref={prevRef} className={cx('arrow', 'prev-arrow')}>
+                                <LeftOutlined />
+                            </button>
+                        )}
+                        <Swiper
+                            style={{ padding: '2px 0px' }}
+                            modules={[Navigation]}
+                            spaceBetween={15}
+                            slidesPerView={slidesPerView}
+                            navigation={documents.length > slidesPerView ? {
+                                prevEl: prevRef.current,
+                                nextEl: nextRef.current,
+                            } : false}
+                        >
+                            {documents.map(({ document }) =>
+                                document ? (
+                                    <SwiperSlide key={document._id}>
+                                        <CardDocument document={document} action="Save" />
+                                    </SwiperSlide>
+                                ) : null
+                            )}
+                        </Swiper>
+                        {documents.length > slidesPerView && (
+                            <button ref={nextRef} className={cx('arrow', 'next-arrow')}>
+                                <RightOutlined />
+                            </button>
+                        )}
+                    </div>
+                </>
+            ) : (
+
+
+                <p className={cx('no-data')}>
+                    Hmm... có vẻ bạn chưa đọc tài liệu nào! Hãy tìm một tài liệu thú vị ngay nào! <SearchOutlined  style={{ color: '#eb2f96' }} />
+                </p>
+                
+            )}
         </div>
     );
     

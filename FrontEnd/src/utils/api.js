@@ -172,7 +172,12 @@ const addRecentlyReadApi = (userId, documentId) => {
 
 const getRecentlyReadApi = (userId) => {
     const URL_API = '/v1/api/getRecentlyRead';
-    return axios.get(URL_API, { params: { userId } }); // ✅ Đúng! Truyền userId vào query params
+    return axios.get(URL_API, { params: { userId } }); 
+};
+
+const getTopDocumentsByViewsApi = (limit) => {
+    const URL_API = `/v1/api/documents/top-views?limit=${limit}`;
+    return axios.get(URL_API);
 };
 
 
@@ -216,4 +221,6 @@ export {
 
     addRecentlyReadApi,
     getRecentlyReadApi,
+    getTopDocumentsByViewsApi,
+
 };
