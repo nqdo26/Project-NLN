@@ -13,6 +13,12 @@ const userSchema = new mongoose.Schema({
         liked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],
         disliked: [{ type: mongoose.Schema.Types.ObjectId, ref: 'document' }],
     },
+    recentlyRead: [
+        {
+            document: { type: mongoose.Schema.Types.ObjectId, ref: 'document' },
+            readAt: { type: Date, default: Date.now }
+        }
+    ]
 });
 
 const User = mongoose.model('user', userSchema);

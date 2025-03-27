@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge, Flex, notification } from 'antd';
 import { LikeOutlined, SaveOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
 import { getColorByFileType } from '~/utils/typeToColorCode';
+import { addRecentlyReadApi } from '~/utils/api';
+import { AuthContext } from '../Context/auth.context';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const cx = classNames.bind(styles);
 
@@ -15,15 +17,33 @@ function CardDocument({
     action = 'Save',
     isSaved = false,
 }) {
+
+    const { auth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const truncateText = (text, maxLength) => {
         return text?.length > maxLength ? text?.slice(0, maxLength - 3) + '...' : text;
     };
 
-    const handleCardClick = () => {
-        navigate(`/doc/${document?._id}`);
+    const handleCardClick = async () => {
+        const userId = auth?.user?.id; 
+        const documentId = document?._id;
+    
+        if (userId && documentId) {
+            try {
+                await addRecentlyReadApi(userId, documentId);
+            } catch (error) {
+                console.error('Lỗi khi thêm vào danh sách đã đọc:', error);
+                notification.error({
+                    message: 'Lỗi',
+                    description: 'Không thể cập nhật danh sách đọc. Vui lòng thử lại!',
+                });
+            }
+        }
+    
+        navigate(`/doc/${documentId}`);
     };
+    
 
     const handleAction = () => {
         navigate('/');

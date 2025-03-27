@@ -146,6 +146,18 @@ const deleteReportApi = (id) => {
     return axios.delete(URL_API);
 };
 
+const addRecentlyReadApi = (userId, documentId) => {
+    const URL_API = `/v1/api/addRecentlyRead/${documentId}`;
+    return axios.post(URL_API, { userId });
+};
+
+const getRecentlyReadApi = (userId) => {
+    const URL_API = '/v1/api/getRecentlyRead';
+    return axios.get(URL_API, { params: { userId } }); // ✅ Đúng! Truyền userId vào query params
+};
+
+
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -176,5 +188,8 @@ export {
     getReportsApi,
     updateReportApi,
     deleteReportApi,
+
+    addRecentlyReadApi,
+    getRecentlyReadApi,
 
 };

@@ -203,6 +203,54 @@ const getAccountService = async (email) => {
     }
 };
 
+const addRecentlyReadService = async (userId, documentId) => {
+    try {
+        await User.findByIdAndUpdate(userId, {
+            $pull: { recentlyRead: { document: documentId } }, 
+        });
+
+        await User.findByIdAndUpdate(userId, {
+            $push: { recentlyRead: { document: documentId, readAt: new Date() } },
+        });
+
+        const user = await User.findById(userId).populate('recentlyRead.document');
+
+        return { 
+            EC: 0, 
+            EM: 'Cập nhật danh sách đọc tiếp thành công',
+            data: user ? user.recentlyRead.reverse() : []  
+        };
+    } catch (error) {
+        console.log(error);
+        return { EC: 2, EM: 'Lỗi khi cập nhật danh sách đọc tiếp' };
+    }
+};
+
+
+const getRecentlyReadService = async (userId) => {
+    try {
+        const user = await User.findById(userId).populate({
+            path: 'recentlyRead.document',
+            select: '-__v', 
+        });
+        console.log(userId);
+
+        if (!user) {
+            return { EC: 1, EM: 'Người dùng không tồn tại', data: [] };
+        }
+
+        return {
+            EC: 0,
+            EM: 'Lấy danh sách đã đọc thành công',
+            data: user.recentlyRead.slice().reverse(),
+        };
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách đã đọc:', error);
+        return { EC: 2, EM: 'Lỗi khi lấy danh sách đã đọc', data: [] };
+    }
+};
+
+
 module.exports = {
     createUserService,
     loginService,
@@ -211,4 +259,6 @@ module.exports = {
     updateNameService,
     likeService,
     getAccountService,
+    addRecentlyReadService,
+    getRecentlyReadService,
 };
