@@ -32,6 +32,11 @@ const deleteLevelApi = (id) => {
     return axios.delete(URL_API);
 };
 
+const getDocumentsByLevelApi = (id) => {
+    const URL_API = `/v1/api/level/${id}`;
+    return axios.get(URL_API);
+}
+
 //CATEGORY
 const getCategoriesApi = () => {
     const URL_API = '/v1/api/category';
@@ -52,6 +57,11 @@ const deleteCategoryApi = (id) => {
     const URL_API = `/v1/api/category/${id}`;
     return axios.delete(URL_API);
 };
+
+const getDocumentsByCategoryApi = (id) => {
+    const URL_API = `/v1/api/category/${id}`;
+    return axios.get(URL_API);
+}
 
 //DOCUMENT
 const createDocumentApi = (submitDoc) => {
@@ -74,6 +84,9 @@ const deleteDocumentApi = (id) => {
     const URL_API = `/v1/api/deleteDocument/${id}`;
     return axios.delete(URL_API);
 };
+
+//USER
+
 const createUserApi = (fullName, email, password) => {
     const URL_API = '/v1/api/register';
     const data = { fullName, email, password };
@@ -108,6 +121,7 @@ const likeApi = (id, email) => {
     return axios.post(URL_API, data);
 };
 
+
 const dislikeApi = (id, email) => {
     const data = { email };
     const URL_API = `/v1/api/dislike/${id}`;
@@ -141,6 +155,28 @@ const getReportsApi = () => {
     return axios.get(URL_API);
 };
 
+const updateReportApi = (id, status) => {
+    const URL_API = `/v1/api/report/${id}`;
+    return axios.put(URL_API, { status });
+};
+
+const deleteReportApi = (id) => {
+    const URL_API = `/v1/api/report/${id}`;
+    return axios.delete(URL_API);
+};
+
+const addRecentlyReadApi = (userId, documentId) => {
+    const URL_API = `/v1/api/addRecentlyRead/${documentId}`;
+    return axios.post(URL_API, { userId });
+};
+
+const getRecentlyReadApi = (userId) => {
+    const URL_API = '/v1/api/getRecentlyRead';
+    return axios.get(URL_API, { params: { userId } }); // ✅ Đúng! Truyền userId vào query params
+};
+
+
+
 export {
     getUsersApi,
     deleteUserApi,
@@ -155,17 +191,29 @@ export {
     createDocumentApi,
     getDocumentApi,
     getDocumentsApi,
+    deleteDocumentApi,
     createUserApi,
     loginApi,
     getAccountApi,
     updateNameApi,
     searchApi,
     likeApi,
+
     dislikeApi,
     saveApi,
+    getSavedDocumentApi,
+    deleteDocumentApi,
+
+
+    getDocumentsByCategoryApi,
+    getDocumentsByLevelApi,
+
     getUserDocumentApi,
     reportApi,
     getReportsApi,
-    getSavedDocumentApi,
-    deleteDocumentApi,
+    updateReportApi,
+    deleteReportApi,
+
+    addRecentlyReadApi,
+    getRecentlyReadApi,
 };

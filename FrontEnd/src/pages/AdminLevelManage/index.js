@@ -1,13 +1,15 @@
 import { Button, Popconfirm, notification, Table, Modal, Input, Form } from 'antd';
 import classNames from 'classnames/bind';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
 import styles from './AdminLevelManage.module.scss';
 import { deleteLevelApi, getLevelsApi, createLevelApi, updateLevelApi } from '~/utils/api';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLevelManage() {
     const cx = classNames.bind(styles);
+    const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
@@ -68,6 +70,7 @@ function AdminLevelManage() {
         try {
             const values = await form.validateFields();
             const res = await updateLevelApi(editingLevel._id, values.title);
+            console.log("res", res);
 
             if (values.title === editingLevel.title) {
                 notification.success({
@@ -126,6 +129,13 @@ function AdminLevelManage() {
                     >
                         <Button type="primary" danger icon={<DeleteOutlined />} />
                     </Popconfirm>
+                    <Button 
+                        style={{ backgroundColor: "#FAAD14", borderColor: "#FAAD14", color: "#000" }} 
+                        type="primary" 
+                        icon={<ArrowRightOutlined />} 
+                        onClick={() => navigate(`/level/${record._id}`)}
+                    >
+                    </Button>
                 </div>
             ),
         },

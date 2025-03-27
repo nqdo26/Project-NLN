@@ -191,7 +191,10 @@ function Sidebar({ doc }) {
                             borderRadius: '0',
                         }}
                     >
-                        <Meta title={'Tải lên bởi: ' + doc?.author?.fullName} description={Date(doc?.createAt)} />
+                        <Meta
+                            title={'Tải lên bởi: ' + doc?.author?.fullName}
+                            description={new Date(doc?.createAt).toLocaleDateString('vi-VN')}
+                        />
                     </Card>
                 </Flex>
                 <Modal title="Báo cáo tài liệu" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

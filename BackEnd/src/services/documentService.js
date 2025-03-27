@@ -3,6 +3,7 @@ require('dotenv').config();
 const Document = require('../models/document');
 const mongoose = require('mongoose');
 const Category = require('../models/category');
+const Level = require('../models/level');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -122,10 +123,10 @@ const deleteDocumentService = async (id) => {
     }
 };
 
-
-const getDocumentByCategoryService = async (id) => {
+const getDocumentsByCategoryService = async (id) => {
     try {
         const category = await Category.findById(id);
+        const categorryTitle = category.title;
         if (!category) {
             return {
                 EC: 1,
@@ -142,7 +143,7 @@ const getDocumentByCategoryService = async (id) => {
                 return {
                     EC: 0,
                     EM: 'Tìm kiếm thành công',
-                    data: result,
+                    data: categorryTitle, result
                 };
             }
         } catch (error) {
@@ -154,38 +155,43 @@ const getDocumentByCategoryService = async (id) => {
         }
 }
 
-const getUserDocumentService = async (_id) => {
+const getDocumentsByLevelService = async (id) => {
     try {
-        const user = await User.findById({ _id });
-        console.log('check id ', _id);
-        console.log('check user', user);
-        if (!user) {
+        const level = await Level.findById(id);
+        const levelTitle = level.title;
+        if (!level) {
             return {
                 EC: 1,
-                EM: 'User not found',
+                EM: 'Cấp bậc không tồn tại',
             };
         }
-        const documents = await Document.find({ author: user._id });
-        return {
-            EC: 0,
-            data: documents,
-        };
-    } catch (error) {
-        console.log(error);
-        return {
-            EC: 2,
-            EM: 'error',
-        };
-    }
-};
-
-
+        const result = await Document.find({ level: id });
+            if (!result) {
+                return {
+                    EC: 1,
+                    EM: 'Không có tài liệu nào trong danh mục này',
+                };
+            } else {
+                return {
+                    EC: 0,
+                    EM: 'Tìm kiếm thành công',
+                    data: levelTitle, result,
+                };
+            }
+        } catch (error) {
+            console.log('Lỗi truy vấn:', error);
+                return {
+                    EC: 2,
+                    EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+                }
+        }
+}
 module.exports = {
     createDocumentService,
     getDocumentService,
     getDocumentsService,
     deleteDocumentService,
     searchByTitleService,
-    getDocumentByCategoryService,
-    getUserDocumentService,
+    getDocumentsByCategoryService,
+    getDocumentsByLevelService,
 };

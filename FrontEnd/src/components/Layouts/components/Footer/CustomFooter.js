@@ -21,7 +21,7 @@ const CustomFooter = () => {
             <Row gutter={[16, 16]} justify="space-between">
                 <Col xs={24} sm={8}>
                     <Title level={4} style={{ color: '#6c757d' }}>
-                        studocu
+                        Documan
                     </Title>
                 </Col>
 

@@ -24,8 +24,11 @@ const {
     getDocuments,
     deleteDocument,
     getDocument,
-    getDocumentsByTitle,
     searchByTitle,
+    getDocumentsByCategory,
+    getDocumentsByLevel,
+    addRecentlyRead,
+    getRecentlyRead,
 } = require('../controllers/documentController');
 const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
@@ -48,9 +51,11 @@ routerAPI.get('/account', auth, getAccount);
 
 //Level
 routerAPI.post('/level', auth, createLevel);
-routerAPI.put('/level/:id', auth, updateLevel);
+routerAPI.put('/level/:id', updateLevel);
 routerAPI.delete('/level/:id', auth, deleteLevel);
 routerAPI.get('/level', getLevels);
+
+routerAPI.get('/level/:id', getDocumentsByLevel);
 
 //Category
 routerAPI.post('/category', auth, createCategory);
@@ -58,14 +63,24 @@ routerAPI.put('/category/:id', auth, updateCategory);
 routerAPI.delete('/category/:id', auth, deleteCategory);
 routerAPI.get('/category', getCategories);
 
+routerAPI.get('/category/:id', getDocumentsByCategory);
+
 //Document
 routerAPI.post('/createDocument', auth, createDocument);
 routerAPI.get('/getDocument/:id', getDocument);
 routerAPI.get('/getDocuments', getDocuments);
+
 routerAPI.delete('/deleteDocument/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
 routerAPI.get('/getSavedDocument/:id', getSavedDocument);
+
+
+
+
+routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
+routerAPI.get('/getRecentlyRead', getRecentlyRead);
+
 
 //Actions
 routerAPI.post('/like/:id', auth, like);
@@ -73,10 +88,9 @@ routerAPI.post('/dislike/:id', auth, dislike);
 routerAPI.post('/save/:id', auth, save);
 
 //Report
-
-routerAPI.post('/report', createReport); // Tạo báo cáo mới
-routerAPI.get('/reports', getReports); // Lấy danh sách báo cáo
-routerAPI.put('/report/:id', updateReportStatus); // Cập nhật trạng thái báo cáo
-routerAPI.delete('/report/:id', deleteReport); // Xóa báo cáo
+routerAPI.post('/report', createReport); 
+routerAPI.get('/reports', getReports); 
+routerAPI.put('/report/:id', updateReportStatus); 
+routerAPI.delete('/report/:id', deleteReport); 
 
 module.exports = routerAPI;

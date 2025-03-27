@@ -53,6 +53,7 @@ function SubjectCarousel() {
                             <div key={item._id || index} className={cx('carouselItem')}>
                                 <CardSubject 
                                     title={item.title}
+                                    categoryId={item._id}
                                 />
                             </div>
                         ))}

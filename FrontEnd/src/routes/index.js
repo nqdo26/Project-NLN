@@ -17,6 +17,8 @@ import AdminNotification from '~/pages/AdminNotification';
 import AdminUserManage from '~/pages/AdminUserManage';
 import AdminLevelManage from '~/pages/AdminLevelManage';
 import AdminCategoryManage from '~/pages/AdminCategoryManage';
+import Category from '~/pages/Category';
+import Level from '~/pages/Level';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -26,6 +28,8 @@ const publicRoutes = [
     { path: '/doc/:docId', component: Doc, layout: DocViewLayout },
     { path: '/library', component: Library, layout: DefaultLayout },
     { path: '/new-doc', component: NewDoc, layout: DefaultLayout },
+    { path: '/category/:categoryId', component: Category, layout: DefaultLayout },
+    { path: '/level/:levelId', component: Level, layout: DefaultLayout },
     { path: '/login', component: Login, layout: null },
     { path: '/signup', component: Signup, layout: null },
     { path: '/admin', component: Admin, layout: AdminLayout },
@@ -34,6 +38,7 @@ const publicRoutes = [
     { path: '/admin/user-manage', component: AdminUserManage, layout: AdminLayout },
     { path: '/admin/level-manage', component: AdminLevelManage, layout: AdminLayout },
     { path: '/admin/category-manage', component: AdminCategoryManage, layout: AdminLayout },
+
 ];
 
 const privateRoutes = [];
