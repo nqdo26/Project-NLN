@@ -62,14 +62,22 @@ function Sidebar() {
                             width: 300,
                             borderRadius: '0',
                         }}
-                        actions={[
-                            <Button onClick={() => navigate('/new-doc')}>
-                                <PlusOutlined /> Tài liệu mới
-                            </Button>,
-                            <Button onClick={() => navigate('/admin')}>
-                                <CodeOutlined /> Quản lý
-                            </Button>,
-                        ]}
+                        actions={
+                            auth?.user?.isAdmin
+                                ? [
+                                      <Button onClick={() => navigate('/new-doc')}>
+                                          <PlusOutlined /> Tài liệu mới
+                                      </Button>,
+                                      <Button onClick={() => navigate('/admin')}>
+                                          <CodeOutlined /> Quản lý
+                                      </Button>,
+                                  ]
+                                : [
+                                      <Button onClick={() => navigate('/new-doc')}>
+                                          <PlusOutlined /> Tài liệu mới
+                                      </Button>,
+                                  ]
+                        }
                     >
                         <Meta
                             avatar={<Avatar src={auth?.user?.avatar} />}
