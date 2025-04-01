@@ -35,7 +35,7 @@ const deleteLevelApi = (id) => {
 const getDocumentsByLevelApi = (id) => {
     const URL_API = `/v1/api/level/${id}`;
     return axios.get(URL_API);
-}
+};
 
 //CATEGORY
 const getCategoriesApi = () => {
@@ -61,7 +61,7 @@ const deleteCategoryApi = (id) => {
 const getDocumentsByCategoryApi = (id) => {
     const URL_API = `/v1/api/category/${id}`;
     return axios.get(URL_API);
-}
+};
 
 //DOCUMENT
 const createDocumentApi = (submitDoc) => {
@@ -121,7 +121,6 @@ const likeApi = (id, email) => {
     return axios.post(URL_API, data);
 };
 
-
 const dislikeApi = (id, email) => {
     const data = { email };
     const URL_API = `/v1/api/dislike/${id}`;
@@ -172,7 +171,7 @@ const addRecentlyReadApi = (userId, documentId) => {
 
 const getRecentlyReadApi = (userId) => {
     const URL_API = '/v1/api/getRecentlyRead';
-    return axios.get(URL_API, { params: { userId } }); 
+    return axios.get(URL_API, { params: { userId } });
 };
 
 const getTopDocumentsByViewsApi = (limit) => {
@@ -180,7 +179,10 @@ const getTopDocumentsByViewsApi = (limit) => {
     return axios.get(URL_API);
 };
 
-
+const getSystemStatisticsApi = () => {
+    const URL_API = '/v1/api/admin/statistics';
+    return axios.get(URL_API);
+};
 
 export {
     getUsersApi,
@@ -202,24 +204,19 @@ export {
     updateNameApi,
     searchApi,
     likeApi,
-
     dislikeApi,
     saveApi,
     getSavedDocumentApi,
     deleteDocumentApi,
-
-
     getDocumentsByCategoryApi,
     getDocumentsByLevelApi,
-
     getUserDocumentApi,
     reportApi,
     getReportsApi,
     updateReportApi,
     deleteReportApi,
-
     addRecentlyReadApi,
     getRecentlyReadApi,
     getTopDocumentsByViewsApi,
-
+    getSystemStatisticsApi,
 };
