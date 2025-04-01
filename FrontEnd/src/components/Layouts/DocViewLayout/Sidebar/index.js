@@ -142,48 +142,81 @@ function Sidebar({ doc }) {
                         style={{
                             borderRadius: '0',
                         }}
-                        actions={[
-                            <div hidden={!auth.isAuthenticated}>
-                                <Tooltip title={'Lưu Bài Đăng'}>
-                                    <Button style={{ backgroundColor: 'blue', color: 'white' }} onClick={handleSave}>
-                                        <SaveOutlined />
-                                    </Button>
-                                </Tooltip>
-                            </div>,
-                            <div hidden={!auth.isAuthenticated}>
-                                <Tooltip title={'Yêu Thích Bài Đăng'}>
-                                    <Button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleLike}>
-                                        <LikeOutlined />
-                                    </Button>
-                                </Tooltip>
-                            </div>,
-                            <div hidden={!auth.isAuthenticated}>
-                                <Tooltip title={'Không Yêu Thích Bài Đăng'}>
-                                    <Button style={{ backgroundColor: 'gray', color: 'white' }} onClick={handleDisLike}>
-                                        <DislikeOutlined />
-                                    </Button>
-                                </Tooltip>
-                            </div>,
+                        actions={
+                            auth?.user?.id
+                                ? [
+                                      <Tooltip title={'Lưu Bài Đăng'}>
+                                          <Button
+                                              style={{ backgroundColor: 'blue', color: 'white' }}
+                                              onClick={handleSave}
+                                          >
+                                              <SaveOutlined />
+                                          </Button>
+                                      </Tooltip>,
 
-                            <Tooltip title={'Chia sẻ tài liệu'}>
-                                <Button style={{ backgroundColor: 'orange', color: 'white' }} onClick={handleShare}>
-                                    <ShareAltOutlined />
-                                </Button>
-                            </Tooltip>,
-                            <Tooltip title={'Tải về'}>
-                                <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={handleDownload}>
-                                    <DownloadOutlined />
-                                </Button>
-                            </Tooltip>,
+                                      <Tooltip title={'Yêu Thích Bài Đăng'}>
+                                          <Button
+                                              style={{ backgroundColor: 'red', color: 'white' }}
+                                              onClick={handleLike}
+                                          >
+                                              <LikeOutlined />
+                                          </Button>
+                                      </Tooltip>,
 
-                            <div hidden={!auth.isAuthenticated}>
-                                <Tooltip title={'Báo cáo tài liệu'}>
-                                    <Button style={{ backgroundColor: '#a8071a', color: 'white' }} onClick={showModal}>
-                                        <WarningOutlined />
-                                    </Button>
-                                </Tooltip>
-                            </div>,
-                        ]}
+                                      <Tooltip title={'Không Yêu Thích Bài Đăng'}>
+                                          <Button
+                                              style={{ backgroundColor: 'gray', color: 'white' }}
+                                              onClick={handleDisLike}
+                                          >
+                                              <DislikeOutlined />
+                                          </Button>
+                                      </Tooltip>,
+
+                                      <Tooltip title={'Chia sẻ tài liệu'}>
+                                          <Button
+                                              style={{ backgroundColor: 'orange', color: 'white' }}
+                                              onClick={handleShare}
+                                          >
+                                              <ShareAltOutlined />
+                                          </Button>
+                                      </Tooltip>,
+                                      <Tooltip title={'Tải về'}>
+                                          <Button
+                                              style={{ backgroundColor: 'green', color: 'white' }}
+                                              onClick={handleDownload}
+                                          >
+                                              <DownloadOutlined />
+                                          </Button>
+                                      </Tooltip>,
+
+                                      <Tooltip title={'Báo cáo tài liệu'}>
+                                          <Button
+                                              style={{ backgroundColor: '#a8071a', color: 'white' }}
+                                              onClick={showModal}
+                                          >
+                                              <WarningOutlined />
+                                          </Button>
+                                      </Tooltip>,
+                                  ]
+                                : [
+                                      <Tooltip title={'Chia sẻ tài liệu'}>
+                                          <Button
+                                              style={{ backgroundColor: 'orange', color: 'white' }}
+                                              onClick={handleShare}
+                                          >
+                                              <ShareAltOutlined />
+                                          </Button>
+                                      </Tooltip>,
+                                      <Tooltip title={'Tải về'}>
+                                          <Button
+                                              style={{ backgroundColor: 'green', color: 'white' }}
+                                              onClick={handleDownload}
+                                          >
+                                              <DownloadOutlined />
+                                          </Button>
+                                      </Tooltip>,
+                                  ]
+                        }
                     >
                         <Meta title={doc?.title} description={doc?.description} />
                         <Divider />
