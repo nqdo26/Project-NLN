@@ -54,6 +54,7 @@ function SubjectCarousel() {
                                 <CardSubject 
                                     title={item.title}
                                     categoryId={item._id}
+                                    total={item.documentCount}
                                 />
                             </div>
                         ))}
