@@ -32,7 +32,7 @@ const createDocumentService = async (
             categories: [categories],
             level: level,
             categories: categories,
-            statistics: { views: 0, save: 0, downloads: 0, likes: 100, dislikes: 300 },
+            statistics: { views: 0, saved: 0, downloaded: 0, liked: 0, disliked: 0 },
         });
 
         return {
@@ -51,14 +51,10 @@ const createDocumentService = async (
 
 const getDocumentService = async (_id) => {
     try {
-        let result = await Document.findByIdAndUpdate(
-            _id,
-            { $inc: { 'statistics.views': 0.25 } }, 
-            { new: true } 
-        )
-        .populate('author')
-        .populate('level')
-        .populate('categories');
+        let result = await Document.findByIdAndUpdate(_id, { $inc: { 'statistics.views': 0.25 } }, { new: true })
+            .populate('author')
+            .populate('level')
+            .populate('categories');
 
         return result;
     } catch (error) {
@@ -66,7 +62,6 @@ const getDocumentService = async (_id) => {
         return null;
     }
 };
-
 
 const getDocumentsService = async () => {
     const documents = await Document.find().populate('author').populate('level').populate('categories');
@@ -143,26 +138,27 @@ const getDocumentsByCategoryService = async (id) => {
             };
         }
         const result = await Document.find({ categories: id });
-            if (!result) {
-                return {
-                    EC: 1,
-                    EM: 'Không có tài liệu nào trong danh mục này',
-                };
-            } else {
-                return {
-                    EC: 0,
-                    EM: 'Tìm kiếm thành công',
-                    data: categorryTitle, result
-                };
-            }
-        } catch (error) {
-            console.log('Lỗi truy vấn:', error);
-                return {
-                    EC: 2,
-                    EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
-                }
+        if (!result) {
+            return {
+                EC: 1,
+                EM: 'Không có tài liệu nào trong danh mục này',
+            };
+        } else {
+            return {
+                EC: 0,
+                EM: 'Tìm kiếm thành công',
+                data: categorryTitle,
+                result,
+            };
         }
-}
+    } catch (error) {
+        console.log('Lỗi truy vấn:', error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+        };
+    }
+};
 
 const getDocumentsByLevelService = async (id) => {
     try {
@@ -175,32 +171,33 @@ const getDocumentsByLevelService = async (id) => {
             };
         }
         const result = await Document.find({ level: id });
-            if (!result) {
-                return {
-                    EC: 1,
-                    EM: 'Không có tài liệu nào trong danh mục này',
-                };
-            } else {
-                return {
-                    EC: 0,
-                    EM: 'Tìm kiếm thành công',
-                    data: levelTitle, result,
-                };
-            }
-        } catch (error) {
-            console.log('Lỗi truy vấn:', error);
-                return {
-                    EC: 2,
-                    EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
-                }
+        if (!result) {
+            return {
+                EC: 1,
+                EM: 'Không có tài liệu nào trong danh mục này',
+            };
+        } else {
+            return {
+                EC: 0,
+                EM: 'Tìm kiếm thành công',
+                data: levelTitle,
+                result,
+            };
         }
-}
+    } catch (error) {
+        console.log('Lỗi truy vấn:', error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+        };
+    }
+};
 
 const getTopDocumentsByViewsService = async (limit = 10) => {
     try {
         const documents = await Document.find()
-            .sort({ 'statistics.views': -1 })  
-            .limit(limit)  
+            .sort({ 'statistics.views': -1 })
+            .limit(limit)
             .populate('author')
             .populate('level')
             .populate('categories');
