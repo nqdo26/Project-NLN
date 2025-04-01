@@ -162,16 +162,19 @@ const updateUserNameService = async (id, title) => {
 const likeService = async (id, email) => {
     try {
         const user = await User.findOne({ email: email });
-      
+
         if (!user) {
             return { EC: 0, EM: 'User not found' };
         }
 
         const likedIndex = user.statistics.liked.indexOf(id);
         const dislikedIndex = user.statistics.disliked.indexOf(id);
+        const likedDocument = await Document.findById(id);
 
         if (likedIndex !== -1) {
             user.statistics.liked.splice(likedIndex, 1);
+            likedDocument.statistics.liked--;
+            await likedDocument.save();
             await user.save();
             return {
                 EC: -1,
@@ -181,9 +184,13 @@ const likeService = async (id, email) => {
         } else {
             if (dislikedIndex !== -1) {
                 user.statistics.disliked.splice(dislikedIndex, 1);
+                likedDocument.statistics.disliked--;
+                await likedDocument.save();
             }
 
             user.statistics.liked.push(id);
+            likedDocument.statistics.liked++;
+            await likedDocument.save();
             await user.save();
             return {
                 EC: 1,
@@ -207,9 +214,12 @@ const dislikeService = async (id, email) => {
 
         const dislikedIndex = user.statistics.disliked.indexOf(id);
         const likedIndex = user.statistics.liked.indexOf(id);
+        const dislikedDocument = await Document.findById(id);
 
         if (dislikedIndex !== -1) {
             user.statistics.disliked.splice(dislikedIndex, 1);
+            dislikedDocument.statistics.disliked--;
+            await dislikedDocument.save();
             await user.save();
             return {
                 EC: -1,
@@ -219,9 +229,13 @@ const dislikeService = async (id, email) => {
         } else {
             if (likedIndex !== -1) {
                 user.statistics.liked.splice(likedIndex, 1);
+                dislikedDocument.statistics.liked--;
+                await dislikedDocument.save();
             }
 
             user.statistics.disliked.push(id);
+            dislikedDocument.statistics.disliked++;
+            await dislikedDocument.save();
             await user.save();
             return {
                 EC: 1,
@@ -246,7 +260,6 @@ const savedService = async (id, email) => {
         const savedIndex = user.statistics.saved.indexOf(id);
 
         if (savedIndex !== -1) {
-            // Nếu document đã có trong liked, thì xoá nó
             user.statistics.saved.splice(savedIndex, 1);
             await user.save();
             return {
@@ -255,7 +268,6 @@ const savedService = async (id, email) => {
                 data: user,
             };
         } else {
-            // Nếu document chưa có trong liked, thì thêm vào
             user.statistics.saved.push(id);
             await user.save();
             return {
@@ -284,10 +296,8 @@ const getAccountService = async (email) => {
     }
 };
 
-
 const getSavedDocumentService = async (id) => {
     try {
-        // Find the user by ID and populate the saved documents
         const user = await User.findById(id).populate('statistics.saved');
         if (!user) {
             return {
@@ -297,7 +307,6 @@ const getSavedDocumentService = async (id) => {
         }
         console.log(user);
 
-        // Return the saved documents
         return {
             EC: 0,
             EM: 'Lấy danh sách tài liệu đã lưu thành công',
@@ -315,7 +324,7 @@ const getSavedDocumentService = async (id) => {
 const addRecentlyReadService = async (userId, documentId) => {
     try {
         await User.findByIdAndUpdate(userId, {
-            $pull: { recentlyRead: { document: documentId } }, 
+            $pull: { recentlyRead: { document: documentId } },
         });
 
         await User.findByIdAndUpdate(userId, {
@@ -324,10 +333,10 @@ const addRecentlyReadService = async (userId, documentId) => {
 
         const user = await User.findById(userId).populate('recentlyRead.document');
 
-        return { 
-            EC: 0, 
+        return {
+            EC: 0,
             EM: 'Cập nhật danh sách đọc tiếp thành công',
-            data: user ? user.recentlyRead.reverse() : []  
+            data: user ? user.recentlyRead.reverse() : [],
         };
     } catch (error) {
         console.log(error);
@@ -335,12 +344,11 @@ const addRecentlyReadService = async (userId, documentId) => {
     }
 };
 
-
 const getRecentlyReadService = async (userId) => {
     try {
         const user = await User.findById(userId).populate({
             path: 'recentlyRead.document',
-            select: '-__v', 
+            select: '-__v',
         });
         console.log(userId);
 
@@ -359,8 +367,6 @@ const getRecentlyReadService = async (userId) => {
     }
 };
 
-
-
 module.exports = {
     createUserService,
     loginService,
@@ -375,5 +381,4 @@ module.exports = {
 
     addRecentlyReadService,
     getRecentlyReadService,
-
 };
