@@ -148,9 +148,9 @@ function CardDocument({
                             ? 'Saved'
                             : 'Save'
                         : Math.round(
-                              (document?.statistics.likes /
-                                  (document?.statistics.likes + document?.statistics.dislikes !== 0
-                                      ? document?.statistics.likes + document?.statistics.dislikes
+                              (document?.statistics.liked /
+                                  (document?.statistics.liked + document?.statistics.disliked !== 0
+                                      ? document?.statistics.liked + document?.statistics.disliked
                                       : 1)) *
                                   100,
                           ) +
