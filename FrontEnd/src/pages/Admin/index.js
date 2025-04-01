@@ -8,7 +8,8 @@ function Admin() {
 
     return (
         <div className={cx('wrapper')}>
-            <Flex justify="center" align="center" style={{ width: '100%', height: '100%' }}>
+            <Flex vertical gap={16} justify="center" align="center" style={{ width: '100%', height: '100%' }}>
+                <h1>Xin chào quản trị viên!</h1>
                 Truy cập các danh mục để quản lý hệ thống...
             </Flex>
         </div>

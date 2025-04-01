@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { Button, Card, Layout, Menu, Avatar, Flex, message, Tooltip, Modal, Input } from 'antd';
+import { Button, Card, Layout, Menu, Avatar, Flex, message, Tooltip, Modal, Input, Divider } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
     AppstoreOutlined,
@@ -13,6 +13,7 @@ import {
     ShareAltOutlined,
     LikeOutlined,
     DislikeOutlined,
+    EyeOutlined,
 } from '@ant-design/icons';
 import { AuthContext } from '~/components/Context/auth.context';
 import styles from './Sidebar.module.scss';
@@ -185,6 +186,29 @@ function Sidebar({ doc }) {
                         ]}
                     >
                         <Meta title={doc?.title} description={doc?.description} />
+                        <Divider />
+                        <Flex gap={16} align="center" justify="center">
+                            <Flex gap={4} align="center">
+                                <EyeOutlined />
+                                {doc?.statistics?.views}
+                            </Flex>
+                            <Flex gap={4} align="center">
+                                <SaveOutlined />
+                                {doc?.statistics?.saved}
+                            </Flex>
+                            <Flex gap={4} align="center">
+                                <LikeOutlined />
+                                {doc?.statistics?.liked}
+                            </Flex>
+                            <Flex gap={4} align="center">
+                                <DislikeOutlined />
+                                {doc?.statistics?.disliked}
+                            </Flex>
+                            <Flex gap={4} align="center">
+                                <DownloadOutlined />
+                                {doc?.statistics?.downloaded}
+                            </Flex>
+                        </Flex>
                     </Card>
                     <Card
                         style={{
