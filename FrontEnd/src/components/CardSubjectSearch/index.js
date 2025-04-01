@@ -7,22 +7,20 @@ const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardSubjectSearch({title, total}) {
-
+function CardSubjectSearch({ title, total }) {
     return (
         <Card
             className={cx('card-wrapper')}
-
             styles={{
                 body: {
                     display: 'flex',
                     width: '100%',
                     padding: '10px',
-                }
+                },
             }}
         >
             <div className={cx('icon')}>
-                <FolderOutlined style={{ fontSize: '35px', color: 'green' }}  />
+                <FolderOutlined style={{ fontSize: '35px', color: 'green' }} />
             </div>
 
             <div className={cx('content')} style={{ flex: 1 }}>

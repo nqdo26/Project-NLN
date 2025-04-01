@@ -3,6 +3,8 @@ require('dotenv').config();
 const User = require('../models/user');
 const Level = require('../models/level');
 const Category = require('../models/category');
+const Document = require('../models/document');
+const Report = require('../models/report');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -68,16 +70,14 @@ const createLevelService = async (title) => {
             EM: 'Tạo cấp bậc thành công',
             data: result,
         };
-
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi khi tạo cấp bậc',
         };
-
     }
-}
+};
 
 const updateLevelService = async (id, title) => {
     try {
@@ -104,16 +104,14 @@ const updateLevelService = async (id, title) => {
             EM: 'Cập nhật cấp bậc thành công',
             data: result,
         };
-
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi khi cập nhật cấp bậc',
         };
-
     }
-}
+};
 
 const deleteLevelService = async (id) => {
     try {
@@ -129,20 +127,34 @@ const deleteLevelService = async (id) => {
             EC: 0,
             EM: 'Xóa cấp bậc thành công',
         };
-
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi khi xóa cấp bậc',
         };
-
     }
-}
+};
 
 const getLevelsService = async () => {
     try {
-        let result = await Level.find();
+        let result = await Level.aggregate([
+            {
+                $lookup: {
+                    from: 'documents',  
+                    localField: '_id',   
+                    foreignField: 'level',  
+                    as: 'documents'     
+                }
+            },
+            {
+                $project: {
+                    title: 1, 
+                    documentCount: { $size: '$documents' }  
+                }
+            }
+        ]);
+
         return {
             EC: 0,
             EM: 'Lấy danh sách cấp bậc thành công',
@@ -155,7 +167,8 @@ const getLevelsService = async () => {
             EM: 'Đã xảy ra lỗi khi lấy danh sách cấp bậc',
         };
     }
-}
+};
+
 
 // Danh mục
 const createCategoryService = async (title) => {
@@ -182,7 +195,7 @@ const createCategoryService = async (title) => {
             EM: 'Đã xảy ra lỗi khi tạo danh mục',
         };
     }
-}
+};
 
 const updateCategoryService = async (id, title) => {
     try {
@@ -209,16 +222,14 @@ const updateCategoryService = async (id, title) => {
             EM: 'Cập nhật danh mục thành công',
             data: result,
         };
-
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi khi cập nhật danh mục',
         };
-
     }
-}
+};
 
 const deleteCategoryService = async (id) => {
     try {
@@ -235,20 +246,34 @@ const deleteCategoryService = async (id) => {
             EM: 'Xóa danh mục thành công',
             data: category,
         };
-
     } catch (error) {
         console.log(error);
         return {
             EC: 2,
             EM: 'Đã xảy ra lỗi khi xóa danh mục',
         };
-
     }
-}
+};
 
 const getCategoriesService = async () => {
     try {
-        let result = await Category.find();
+        let result = await Category.aggregate([
+            {
+                $lookup: {
+                    from: 'documents', 
+                    localField: '_id',   
+                    foreignField: 'categories',  
+                    as: 'documents'    
+                }
+            },
+            {
+                $project: {
+                    title: 1,  
+                    documentCount: { $size: '$documents' }  
+                }
+            }
+        ]);
+
         return {
             EC: 0,
             EM: 'Lấy danh sách danh mục thành công',
@@ -261,7 +286,28 @@ const getCategoriesService = async () => {
             EM: 'Đã xảy ra lỗi khi lấy danh sách danh mục',
         };
     }
-}
+};
+
+
+const getSystemStatisticsService = async () => {
+    try {
+        const totalUsers = await User.countDocuments();
+        const totalDocuments = await Document.countDocuments();
+        const totalReports = await Report.countDocuments();
+        const totalAdmins = await User.countDocuments({ isAdmin: true });
+
+        return {
+            totalUsers,
+            totalDocuments,
+            totalReports,
+            totalAdmins,
+        };
+    } catch (error) {
+        console.error('Error in getSystemStatisticsService:', error);
+        throw error;
+    }
+};
+
 
 module.exports = {
     createAdminService,
@@ -273,4 +319,5 @@ module.exports = {
     deleteCategoryService,
     getLevelsService,
     getCategoriesService,
+    getSystemStatisticsService,
 };

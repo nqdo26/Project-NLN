@@ -5,12 +5,11 @@ import styles from './CardSearch.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { getColorByFileType } from '~/utils/typeToColorCode';
 
-
 const { Title, Text } = Typography;
 
 const cx = classNames.bind(styles);
 
-function CardSearch({_id, title, level, badge, categories, createAt, totalVotes , views, likePercentage }) {
+function CardSearch({ _id, title, level, badge, categories, createAt, totalVotes, views, likePercentage }) {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
@@ -19,7 +18,7 @@ function CardSearch({_id, title, level, badge, categories, createAt, totalVotes 
 
     const getBackgroundColor = (percentage) => {
         const greenIntensity = Math.floor((percentage / 100) * 200) + 55;
-        return `rgb(${255 - greenIntensity}, ${greenIntensity}, ${100})`; 
+        return `rgb(${255 - greenIntensity}, ${greenIntensity}, ${100})`;
     };
 
     return (
@@ -31,32 +30,27 @@ function CardSearch({_id, title, level, badge, categories, createAt, totalVotes 
                     display: 'flex',
                     width: '100%',
                     padding: '10px',
-                }
+                },
             }}
         >
-            
             <div className={cx('image-container')}>
-                <Badge 
-                    className={cx('badge')} 
-                    count={badge} 
-                    style={{ backgroundColor: getColorByFileType(badge) }} 
-                />
+                <Badge className={cx('badge')} count={badge} style={{ backgroundColor: getColorByFileType(badge) }} />
                 <img alt="Document" className={styles.image} />
             </div>
 
             <div className={cx('content')} style={{ flex: 1 }}>
                 <Space>
-                    <Title level={5} >
-                        <span className={cx('title')} >{title}</span>
+                    <Title level={5}>
+                        <span className={cx('title')}>{title}</span>
                     </Title>
                 </Space>
 
                 <Space size="middle">
                     <Text>
-                    <ReadOutlined /> <span className={cx('author')} >{categories}</span>
+                        <ReadOutlined /> <span className={cx('author')}>{categories}</span>
                     </Text>
                     <Text>
-                    <TrophyOutlined /> <span className={cx('author')} >{level}</span>
+                        <TrophyOutlined /> <span className={cx('author')}>{level}</span>
                     </Text>
                 </Space>
 
@@ -72,19 +66,25 @@ function CardSearch({_id, title, level, badge, categories, createAt, totalVotes 
             </div>
 
             <div>
-                <Text 
-                    style={{ 
-                        color: getBackgroundColor(likePercentage), 
+                <Text
+                    style={{
+                        color: likePercentage ? getBackgroundColor(likePercentage) : 'gray',
                         fontSize: '15px',
-                        fontWeight: 'bold',
-                    }}>
-                    <LikeOutlined style={{ marginRight: '4px' }} />
-                    {likePercentage}% 
+                    }}
+                >
+                    {likePercentage ? (
+                        <>
+                            <LikeOutlined style={{ marginRight: '4px' }} />
+                            {likePercentage}%
+                        </>
+                    ) : (
+                        'Chưa có lượt đánh giá'
+                    )}
                     <Text className={cx('totalVotes')}>{totalVotes}</Text>
                 </Text>
             </div>
         </Card>
     );
-};
+}
 
 export default CardSearch;

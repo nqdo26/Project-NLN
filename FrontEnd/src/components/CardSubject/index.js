@@ -8,23 +8,20 @@ import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const { Text } = Typography;
 
-function CardSubject({title, categoryId}) {
+function CardSubject({ title, categoryId, total }) {
     const navigate = useNavigate();
-    const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? text.slice(0, maxLength - 3) + '...' : text;
-    };
 
     const handleClick = () => {
         navigate(`/category/${categoryId}`);
-    }
+    };
 
     return (
         <Card
             styles={{
                 body: {
-                        display: 'flex',
-                cursor: 'pointer'
-                }
+                    display: 'flex',
+                    cursor: 'pointer',
+                },
             }}
             onClick={handleClick}
             className={cx('document-card')}
@@ -38,7 +35,7 @@ function CardSubject({title, categoryId}) {
                 </Text>
                 <div className={cx('doc-info')}>
                     <FolderOpenOutlined className={cx('doc-icon-small')} />
-                    <Text type="secondary">{truncateText('10000000000000' + ' tài liệu', 50)}</Text>
+                    <Text type="secondary">{total + ' tài liệu'}</Text>
                 </div>
             </div>
         </Card>

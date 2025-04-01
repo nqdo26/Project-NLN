@@ -32,7 +32,7 @@ const createDocumentService = async (
             categories: [categories],
             level: level,
             categories: categories,
-            statistics: { views: 0, save: 0, downloads: 0, likes: 100, dislikes: 300 },
+            statistics: { views: 0, saved: 0, downloaded: 0, liked: 0, disliked: 0 },
         });
 
         return {
