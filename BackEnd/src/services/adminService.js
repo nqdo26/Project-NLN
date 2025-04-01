@@ -142,7 +142,23 @@ const deleteLevelService = async (id) => {
 
 const getLevelsService = async () => {
     try {
-        let result = await Level.find();
+        let result = await Level.aggregate([
+            {
+                $lookup: {
+                    from: 'documents',  
+                    localField: '_id',   
+                    foreignField: 'level',  
+                    as: 'documents'     
+                }
+            },
+            {
+                $project: {
+                    title: 1, 
+                    documentCount: { $size: '$documents' }  
+                }
+            }
+        ]);
+
         return {
             EC: 0,
             EM: 'Lấy danh sách cấp bậc thành công',
@@ -155,7 +171,8 @@ const getLevelsService = async () => {
             EM: 'Đã xảy ra lỗi khi lấy danh sách cấp bậc',
         };
     }
-}
+};
+
 
 // Danh mục
 const createCategoryService = async (title) => {
@@ -248,7 +265,23 @@ const deleteCategoryService = async (id) => {
 
 const getCategoriesService = async () => {
     try {
-        let result = await Category.find();
+        let result = await Category.aggregate([
+            {
+                $lookup: {
+                    from: 'documents', 
+                    localField: '_id',   
+                    foreignField: 'categories',  
+                    as: 'documents'    
+                }
+            },
+            {
+                $project: {
+                    title: 1,  
+                    documentCount: { $size: '$documents' }  
+                }
+            }
+        ]);
+
         return {
             EC: 0,
             EM: 'Lấy danh sách danh mục thành công',
@@ -261,7 +294,8 @@ const getCategoriesService = async () => {
             EM: 'Đã xảy ra lỗi khi lấy danh sách danh mục',
         };
     }
-}
+};
+
 
 module.exports = {
     createAdminService,
