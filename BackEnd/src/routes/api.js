@@ -15,7 +15,7 @@ const {
 
 const auth = require('../../middleware/auth');
 const delay = require('../../middleware/delay');
-const { createAdmin, getUsers, deleteUser } = require('../controllers/adminController');
+const { createAdmin, getUsers, deleteUser, getSystemStatistics } = require('../controllers/adminController');
 const { createLevel, deleteLevel, updateLevel, getLevels } = require('../controllers/levelController');
 const { createCategory, updateCategory, deleteCategory, getCategories } = require('../controllers/categoryController');
 const { create } = require('../models/user');
@@ -76,14 +76,9 @@ routerAPI.get('/search/all', searchByTitle);
 routerAPI.get('/getUserDocument/:id', getUserDocument);
 routerAPI.get('/getSavedDocument/:id', getSavedDocument);
 
-
-
-
 routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
 routerAPI.get('/getRecentlyRead', getRecentlyRead);
-routerAPI.get('/documents/top-views', getTopDocumentsByViews);  
-
-
+routerAPI.get('/documents/top-views', getTopDocumentsByViews);
 
 //Actions
 routerAPI.post('/like/:id', auth, like);
@@ -91,9 +86,11 @@ routerAPI.post('/dislike/:id', auth, dislike);
 routerAPI.post('/save/:id', auth, save);
 
 //Report
-routerAPI.post('/report', createReport); 
-routerAPI.get('/reports', getReports); 
-routerAPI.put('/report/:id', updateReportStatus); 
-routerAPI.delete('/report/:id', deleteReport); 
+routerAPI.post('/report', auth, createReport);
+routerAPI.get('/reports', auth, getReports);
+routerAPI.put('/report/:id', auth, updateReportStatus);
+routerAPI.delete('/report/:id', auth, deleteReport);
+
+routerAPI.get('/admin/statistics', auth, getSystemStatistics);
 
 module.exports = routerAPI;
