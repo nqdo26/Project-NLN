@@ -105,6 +105,95 @@ const searchByTitleService = async (title) => {
     }
 };
 
+const searchLibraryByTitleService = async (id, title) => {
+    try {
+        // Tìm user theo ID và populate các tài liệu đã lưu
+        const user = await User.findById(id).populate({
+            path: 'statistics.saved',
+            populate: ['level', 'categories'], // Populate các trường liên quan
+        });
+        console.log('title:', title);
+
+        if (!user || !user.statistics || !user.statistics.saved) {
+            return {
+                EC: 1,
+                EM: 'User not found or no saved documents',
+            };
+        }
+
+        // Lọc danh sách tài liệu theo tiêu đề (chỉ lấy những tài liệu có title hợp lệ)
+        const documents = user.statistics.saved.filter((doc) =>
+            doc.title && title ? doc.title.toLowerCase().includes(title.toLowerCase()) : false,
+        );
+
+        console.log('documents:', documents);
+
+        if (documents.length === 0) {
+            return {
+                EC: 1,
+                EM: 'Không tìm thấy kết quả',
+                data: {
+                    documents: [],
+                },
+            };
+        }
+
+        return {
+            EC: 0,
+            EM: 'Tìm kiếm thành công',
+            data: {
+                documents,
+            },
+        };
+    } catch (error) {
+        console.error('Lỗi truy vấn:', error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+        };
+    }
+};
+
+const searchUploadedByTitleService = async (id, title) => {
+    try {
+        // Tìm user theo ID và populate các tài liệu đã lưu
+        const user = await User.findById(id);
+
+        const documents = await Document.find({ author: user.id }).populate('level').populate('categories');
+
+        // Lọc danh sách tài liệu theo tiêu đề (chỉ lấy những tài liệu có title hợp lệ)
+        const document = documents.filter((doc) =>
+            doc.title && title ? doc.title.toLowerCase().includes(title.toLowerCase()) : false,
+        );
+
+        console.log('documents:', documents);
+
+        if (document.length === 0) {
+            return {
+                EC: 1,
+                EM: 'Không tìm thấy kết quả',
+                data: {
+                    document: [],
+                },
+            };
+        }
+
+        return {
+            EC: 0,
+            EM: 'Tìm kiếm thành công',
+            data: {
+                document,
+            },
+        };
+    } catch (error) {
+        console.error('Lỗi truy vấn:', error);
+        return {
+            EC: 2,
+            EM: 'Đã xảy ra lỗi trong quá trình tìm kiếm',
+        };
+    }
+};
+
 const deleteDocumentService = async (id) => {
     try {
         let result = await Document.findByIdAndDelete(id);
@@ -219,8 +308,7 @@ const getTopDocumentsByViewsService = async (limit = 10) => {
 const getUserDocumentService = async (_id) => {
     try {
         const user = await User.findById({ _id });
-        console.log('check id ', _id);
-        console.log('check user', user);
+
         if (!user) {
             return {
                 EC: 1,
@@ -251,4 +339,6 @@ module.exports = {
     getDocumentsByLevelService,
     getTopDocumentsByViewsService,
     getUserDocumentService,
+    searchLibraryByTitleService,
+    searchUploadedByTitleService,
 };

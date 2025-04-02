@@ -70,7 +70,6 @@ function AdminLevelManage() {
         try {
             const values = await form.validateFields();
             const res = await updateLevelApi(editingLevel._id, values.title);
-            console.log("res", res);
 
             if (values.title === editingLevel.title) {
                 notification.success({
@@ -129,13 +128,12 @@ function AdminLevelManage() {
                     >
                         <Button type="primary" danger icon={<DeleteOutlined />} />
                     </Popconfirm>
-                    <Button 
-                        style={{ backgroundColor: "#FAAD14", borderColor: "#FAAD14", color: "#000" }} 
-                        type="primary" 
-                        icon={<ArrowRightOutlined />} 
+                    <Button
+                        style={{ backgroundColor: '#FAAD14', borderColor: '#FAAD14', color: '#000' }}
+                        type="primary"
+                        icon={<ArrowRightOutlined />}
                         onClick={() => navigate(`/level/${record._id}`)}
-                    >
-                    </Button>
+                    ></Button>
                 </div>
             ),
         },

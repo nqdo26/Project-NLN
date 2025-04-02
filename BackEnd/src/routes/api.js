@@ -30,6 +30,8 @@ const {
     addRecentlyRead,
     getRecentlyRead,
     getTopDocumentsByViews,
+    searchLibraryByTitle,
+    searchUploadedByTitle,
 } = require('../controllers/documentController');
 const { createReport, getReports, updateReportStatus, deleteReport } = require('../controllers/reportController');
 
@@ -73,8 +75,10 @@ routerAPI.get('/getDocuments', getDocuments);
 
 routerAPI.delete('/deleteDocument/:id', auth, deleteDocument);
 routerAPI.get('/search/all', searchByTitle);
-routerAPI.get('/getUserDocument/:id', getUserDocument);
+routerAPI.post('/getUserDocument', getUserDocument);
 routerAPI.get('/getSavedDocument/:id', getSavedDocument);
+routerAPI.post('/search/library', searchLibraryByTitle);
+routerAPI.post('/search/uploaded', searchUploadedByTitle);
 
 routerAPI.post('/addRecentlyRead/:documentId', addRecentlyRead);
 routerAPI.get('/getRecentlyRead', getRecentlyRead);

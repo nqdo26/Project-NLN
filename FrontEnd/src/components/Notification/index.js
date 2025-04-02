@@ -14,7 +14,6 @@ function Notification({ item, setInitLoading }) {
     const handleUpdateStatus = async (id, status) => {
         const res = await updateReportApi(id, !status);
         setInitLoading(true);
-        console.log(res);
         if (res.EC === 1) {
             message.success('Cập nhật trạng thái thành công');
         } else {
@@ -25,7 +24,6 @@ function Notification({ item, setInitLoading }) {
     const handleDeleteReport = async (id) => {
         const res = await deleteReportApi(id);
         setInitLoading(true);
-        console.log(res);
         if (res.EC === 0) {
             message.success('Xóa báo cáo thành công');
         } else {
@@ -36,7 +34,6 @@ function Notification({ item, setInitLoading }) {
     const handleDeleteDocument = async (id) => {
         const res = await deleteDocumentApi(id);
         setInitLoading(true);
-        console.log(res);
         if (res.EC === 0) {
             message.success('Xóa tài liệu thành công');
         } else {

@@ -305,7 +305,6 @@ const getSavedDocumentService = async (id) => {
                 EM: 'User not found',
             };
         }
-        console.log(user);
 
         return {
             EC: 0,
@@ -350,7 +349,6 @@ const getRecentlyReadService = async (userId) => {
             path: 'recentlyRead.document',
             select: '-__v',
         });
-        console.log(userId);
 
         if (!user) {
             return { EC: 1, EM: 'Người dùng không tồn tại', data: [] };

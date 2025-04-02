@@ -11,7 +11,6 @@ function Admin() {
 
     const fetch = async () => {
         const res = await getSystemStatisticsApi();
-        console.log(res);
         if (res.EC === 0) {
             setStatistics(res.data);
         }

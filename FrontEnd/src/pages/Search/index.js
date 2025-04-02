@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useLocation } from 'react-router-dom';
-import { notification} from 'antd';
+import { notification } from 'antd';
 import FilterTabs from '~/components/FilterTab';
 import SearchBar from '~/components/SearchBar';
 import CardSearch from '~/components/CardSearch';
@@ -27,7 +27,6 @@ function Search() {
             const [docsRes, catsRes] = await Promise.all([getDocumentsApi(), getCategoriesApi()]);
 
             if (docsRes) setAllDocuments(docsRes);
-            console.log(docsRes);
             if (catsRes?.data && Array.isArray(catsRes.data)) setAllCategories(catsRes.data);
         } catch (error) {
             notification.error({ message: 'Lỗi', description: 'Không thể lấy dữ liệu' });

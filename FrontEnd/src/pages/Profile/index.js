@@ -35,7 +35,6 @@ function Profile() {
             if (auth?.user?.id) {
                 const values = await form.validateFields();
                 const res = await updateNameApi(auth?.user?.id, values.title);
-                console.log('checkk res', res);
                 if (res) {
                     notification.success({
                         message: 'Thành công',
