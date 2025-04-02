@@ -10,12 +10,13 @@ const {
     getDocumentsByCategoryService,
     getDocumentsByLevelService,
     getTopDocumentsByViewsService,
+    searchLibraryByTitleService,
+    searchUploadedByTitleService,
 } = require('../services/documentService');
 const { getRecentlyReadService, addRecentlyReadService } = require('../services/userService');
 
 const createDocument = async (req, res) => {
     const { author, title, description, createAt, link, type, categories, level, statistics } = req.body;
-    console.log(link);
     const data = await createDocumentService(
         author,
         title,
@@ -52,6 +53,22 @@ const searchByTitle = async (req, res) => {
     return res.status(200).json(data);
 };
 
+const searchLibraryByTitle = async (req, res) => {
+    const { title } = req.body;
+    const { id } = req.body;
+    const data = await searchLibraryByTitleService(id, title);
+
+    return res.status(200).json(data);
+};
+
+const searchUploadedByTitle = async (req, res) => {
+    const { title } = req.body;
+    const { id } = req.body;
+    const data = await searchUploadedByTitleService(id, title);
+
+    return res.status(200).json(data);
+};
+
 const deleteDocument = async (req, res) => {
     const { id } = req.params;
 
@@ -65,7 +82,7 @@ const getDocumentsByCategory = async (req, res) => {
     const data = await getDocumentsByCategoryService(id);
 
     return res.status(200).json(data);
-}
+};
 
 const getDocumentsByLevel = async (req, res) => {
     const { id } = req.params;
@@ -73,11 +90,11 @@ const getDocumentsByLevel = async (req, res) => {
     const data = await getDocumentsByLevelService(id);
 
     return res.status(200).json(data);
-}
+};
 
 const addRecentlyRead = async (req, res) => {
-    const { userId } = req.body;  
-    const { documentId } = req.params; 
+    const { userId } = req.body;
+    const { documentId } = req.params;
 
     if (!userId || !documentId) {
         return res.status(400).json({ EC: 1, EM: 'Thiếu userId hoặc documentId' });
@@ -87,7 +104,6 @@ const addRecentlyRead = async (req, res) => {
     return res.status(200).json(result);
 };
 
-
 const getRecentlyRead = async (req, res) => {
     const { userId } = req.query;
     const result = await getRecentlyReadService(userId);
@@ -96,11 +112,10 @@ const getRecentlyRead = async (req, res) => {
 
 const getTopDocumentsByViews = async (req, res) => {
     try {
-
         const limit = parseInt(req.query.limit) || 10;
-        
+
         const result = await getTopDocumentsByViewsService(limit);
-        
+
         if (result.EC === 0) {
             return res.status(200).json(result);
         } else {
@@ -114,8 +129,6 @@ const getTopDocumentsByViews = async (req, res) => {
     }
 };
 
-
-
 module.exports = {
     createDocument,
     getDocument,
@@ -127,4 +140,6 @@ module.exports = {
     addRecentlyRead,
     getRecentlyRead,
     getTopDocumentsByViews,
+    searchUploadedByTitle,
+    searchLibraryByTitle,
 };

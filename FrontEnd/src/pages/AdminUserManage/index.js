@@ -15,14 +15,13 @@ function AdminUserManage() {
     useEffect(() => {
         const fetchUser = async () => {
             const res = await getUsersApi();
-            console.log(res);
             if (!res?.message) {
                 setDataSources(res);
             } else {
                 notification.error({
                     message: 'Unauthorized',
                     description: res.message,
-                })
+                });
             }
         };
 
@@ -36,8 +35,8 @@ function AdminUserManage() {
                 message: 'Thành công',
                 description: res.EM,
             });
-    
-            setDataSources((prevData) => prevData.filter(user => user._id !== id));
+
+            setDataSources((prevData) => prevData.filter((user) => user._id !== id));
         } catch (error) {
             notification.error({
                 message: 'Thất bại',
@@ -45,12 +44,12 @@ function AdminUserManage() {
             });
         }
     };
-    
+
     const columns = [
         {
             title: 'STT',
             key: 'index',
-            render: (_, __, index) => index + 1, 
+            render: (_, __, index) => index + 1,
         },
         {
             title: 'Id',
@@ -67,7 +66,7 @@ function AdminUserManage() {
         {
             title: 'Tài khoản admin',
             dataIndex: 'isAdmin',
-            render: (value) => value ? 'Yes' : 'No',
+            render: (value) => (value ? 'Yes' : 'No'),
         },
         {
             title: 'Thống kê',
@@ -84,29 +83,23 @@ function AdminUserManage() {
             title: 'Tùy chọn',
             render: (record) => (
                 <div style={{ display: 'flex', gap: '10px' }}>
-                <Button 
-                    type="primary" 
-                    icon={<EyeOutlined />} 
-                >
-    
-                </Button>
-                <Popconfirm
-                    title="Are you sure to delete this user?"
-                    onConfirm={() => handleDeleteUser(record._id)}
-                    okText="Yes"
-                    cancelText="No"
-                >
-                    <Button type="primary" danger icon={<DeleteOutlined />} />
-                </Popconfirm>
-            </div>
+                    <Button type="primary" icon={<EyeOutlined />}></Button>
+                    <Popconfirm
+                        title="Are you sure to delete this user?"
+                        onConfirm={() => handleDeleteUser(record._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type="primary" danger icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </div>
             ),
         },
     ];
 
-
     return (
         <div className={cx('wrapper')}>
-            <Table dataSource={dataSource} columns={columns} bordered rowKey={"_id"}></Table>
+            <Table dataSource={dataSource} columns={columns} bordered rowKey={'_id'}></Table>
         </div>
     );
 }

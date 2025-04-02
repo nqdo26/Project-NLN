@@ -133,9 +133,9 @@ const saveApi = (id, email) => {
     return axios.post(URL_API, data);
 };
 
-const getUserDocumentApi = (_id) => {
-    const URL_API = `/v1/api/getUserDocument/` + _id;
-    return axios.get(URL_API);
+const getUserDocumentApi = (id) => {
+    const URL_API = `/v1/api/getUserDocument`;
+    return axios.post(URL_API, { id });
 };
 
 const getSavedDocumentApi = (_id) => {
@@ -184,6 +184,15 @@ const getSystemStatisticsApi = () => {
     return axios.get(URL_API);
 };
 
+const searchLibraryByTitleApi = (id, title) => {
+    const URL_API = `/v1/api/search/library`;
+    return axios.post(URL_API, { id, title });
+};
+
+const searchUploadedByTitleApi = (id, title) => {
+    const URL_API = `/v1/api/search/uploaded`;
+    return axios.post(URL_API, { id, title });
+};
 export {
     getUsersApi,
     deleteUserApi,
@@ -219,4 +228,6 @@ export {
     getRecentlyReadApi,
     getTopDocumentsByViewsApi,
     getSystemStatisticsApi,
+    searchLibraryByTitleApi,
+    searchUploadedByTitleApi,
 };

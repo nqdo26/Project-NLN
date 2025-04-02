@@ -73,7 +73,7 @@ const save = async (req, res) => {
 };
 
 const getUserDocument = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.body;
     try {
         const result = await getUserDocumentService(id);
         if (result.EC === 0) {

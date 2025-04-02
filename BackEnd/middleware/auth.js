@@ -21,7 +21,6 @@ const auth = (req, res, next) => {
                     avatar: decoded.avatar,
                     createdBy: 'hehe',
                 };
-                console.log(decoded);
                 next();
             } catch (error) {
                 return res.status(401).json({

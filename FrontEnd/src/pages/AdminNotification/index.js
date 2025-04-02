@@ -15,7 +15,6 @@ function AdminNotification() {
         const res = await getReportsApi();
         setList(res.data);
         setInitLoading(false);
-        console.log(res);
     }
     useEffect(() => {
         getReports();

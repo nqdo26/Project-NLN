@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
-import { getColorByFileType } from '~/utils/typeToColorCode';
-import { addRecentlyReadApi, deleteDocumentApi } from '~/utils/api';
-import { AuthContext } from '../Context/auth.context';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge, Flex, Modal, message, notification } from 'antd';
 import { LikeOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
+import { deleteDocumentApi } from '~/utils/api';
+import { getColorByFileType } from '~/utils/typeToColorCode';
+import { addRecentlyReadApi } from '~/utils/api';
+import { AuthContext } from '../Context/auth.context';
+
 const { Title } = Typography;
 
 const cx = classNames.bind(styles);
@@ -46,6 +48,16 @@ function CardDocument({
         navigate(`/doc/${documentId}`);
     };
 
+    const handleSave = async () => {
+        const res = await saveApi(document._id, auth?.user?.email);
+        if (res.EC === 1) {
+            message.success(res.EM);
+        } else if (res.EC === -1) {
+            message.warning(res.EM);
+        } else {
+            message.error(res.EM);
+        }
+    };
     const handleDelete = (e) => {
         e.stopPropagation();
         Modal.confirm({
@@ -140,7 +152,7 @@ function CardDocument({
                     block
                     onClick={(e) => {
                         e.stopPropagation();
-                        isSaved ? onUnSave(document._id) : onSave(document._id);
+                        isSaved ? onUnSave(document._id) : handleSave();
                     }}
                 >
                     {action === 'Save'

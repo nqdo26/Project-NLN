@@ -18,10 +18,9 @@ function Login() {
     const onFinish = async (values) => {
         const { email, password } = values;
         const res = await loginApi(email, password);
-        console.log(res);
         if (res && res.EC === 0) {
             localStorage.setItem('access_token', res.access_token);
-            message.success('Đăng nhập thành công');
+            message.success('Đăng nhập thành công !');
             setAuth({
                 isAuthenticated: true,
                 user: {

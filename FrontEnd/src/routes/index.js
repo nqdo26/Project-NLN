@@ -23,7 +23,7 @@ import Level from '~/pages/Level';
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/profile', component: Profile },
-    { path: '/uploaded/:userId', component: Uploaded, layout: DefaultLayout },
+    { path: '/uploaded/', component: Uploaded, layout: DefaultLayout },
     { path: '/search', component: Search, layout: DefaultLayout },
     { path: '/doc/:docId', component: Doc, layout: DocViewLayout },
     { path: '/library', component: Library, layout: DefaultLayout },
@@ -38,7 +38,6 @@ const publicRoutes = [
     { path: '/admin/user-manage', component: AdminUserManage, layout: AdminLayout },
     { path: '/admin/level-manage', component: AdminLevelManage, layout: AdminLayout },
     { path: '/admin/category-manage', component: AdminCategoryManage, layout: AdminLayout },
-
 ];
 
 const privateRoutes = [];

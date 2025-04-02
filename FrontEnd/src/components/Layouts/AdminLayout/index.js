@@ -15,6 +15,9 @@ function AdminLayout({ children }) {
     const cx = classNames.bind(styles);
 
     useEffect(() => {
+        // nếu chưa set auth thì không kiểm tra
+        if (auth?.user?.email === '') return;
+        // nếu đã set auth thì kiểm tra xem có phải là admin không
         if (!auth.isAuthenticated || !auth.user.isAdmin) {
             navigate('/');
             message.error('Bạn không có quyền truy cập vào trang này');

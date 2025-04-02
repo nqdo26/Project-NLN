@@ -25,7 +25,6 @@ function AdminDocManage() {
     const fetch = async () => {
         const docs = await getDocumentsApi();
         const levels = await getLevelsApi();
-        console.log(docs);
         setDocList(docs);
         setLevelList(levels);
     };

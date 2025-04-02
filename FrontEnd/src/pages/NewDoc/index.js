@@ -55,8 +55,6 @@ function NewDoc() {
             message.error('Đã xảy ra lỗi trong quá trình đăng tải!');
         }
         navigate(`/doc/${res.data._id}`);
-
-        console.log(res);
     };
 
     const removeLink = () => {

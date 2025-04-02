@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Level.module.scss';
-import { List} from 'antd';
+import { List } from 'antd';
 import CardDocument from '~/components/CardDocument';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -16,7 +16,6 @@ function Level() {
         const fetchData = async () => {
             try {
                 const response = await getDocumentsByLevelApi(levelId);
-                console.log(response);
                 setData(response.result);
                 setTitle(response.data);
             } catch (error) {
@@ -25,7 +24,7 @@ function Level() {
         };
 
         fetchData();
-    } , [levelId]);
+    }, [levelId]);
 
     return (
         <div className={cx('wrapper')}>
@@ -37,7 +36,7 @@ function Level() {
                             fontSize: '30px',
                         }}
                         className={cx('title')}
-                    >   
+                    >
                         Danh mục: {title}
                     </h2>
                     <p
@@ -47,12 +46,12 @@ function Level() {
                             fontWeight: '500',
                         }}
                         className={cx('title')}
-                    >   
+                    >
                         Số lượng tài liệu: {data.length}
                     </p>
                     <List
                         grid={{
-                            gutter:50,
+                            gutter: 50,
                             xs: 1,
                             sm: 1,
                             md: 1,
@@ -63,7 +62,7 @@ function Level() {
                         dataSource={data}
                         renderItem={(doc) => (
                             <List.Item>
-                                <CardDocument document={doc} action='Like' />
+                                <CardDocument document={doc} action="Like" />
                             </List.Item>
                         )}
                     />

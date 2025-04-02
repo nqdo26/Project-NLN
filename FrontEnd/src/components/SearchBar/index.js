@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 function SearchBar({ onSearch, searchPath }) {
     const navigate = useNavigate();
-    const location = useLocation(); 
+    const location = useLocation();
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
@@ -18,11 +18,11 @@ function SearchBar({ onSearch, searchPath }) {
         if (title) {
             setSearchValue(title);
         }
-    }, [location.search]); 
+    }, [location.search]);
 
     const handleSearch = () => {
         if (!searchValue.trim() || !searchPath) return;
-        navigate(`${searchPath}?title=${encodeURIComponent(searchValue)}`);
+        navigate(`${searchPath}?title=${searchValue}`);
         onSearch(searchValue);
     };
 
