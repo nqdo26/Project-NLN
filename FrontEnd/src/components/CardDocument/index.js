@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
-import { getColorByFileType } from '~/utils/typeToColorCode';
-import { addRecentlyReadApi, deleteDocumentApi, saveApi } from '~/utils/api';
-import { AuthContext } from '../Context/auth.context';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { Card, Button, Typography, Badge, Flex, Modal, message, notification } from 'antd';
 import { LikeOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import styles from './CardDocument.module.scss';
+import { deleteDocumentApi } from '~/utils/api';
+import { getColorByFileType } from '~/utils/typeToColorCode';
+import { addRecentlyReadApi } from '~/utils/api';
+import { AuthContext } from '../Context/auth.context';
+
 const { Title } = Typography;
 
 const cx = classNames.bind(styles);
