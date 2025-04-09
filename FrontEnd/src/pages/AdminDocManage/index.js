@@ -44,7 +44,7 @@ function AdminDocManage() {
                 dataSource={docList}
                 renderItem={(item) => (
                     <List.Item>
-                        <CardDocumentLarge item={item} />
+                        <CardDocumentLarge item={item} fetch={fetch} />
                     </List.Item>
                 )}
             />
