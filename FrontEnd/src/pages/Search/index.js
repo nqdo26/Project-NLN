@@ -76,31 +76,36 @@ function Search() {
                         <ResultSorter onChange={setSelectedLevel} />
                     </div>
                     {activeTab === 'all' ? (
-                        filteredDocuments.length > 0 ? (
-                            filteredDocuments.map((doc) => (
-                                <CardSearch
-                                    key={doc._id}
-                                    _id={doc._id}
-                                    title={doc.title}
-                                    badge={doc.type}
-                                    level={doc.level?.title || 'Không có cấp độ'}
-                                    categories={
-                                        doc.categories?.map((cat) => cat.title).join(' | ') || 'Không có danh mục'
-                                    }
-                                    views={doc.statistics.views}
-                                    createAt={new Date(doc.createAt).toLocaleDateString('vi-VN')}
-                                    likePercentage={
-                                        (doc.statistics.likes / (doc.statistics.likes + doc.statistics.dislikes)) * 100
-                                    }
-                                />
-                            ))
+                        filteredDocuments.slice(0, 6).length > 0 ? (
+                            filteredDocuments
+                                .slice(0, 6)
+                                .map((doc) => (
+                                    <CardSearch
+                                        key={doc._id}
+                                        _id={doc._id}
+                                        title={doc.title}
+                                        badge={doc.type}
+                                        level={doc.level?.title || 'Không có cấp độ'}
+                                        categories={
+                                            doc.categories?.map((cat) => cat.title).join(' | ') || 'Không có danh mục'
+                                        }
+                                        views={doc.statistics.views}
+                                        createAt={new Date(doc.createAt).toLocaleDateString('vi-VN')}
+                                        likePercentage={
+                                            (doc.statistics.likes / (doc.statistics.likes + doc.statistics.dislikes)) *
+                                            100
+                                        }
+                                    />
+                                ))
                         ) : (
                             <p>Không có tài liệu phù hợp.</p>
                         )
-                    ) : (isSearching ? searchedCategories : allCategories).length > 0 ? (
-                        (isSearching ? searchedCategories : allCategories).map((cat) => (
-                            <CardSubjectSearch key={cat._id} title={cat.title} total={cat.documentCount} />
-                        ))
+                    ) : (isSearching ? searchedCategories : allCategories).slice(0, 6).length > 0 ? (
+                        (isSearching ? searchedCategories : allCategories)
+                            .slice(0, 6)
+                            .map((cat) => (
+                                <CardSubjectSearch key={cat._id} title={cat.title} total={cat.documentCount} />
+                            ))
                     ) : (
                         <p>Không có danh mục phù hợp.</p>
                     )}
