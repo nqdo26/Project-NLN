@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const User = require('../models/user');
+const Report = require('../models/report');
 
 const createDocumentService = async (
     author,
@@ -199,6 +200,8 @@ const deleteDocumentService = async (id) => {
                 EM: 'Tài liệu không tồn tại',
             };
         }
+        // Xóa báo cáo liên quan đến tài liệu này
+        await Report.deleteMany({ documentId: id });
         return {
             EC: 0,
             EM: 'Xóa tài liệu thành công',
