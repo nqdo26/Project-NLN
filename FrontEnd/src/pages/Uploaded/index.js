@@ -69,7 +69,7 @@ function Uploaded() {
                                 dataSource={searchedDocuments}
                                 renderItem={(document) => (
                                     <List.Item>
-                                        <CardDocument document={document} onDelete={handleDelete} />
+                                        <CardDocument document={document} onDelete={handleDelete} myDoc={true} />
                                     </List.Item>
                                 )}
                             />
@@ -89,7 +89,7 @@ function Uploaded() {
                         dataSource={myDoc}
                         renderItem={(document) => (
                             <List.Item>
-                                <CardDocument document={document} onDelete={handleDelete} />
+                                <CardDocument document={document} onDelete={handleDelete} myDoc={true} />
                             </List.Item>
                         )}
                     />
