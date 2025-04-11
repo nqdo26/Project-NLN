@@ -107,10 +107,9 @@ const searchByTitleService = async (title) => {
 
 const searchLibraryByTitleService = async (id, title) => {
     try {
-        // Tìm user theo ID và populate các tài liệu đã lưu
         const user = await User.findById(id).populate({
             path: 'statistics.saved',
-            populate: ['level', 'categories'], // Populate các trường liên quan
+            populate: ['level', 'categories'], 
         });
         console.log('title:', title);
 
@@ -121,7 +120,6 @@ const searchLibraryByTitleService = async (id, title) => {
             };
         }
 
-        // Lọc danh sách tài liệu theo tiêu đề (chỉ lấy những tài liệu có title hợp lệ)
         const documents = user.statistics.saved.filter((doc) =>
             doc.title && title ? doc.title.toLowerCase().includes(title.toLowerCase()) : false,
         );
@@ -156,12 +154,10 @@ const searchLibraryByTitleService = async (id, title) => {
 
 const searchUploadedByTitleService = async (id, title) => {
     try {
-        // Tìm user theo ID và populate các tài liệu đã lưu
         const user = await User.findById(id);
 
         const documents = await Document.find({ author: user.id }).populate('level').populate('categories');
 
-        // Lọc danh sách tài liệu theo tiêu đề (chỉ lấy những tài liệu có title hợp lệ)
         const document = documents.filter((doc) =>
             doc.title && title ? doc.title.toLowerCase().includes(title.toLowerCase()) : false,
         );

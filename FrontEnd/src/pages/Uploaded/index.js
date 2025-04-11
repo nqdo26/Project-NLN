@@ -3,7 +3,7 @@ import CardDocument from '~/components/CardDocument';
 import SearchBar from '~/components/SearchBar';
 import styles from './Uploaded.module.scss';
 import classNames from 'classnames/bind';
-import { getUserDocumentApi, searchLibraryByTitleApi, searchUploadedByTitleApi } from '~/utils/api';
+import { getUserDocumentApi, searchUploadedByTitleApi } from '~/utils/api';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 
