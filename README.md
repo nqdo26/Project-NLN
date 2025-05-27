@@ -139,12 +139,13 @@ npm start
 Base URL: /v1/api
 
 ### Authentication
-
+```bash
 POST /register - Register new user
 POST /login - User login
+```
 
 ### Documents
-
+```bash
 POST /documents - Create document
 GET /documents - Get all documents
 GET /documents/:id - Get document by ID
@@ -152,30 +153,33 @@ DELETE /documents/:id - Delete document
 GET /documents/search - Search documents
 GET /documents/category/:id - Get by category
 GET /documents/level/:id - Get by level
+```
 
 ### Users
-
+```bash
 PUT /users/update - Update profile
 GET /users/saved - Get saved documents
 POST /users/save/:id - Save document
 POST /users/like/:id - Like document
 GET /users/recent - Get recently viewed
+```
 
 ### Admin
-
+```bash
 GET /admin/statistics - System statistics
 GET /admin/users - All users
 POST /admin/categories - Manage categories
 POST /admin/levels - Manage levels
+```
 
 ### Error Codes
-
+```bash
 EC: 0 - Success
 EC: 1 - Business logic error
 EC: 2 - System error
+```
 
 ## Contributor
-
 [Nguyễn Quang Độ](https://github.com/nqdo26) - Leader
 [Lê Thịnh Hưng](https://github.com/lethinhhung)
 [Nguyễn Hồ Nhựt Đoan](https://github.com/NhutDoan2703)
