@@ -58,7 +58,7 @@ A full-stack web application for sharing and managing documents with user authen
 - **Password Hashing**: bcrypt
 
 ## Project Structure
-
+```bash
 ├── Frontend/
 │ ├── public/ # Static files
 │ └── src/
@@ -75,6 +75,7 @@ A full-stack web application for sharing and managing documents with user authen
 │ ├── models/ # Database models
 │ ├── routes/ # API routes
 │ └── services/ # Business logic
+```
 
 ## Setup & Installation
 
