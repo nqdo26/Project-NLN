@@ -179,7 +179,7 @@ EC: 1 - Business logic error
 EC: 2 - System error
 ```
 
-## Contributor
+## Contributors
 [Nguyễn Quang Độ](https://github.com/nqdo26) - Leader
 
 [Lê Thịnh Hưng](https://github.com/lethinhhung)
